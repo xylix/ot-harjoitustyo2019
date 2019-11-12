@@ -54,7 +54,7 @@
                 <groupId>org.openjfx</groupId>
                 <configuration>
                     <!--<executable>/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin</executable>-->
-                    <mainClass>kaantelypeli.Kaantelypeli</mainClass>
+                    <mainClass>kaantelypeli.Game</mainClass>
                 </configuration>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>

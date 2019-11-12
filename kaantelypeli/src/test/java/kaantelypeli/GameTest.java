@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
-public class KaantelypeliTest extends ApplicationTest {
+public class GameTest extends ApplicationTest {
     
     @Test
     public void launchTest()  {
@@ -17,7 +17,7 @@ public class KaantelypeliTest extends ApplicationTest {
     @Before
     public void setUp() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(Kaantelypeli.class);
+        FxToolkit.setupApplication(Game.class);
     }
     
 }
