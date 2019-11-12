@@ -16,8 +16,8 @@ public class Kaantelypeli extends Application {
 
     @Override
     public void start(Stage stage) {
-        Button aloita = new Button("Aloita peli");
-        stage.setScene(new Scene(aloita));
+        Button start = new Button("Pelaa");
+        stage.setScene(new Scene(start));
         stage.show();
     }
     
