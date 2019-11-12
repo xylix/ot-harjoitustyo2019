@@ -14,12 +14,12 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) {
-        Button start = new Button("play");
-        start.setOnMouseClicked((MouseEvent t) -> {
-            System.out.println("Placeholder for level loading");
+        Button play = new Button("play");
+        play.setOnMouseClicked((MouseEvent t) -> {
+            play.setText("loading");
         });
         
-        stage.setScene(new Scene(start));
+        stage.setScene(new Scene(play));
         stage.show();
         
         
