@@ -17,6 +17,7 @@ public class Game extends Application {
         Button play = new Button("play");
         play.setOnMouseClicked((MouseEvent t) -> {
             play.setText("loading");
+            // Implement the actual level loading method call
         });
         
         stage.setScene(new Scene(play));

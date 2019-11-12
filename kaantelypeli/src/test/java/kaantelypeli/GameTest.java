@@ -1,8 +1,6 @@
 package kaantelypeli;
 
 import java.util.concurrent.TimeoutException;
-import javafx.scene.input.MouseButton;
-import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
