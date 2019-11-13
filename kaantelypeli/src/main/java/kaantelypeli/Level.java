@@ -10,6 +10,6 @@ public class Level {
     }
     
     public static Level loadLevel(int level) {
-        
+        throw new UnsupportedOperationException();
     }
 }
