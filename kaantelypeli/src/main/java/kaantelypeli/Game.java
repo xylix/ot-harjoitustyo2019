@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static kaantelypeli.Level.loadLevel;
  
@@ -15,11 +16,14 @@ public class Game extends Application {
     
     @Override
     public void start(Stage stage) {
+        Pane display = new Pane();
+        display.setPrefSize(720, 480);
+        
         Button play = new Button("play");
         play.setOnMouseClicked((MouseEvent t) -> {
             play.setText("loading");
             Level activeLevel = loadLevel(1);
-            stage.setScene(toScene(activeLevel));
+            stage.setScene(toScene(display, activeLevel));
             // Implement the actual level loading method call
         });
         
@@ -27,8 +31,9 @@ public class Game extends Application {
         stage.show();
     }
 
-    private Scene toScene(Level activeLevel) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Scene toScene(Pane display, Level level) {
+        display.getChildren().addAll(level.entities);
+        return new Scene(display);
     }
     
 }
