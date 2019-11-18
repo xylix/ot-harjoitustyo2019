@@ -61,7 +61,6 @@ public class Game extends Application {
                 level.gravitate();
             }
         }.start();
-        
         return scene;
     }
     

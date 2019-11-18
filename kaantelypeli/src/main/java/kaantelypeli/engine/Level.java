@@ -21,15 +21,23 @@ public class Level {
         switch (levelIndex) {
             case 1:
                 Level level = new Level();
-                Entity player = new Entity("player", new Point2D(0, 0));
+                Entity player = new Entity("player", new Point2D(16, 16));
                 level.player = player;
                 level.entities.add(player);
                 level.entities.add(new Entity("wall", new Point2D(96, 48)));
-                level.entities.add(new Entity("wall", new Point2D(48, 48)));
-                level.entities.add(new Entity("wall", new Point2D(64, 48)));
+ 
+                for (int i = 0; i < 30; i++) {
+                    level.entities.add(new Entity("wall", new Point2D(i * 16, 0)));
+                    level.entities.add(new Entity("wall", new Point2D(i * 16, 464)));
+                    level.entities.add(new Entity("wall", new Point2D(0, i * 16)));
+                    level.entities.add(new Entity("wall", new Point2D(464, i * 16)));
+                }
+                
                 return level;
-        }
-        return new Level();
+            default:
+                return new Level();
+                
+        } 
     }
 
     public void changeGravity(int i) {

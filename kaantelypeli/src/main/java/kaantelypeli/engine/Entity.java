@@ -25,16 +25,17 @@ public class Entity extends Rectangle {
     }
 
     void move(int i) {
-        i = i % 360;
-        switch (i) {
+        switch (Math.abs(i) % 360) {
             case 0:
                 this.setTranslateY(this.getTranslateY() - 16);
             case 90:
-                this.setTranslateX(this.getTranslateX() - 16);
+                this.setTranslateX(this.getTranslateX() + 16);
             case 180:
                 this.setTranslateY(this.getTranslateY() + 16);
             case 270:
-                this.setTranslateX(this.getTranslateY() + 16);
+                this.setTranslateX(this.getTranslateX() - 16);
+            default: 
+                
         }
     }
     
