@@ -3,7 +3,13 @@ package kaantelypeli;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static kaantelypeli.Level.loadLevel;
@@ -18,6 +24,8 @@ public class Game extends Application {
     public void start(Stage stage) {
         Pane display = new Pane();
         display.setPrefSize(720, 480);
+        display.setBackground(new Background(new BackgroundImage(new Image("background.png"),
+            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
         Button play = new Button("play");
         play.setOnMouseClicked((MouseEvent t) -> {
