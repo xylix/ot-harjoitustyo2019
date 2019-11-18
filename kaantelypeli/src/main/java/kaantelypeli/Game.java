@@ -12,7 +12,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import static kaantelypeli.Level.loadLevel;
+import kaantelypeli.engine.Level;
+import static kaantelypeli.engine.Level.loadLevel;
  
 
 public class Game extends Application {
@@ -27,15 +28,15 @@ public class Game extends Application {
         display.setBackground(new Background(new BackgroundImage(new Image("background.png"),
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
-        Button play = new Button("play");
-        play.setOnMouseClicked((MouseEvent t) -> {
-            play.setText("loading");
+        Button button = new Button("play");
+        button.setOnMouseClicked((MouseEvent t) -> {
+            button.setText("loading");
             Level activeLevel = loadLevel(1);
             stage.setScene(toScene(display, activeLevel));
             // Implement the actual level loading method call
         });
         
-        stage.setScene(new Scene(play));
+        stage.setScene(new Scene(button));
         stage.show();
     }
 
