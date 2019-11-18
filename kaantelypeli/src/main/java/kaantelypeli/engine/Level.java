@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javafx.geometry.Point2D;
 
-/**
- *
- * @author xylix
- */
 public class Level {
     public Collection<Entity> entities;
     public Entity player;

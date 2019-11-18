@@ -1,6 +1,5 @@
 package kaantelypeli;
 
-import java.awt.Color;
 import java.util.concurrent.TimeoutException;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;

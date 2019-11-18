@@ -13,8 +13,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
 import static kaantelypeli.engine.Level.loadLevel;
