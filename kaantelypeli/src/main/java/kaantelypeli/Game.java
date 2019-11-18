@@ -12,7 +12,7 @@ public class Game extends Application {
     public static void main(String[] args) {
         Application.launch();
     }
-
+    
     @Override
     public void start(Stage stage) {
         Button play = new Button("play");
