@@ -1,6 +1,8 @@
 package kaantelypeli;
 
+import java.awt.Color;
 import java.util.concurrent.TimeoutException;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +23,13 @@ public class GameTest extends ApplicationTest {
     @Test
     public void startButtonTest()  {      
         verifyThat(".button", hasText("play"));
-        // assert something that ensures click resolves
     }
     
     @Test
-    public void startButtonClickTest() {
+    public void gameStartTest() {
         clickOn(".button");
-        verifyThat(".button", hasText("loading"));
+        press(KeyCode.LEFT);
+        // somehow verify that correct things happen after pressing left
+        
     }
 }

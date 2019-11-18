@@ -59,7 +59,8 @@ public class Game extends Application {
             @Override
             public void handle(long nykyhetki) {
                 level.gravitate();
-            }}.start();
+            }
+        }.start();
         
         return scene;
     }
