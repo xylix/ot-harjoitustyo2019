@@ -11,6 +11,7 @@ import javafx.geometry.Point2D;
 public class Level {
     public Collection<Entity> entities;
     public Entity player;
+    public int gravity;
     
     public Level() { 
         entities = new ArrayList<>();
@@ -23,11 +24,24 @@ public class Level {
                 Entity player = new Entity("player", new Point2D(0, 0));
                 level.player = player;
                 level.entities.add(player);
+                level.entities.add(new Entity("wall", new Point2D(96, 48)));
                 level.entities.add(new Entity("wall", new Point2D(48, 48)));
+                level.entities.add(new Entity("wall", new Point2D(64, 48)));
                 return level;
-            case 2:
-                ;
         }
         return new Level();
+    }
+
+    public void changeGravity(int i) {
+        gravity += i;
+    }
+
+    public void gravitate() {
+        // Go through gravitable entities and make them gravitate
+        for (Entity e : entities) {
+            if (e.movable) {
+                e.move(gravity);
+            }
+        }
     }
 }
