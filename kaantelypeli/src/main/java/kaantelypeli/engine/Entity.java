@@ -10,11 +10,14 @@ public class Entity extends Rectangle {
     
     public Entity(String type, Point2D location) {
         super(location.getX(), location.getY(), 16, 16);
-        if (type.equals("player")) {
+        if (type.equals("wall")) {
+            super.setFill(Color.GRAY);
+            movable = false;
+        } else if (type.equals("player")) {
             super.setFill(Color.BLUE);
             movable = true;
-        } else if (type.equals("wall")) {
-            super.setFill(Color.GRAY);
+        } else if (type.equals("victory")) {
+            super.setFill(Color.WHITE);
             movable = false;
         }
     }
@@ -25,7 +28,7 @@ public class Entity extends Rectangle {
     }
 
     void move(int i) {
-        i = Math.abs(i) % 360;
+        i = Math.abs(i % 360);
         switch (i) {
             case 0:
                 this.setTranslateY(this.getTranslateY() - 1); 

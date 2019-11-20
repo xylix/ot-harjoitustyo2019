@@ -22,11 +22,11 @@ public class Level {
                 level.entities.add(player);
                 level.entities.add(new Entity("wall", new Point2D(96, 48)));
  
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 15; i++) {
                     level.entities.add(new Entity("wall", new Point2D(i * 16, 0)));
-                    level.entities.add(new Entity("wall", new Point2D(i * 16, 464)));
+                    level.entities.add(new Entity("wall", new Point2D(i * 16, 224)));
                     level.entities.add(new Entity("wall", new Point2D(0, i * 16)));
-                    level.entities.add(new Entity("wall", new Point2D(464, i * 16)));
+                    level.entities.add(new Entity("wall", new Point2D(224, i * 16)));
                 }
                 
                 return level;
@@ -49,7 +49,7 @@ public class Level {
                     if (!collidable.equals(e)) {
                         if (e.collide(collidable)) {
                             // Should find a less wonky way of "reversing" gravity
-                            e.move(gravity - 180);
+                            e.move(gravity + 540);
                             continue gravitation;
                         }
                     }

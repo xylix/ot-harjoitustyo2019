@@ -26,7 +26,7 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
         Pane display = new Pane();
-        display.setPrefSize(480, 480);
+        display.setPrefSize(240, 240);
         display.setBackground(new Background(new BackgroundImage(new Image("background.png"),
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
@@ -47,7 +47,7 @@ public class Game extends Application {
         Scene scene = new Scene(display);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
-                level.changeGravity(-90);
+                level.changeGravity(270);
             } else if (event.getCode() == KeyCode.RIGHT) {
                 level.changeGravity(90);
             }
