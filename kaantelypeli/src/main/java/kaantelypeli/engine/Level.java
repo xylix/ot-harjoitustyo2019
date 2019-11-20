@@ -2,6 +2,7 @@ package kaantelypeli.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 
 public class Level {
@@ -28,6 +29,7 @@ public class Level {
                     level.entities.add(new Entity("wall", new Point2D(0, i * 16)));
                     level.entities.add(new Entity("wall", new Point2D(224, i * 16)));
                 }
+                level.entities.add(new Entity("victory", new Point2D(96, 16)));
                 
                 return level;
             default:
@@ -46,9 +48,12 @@ public class Level {
             if (e.movable) {
                 e.move(gravity);
                 for (Entity collidable : entities) {
-                    if (!collidable.equals(e)) {
+                    if (e.type.equals("player") && collidable.type.equals("victory") && e.collide(collidable)) {
+                            System.out.println("You are winner!");
+                            Platform.exit();
+                            System.exit(0);
+                    }else if (!collidable.equals(e)) {
                         if (e.collide(collidable)) {
-                            // Should find a less wonky way of "reversing" gravity
                             e.move(gravity + 540);
                             continue gravitation;
                         }

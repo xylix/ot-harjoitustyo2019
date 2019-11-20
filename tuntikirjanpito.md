@@ -9,6 +9,6 @@
 | 18.11. | 1      | testien päivittelyä ja lisäystä                                    |
 | 18.11. | 0.5    | painovoima-toiminnallisuuden debuggausta, koodin siistimistä       |
 | 19.11. | 1      | checkstyle-säätöä, painovoiman korjaus                             |
-| 20.11. | 1      | Collisionin lisäys                                                 |
+| 20.11. | 1.5    | Collisionin lisäys & voittotile                                    |
 |        |        |                                                                    |
 |        |        |                                                                    |

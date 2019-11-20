@@ -6,19 +6,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 public class Entity extends Rectangle {
-    public boolean movable;
+    boolean movable;
+    String type;
     
     public Entity(String type, Point2D location) {
         super(location.getX(), location.getY(), 16, 16);
-        if (type.equals("wall")) {
-            super.setFill(Color.GRAY);
-            movable = false;
-        } else if (type.equals("player")) {
-            super.setFill(Color.BLUE);
-            movable = true;
-        } else if (type.equals("victory")) {
-            super.setFill(Color.WHITE);
-            movable = false;
+        this.type = type;
+        switch (type) {
+            case "wall":
+                super.setFill(Color.GRAY);
+                movable = false;
+                break;
+            case "player":
+                super.setFill(Color.BLUE);
+                movable = true;
+                break;
+            case "victory":
+                super.setFill(Color.WHITE);
+                movable = false;
+                break;
+            default:
+                break;
         }
     }
     
