@@ -8,4 +8,4 @@
 `mvn site` tuottaa toimivat ikonit
 
 ## Ohjelman käynnistäminen
-Ohjelma käynnistetään ajamalla komento `mvn compile exec:java -Dexec.mainClass=kaantelypeli.Game`
+Ohjelma käynnistetään ajamalla komento `mvn compile exec:java -Dexec.mainClass=kaantelypeli.ui.Game`

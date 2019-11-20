@@ -1,4 +1,4 @@
-package kaantelypeli;
+package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
 import javafx.scene.input.KeyCode;

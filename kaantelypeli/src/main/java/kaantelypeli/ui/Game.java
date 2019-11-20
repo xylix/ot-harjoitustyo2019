@@ -1,4 +1,4 @@
-package kaantelypeli;
+package kaantelypeli.ui;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
