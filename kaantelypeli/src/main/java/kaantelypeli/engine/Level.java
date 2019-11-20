@@ -48,14 +48,12 @@ public class Level {
                 for (Entity collidable : entities) {
                     if (!collidable.equals(e)) {
                         if (e.collide(collidable)) {
+                            // Should find a less wonky way of "reversing" gravity
                             e.move(gravity - 180);
                             continue gravitation;
                         }
                     }
                 }
-                
-                
-                
             }
         }
     }
