@@ -17,7 +17,7 @@ public class Level {
         switch (levelIndex) {
             case 1:
                 Level level = new Level();
-                Entity player = new Entity("player", new Point2D(16, 16));
+                Entity player = new Entity("player", new Point2D(32, 32));
                 level.player = player;
                 level.entities.add(player);
                 level.entities.add(new Entity("wall", new Point2D(96, 48)));
@@ -42,9 +42,20 @@ public class Level {
 
     public void gravitate() {
         // Go through gravitable entities and make them gravitate
-        for (Entity e : entities) {
+        gravitation: for (Entity e : entities) {
             if (e.movable) {
                 e.move(gravity);
+                for (Entity collidable : entities) {
+                    if (!collidable.equals(e)) {
+                        if (e.collide(collidable)) {
+                            e.move(gravity - 180);
+                            continue gravitation;
+                        }
+                    }
+                }
+                
+                
+                
             }
         }
     }
