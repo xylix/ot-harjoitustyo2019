@@ -52,7 +52,7 @@ public class Level {
                             System.out.println("You are winner!");
                             Platform.exit();
                             System.exit(0);
-                    }else if (!collidable.equals(e)) {
+                    } else if (!collidable.equals(e)) {
                         if (e.collide(collidable)) {
                             e.move(gravity + 540);
                             continue gravitation;
