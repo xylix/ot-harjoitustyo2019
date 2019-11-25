@@ -1,4 +1,7 @@
-# Ohjelman testaaminen
+# Kayttohje
+Komennot tulee ajaa kansiossa ot-harjoitustyo2019/kaantelypeli/
+
+## Ohjelman testaaminen
 `mvn test`
 
 ## Jacoco testikattavuus raportin generointi
