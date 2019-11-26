@@ -1,5 +1,6 @@
 package kaantelypeli.ui;
 
+import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
@@ -25,20 +27,19 @@ public class Game extends Application {
     
     @Override
     public void start(Stage stage) {
-        Pane display = new Pane();
-        display.setPrefSize(240, 240);
-        display.setBackground(new Background(new BackgroundImage(new Image("background.png"),
+        Pane pane = new Pane();
+        pane.setPrefSize(240, 240);
+        pane.setBackground(new Background(new BackgroundImage(new Image("background.png"),
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
-        Button button = new Button("play");
-        button.setOnMouseClicked((MouseEvent t) -> {
-            button.setText("loading");
-            Level activeLevel = loadLevel(1);
-            stage.setScene(toScene(display, activeLevel));
-            // Implement the actual level loading method call
-        });
+        Button testLevel = levelButton(0, stage, pane);
+        Button levelOne = levelButton(1, stage, pane);
         
-        stage.setScene(new Scene(button));
+        GridPane buttons = new GridPane();
+        buttons.add(testLevel, 0, 0);
+        buttons.add(levelOne, 0, 1);
+        
+        stage.setScene(new Scene(buttons));
         stage.show();
     }
 
@@ -60,6 +61,17 @@ public class Game extends Application {
             }
         }.start();
         return scene;
+    }
+
+    private Button levelButton(int i, Stage stage, Pane pane) {
+        Button level = new Button("level " + i);
+        level.getStyleClass().add("button" + i);
+        level.setOnMouseClicked((MouseEvent t) -> {
+            level.setText("loading");
+            Level activeLevel = loadLevel(i);
+            stage.setScene(toScene(pane, activeLevel));
+        });
+        return level;
     }
     
 }

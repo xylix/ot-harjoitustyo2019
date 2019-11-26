@@ -30,8 +30,8 @@ public class Entity extends Rectangle {
         }
     }
     
-    public boolean collide(Entity entity) {
-        Shape collisionBox = Shape.intersect(this, entity);
+    public boolean collide(Entity collidee) {
+        Shape collisionBox = Shape.intersect(this, collidee);
         return collisionBox.getBoundsInLocal().getWidth() != -1;
     }
 
