@@ -1,0 +1,1 @@
+![Luokkakaavio](dokumentaatio/kaantelypeli.png)
