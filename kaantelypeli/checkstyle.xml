@@ -26,8 +26,14 @@
         <module name="NestedTryDepth"/>
 
         <!-- Miscellaneous -->
+
         <module name='Indentation' />
         <module name="OneStatementPerLine"/>
+        <module name="MethodLength">
+            <property name="tokens" value="METHOD_DEF"/>
+            <property name="max" value="20"/>
+            <property name="countEmpty" value="false"/>
+        </module>
 
         <!--- Naming Conventions -->
 
@@ -71,12 +77,11 @@
             <property name='allowEmptyConstructors' value='true' />
             <property name='allowEmptyMethods' value='true' />
         </module>
-
     </module>
 
     <!-- File Length -->
 
     <module name='FileLength'>
-        <property name='max' value='200' />
+        <property name='max' value='500' />
     </module>
 </module>
