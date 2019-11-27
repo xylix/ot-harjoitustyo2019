@@ -2,15 +2,14 @@ package kaantelypeli.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 public class Level {
     public Collection<Entity> entities;
     public Entity player;
-    public int gravity;
-    boolean freeze = false;
+    public static int gravity;
+    boolean victory = false;
     
     public Level() { 
         entities = new ArrayList<>();
@@ -55,39 +54,33 @@ public class Level {
         return level;
     }
     
-    
-
     public void changeGravity(int degrees) {
         gravity += degrees;
     }
 
     public void gravitate() {
-        gravitation: for (Entity collider : entities) {
-            if (collider.movable && !freeze) {
-                collider.move(gravity);
-                for (Entity collidable : entities) {
-                    if (collider.collide(collidable)) {
-                        String action = collider.collisionAction(collidable);
-                        switch (action) {
-                            case "victory":
-                                System.out.println("You're winner!");
-                                freeze = true;
-                                return;
-                            case "open":
-                                collidable.setFill(Color.PINK);
-                                break;
-                            case "passthrough":
-                                break;
-                            case "blocked":
-                                collider.move(gravity + 540);
-                                continue gravitation;
-                            default:
-                                break;
-                                
-                        }
-                    }
-                }
+        entities.stream().filter(e -> (e.movable)).forEach(collider -> {
+            if (victory) {
+                return;
             }
-        }
+            collider.move(gravity);
+            
+            entities.stream().filter(collidee -> collider.collide(collidee)).forEach(collidee -> {
+                String action = collider.collisionAction(collidee);
+                switch (action) {
+                    case "victory":
+                        System.out.println("You're winner!");
+                        victory = true;
+                        return;
+                    case "open":
+                        collidee.setFill(Color.PINK);
+                        break;
+                    case "blocked":
+                        collider.move(gravity + 540);
+                    default:
+                        break;
+                }
+            });
+        });
     }
 }

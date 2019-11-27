@@ -7,16 +7,19 @@ import javafx.scene.shape.Shape;
 
 public class Entity extends Rectangle {
     boolean movable;
+    boolean passable;
     String type;
     
     public Entity(String type, Point2D location) {
         super(location.getX(), location.getY(), 16, 16);
         this.type = type;
         movable = false;
+        passable = true;
         
         switch (type) {
             case "wall":
                 super.setFill(Color.GRAY);
+                passable = false;
                 break;
             case "player":
                 super.setFill(Color.BLUE);
@@ -28,11 +31,11 @@ public class Entity extends Rectangle {
             case "keyCrate":
                 super.setFill(Color.BROWN);
                 movable = true;
+                passable = false;
                 break;
             case "keyhole":
                 super.setFill(Color.RED);
                 break;
-                
             default:
                 break;
         }
@@ -48,13 +51,12 @@ public class Entity extends Rectangle {
             return "victory";
         } else if (this.type.equals("keyCrate") && collidee.type.equals("keyhole")) {
             return "open";
-        } else if (this.type.equals("player") && collidee.type.equals("keyhole") && collidee.getFill() == Color.PINK) {
-            return "passthrough";
         } else if (!this.equals(collidee)) {
-            return "blocked";
-        } else {
-            return "";
+            if (!passable) {
+                return "blocked";
+            }
         }
+        return "";
     }
 
     void move(int i) {
