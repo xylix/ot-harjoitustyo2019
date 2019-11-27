@@ -12,10 +12,11 @@ public class Entity extends Rectangle {
     public Entity(String type, Point2D location) {
         super(location.getX(), location.getY(), 16, 16);
         this.type = type;
+        movable = false;
+        
         switch (type) {
             case "wall":
                 super.setFill(Color.GRAY);
-                movable = false;
                 break;
             case "player":
                 super.setFill(Color.BLUE);
@@ -23,8 +24,15 @@ public class Entity extends Rectangle {
                 break;
             case "victory":
                 super.setFill(Color.WHITE);
-                movable = false;
                 break;
+            case "keyCrate":
+                super.setFill(Color.BROWN);
+                movable = true;
+                break;
+            case "keyhole":
+                super.setFill(Color.RED);
+                break;
+                
             default:
                 break;
         }
@@ -33,6 +41,20 @@ public class Entity extends Rectangle {
     public boolean collide(Entity collidee) {
         Shape collisionBox = Shape.intersect(this, collidee);
         return collisionBox.getBoundsInLocal().getWidth() != -1;
+    }
+    
+    public String collisionAction(Entity collidee) {
+        if (this.type.equals("player") && collidee.type.equals("victory")) {
+            return "victory";
+        } else if (this.type.equals("keyCrate") && collidee.type.equals("keyhole")) {
+            return "open";
+        } else if (this.type.equals("player") && collidee.type.equals("keyhole") && collidee.getFill() == Color.PINK) {
+            return "passthrough";
+        } else if (!this.equals(collidee)) {
+            return "blocked";
+        } else {
+            return "";
+        }
     }
 
     void move(int i) {

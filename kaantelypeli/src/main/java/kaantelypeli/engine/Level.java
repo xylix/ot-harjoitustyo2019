@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 
 public class Level {
     public Collection<Entity> entities;
@@ -29,7 +30,7 @@ public class Level {
     
     private static Level zero() {
         Level level = new Level();
-        Entity playerZero = new Entity("player", new Point2D(0, 32));
+        Entity playerZero = new Entity("player", new Point2D(0, 16));
         level.entities.add(playerZero);
         level.entities.add(new Entity("victory", new Point2D(0, 48)));
 
@@ -61,18 +62,28 @@ public class Level {
     }
 
     public void gravitate() {
-        gravitation: for (Entity e : entities) {
-            if (e.movable && !freeze) {
-                e.move(gravity);
+        gravitation: for (Entity collider : entities) {
+            if (collider.movable && !freeze) {
+                collider.move(gravity);
                 for (Entity collidable : entities) {
-                    if (e.type.equals("player") && collidable.type.equals("victory") && e.collide(collidable)) {
-                            System.out.println("You're winner!");
-                            freeze = true;
-                            return;
-                    } else if (!collidable.equals(e)) {
-                        if (e.collide(collidable)) {
-                            e.move(gravity + 540);
-                            continue gravitation;
+                    if (collider.collide(collidable)) {
+                        String action = collider.collisionAction(collidable);
+                        switch (action) {
+                            case "victory":
+                                System.out.println("You're winner!");
+                                freeze = true;
+                                return;
+                            case "open":
+                                collidable.setFill(Color.PINK);
+                                break;
+                            case "passthrough":
+                                break;
+                            case "blocked":
+                                collider.move(gravity + 540);
+                                continue gravitation;
+                            default:
+                                break;
+                                
                         }
                     }
                 }

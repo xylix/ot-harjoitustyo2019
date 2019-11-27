@@ -12,5 +12,5 @@
 | 20.11. | 1.5    | Collisionin lisäys & voittotile                                    |
 | 26.11. | 3.5    | Voittotesti, luokkakaavio lisäys                                   |
 | 27.11. | 1      | Pelin visuaalinen kääntyminen                                      |
-|        |        |                                                                    |
+| 27.11. | 0.5    | Palikkatyyppien avain- ja ovi lisäämisen aloitus                   |
 |        |        |                                                                    |

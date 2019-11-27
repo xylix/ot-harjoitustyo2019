@@ -34,8 +34,6 @@ public class GameTest extends ApplicationTest {
     @Test
     public void victoryTest() {
         clickOn(".button0");
-        push(KeyCode.LEFT);
-        push(KeyCode.LEFT);
         sleep(200);
         assertEquals("You're winner!\n", systemOutRule.getLog());
     }
