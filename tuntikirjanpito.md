@@ -11,5 +11,6 @@
 | 19.11. | 1      | checkstyle-säätöä, painovoiman korjaus                             |
 | 20.11. | 1.5    | Collisionin lisäys & voittotile                                    |
 | 26.11. | 3.5    | Voittotesti, luokkakaavio lisäys                                   |
+| 27.11. | 1      | Pelin visuaalinen kääntyminen                                      |
 |        |        |                                                                    |
 |        |        |                                                                    |

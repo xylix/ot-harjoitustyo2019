@@ -39,13 +39,13 @@ public class Entity extends Rectangle {
         i = Math.abs(i % 360);
         switch (i) {
             case 0:
-                this.setTranslateY(this.getTranslateY() - 1); 
+                this.setTranslateY(this.getTranslateY() + 1); 
                 break;
             case 90:
                 this.setTranslateX(this.getTranslateX() + 1);
                 break;
             case 180:
-                this.setTranslateY(this.getTranslateY() + 1);
+                this.setTranslateY(this.getTranslateY() - 1);
                 break;
             case 270:
                 this.setTranslateX(this.getTranslateX() - 1);

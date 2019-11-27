@@ -1,6 +1,5 @@
 package kaantelypeli.ui;
 
-import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -49,8 +48,10 @@ public class Game extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
                 level.changeGravity(270);
+                display.setRotate(display.getRotate() + 270);
             } else if (event.getCode() == KeyCode.RIGHT) {
                 level.changeGravity(90);
+                display.setRotate(display.getRotate() + 90);
             }
         });
         
