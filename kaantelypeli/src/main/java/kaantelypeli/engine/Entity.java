@@ -51,10 +51,8 @@ public class Entity extends Rectangle {
             return "victory";
         } else if (this.type.equals("keyCrate") && collidee.type.equals("keyhole")) {
             return "open";
-        } else if (!this.equals(collidee)) {
-            if (!passable) {
-                return "blocked";
-            }
+        } else if (!this.equals(collidee) && !passable) {
+            return "blocked";
         }
         return "";
     }

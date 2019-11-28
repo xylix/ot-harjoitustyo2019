@@ -43,7 +43,7 @@ public class Game extends Application {
     }
 
     private Scene toScene(Pane display, Level level) {
-        display.getChildren().addAll(level.entities);
+        display.getChildren().addAll(level.getEntities());
         Scene scene = new Scene(display);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {

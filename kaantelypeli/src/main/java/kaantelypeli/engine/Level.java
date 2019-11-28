@@ -6,13 +6,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 public class Level {
-    public Collection<Entity> entities;
-    public Entity player;
-    public static int gravity;
+    private final Collection<Entity> entities;
+    private Entity player;
+    int gravity;
     boolean victory = false;
     
     public Level() { 
         entities = new ArrayList<>();
+        gravity = 0;
     }
     
     public static Level loadLevel(int levelIndex) {
@@ -52,6 +53,10 @@ public class Level {
 
         level.entities.add(new Entity("victory", new Point2D(96, 16)));
         return level;
+    }
+    
+    public Collection<Entity> getEntities() {
+        return this.entities;
     }
     
     public void changeGravity(int degrees) {

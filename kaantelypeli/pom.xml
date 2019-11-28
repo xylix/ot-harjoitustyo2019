@@ -72,7 +72,6 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <configuration>
-                    <!--<executable>/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin</executable>-->
                     <mainClass>kaantelypeli.ui.Game</mainClass>
                 </configuration>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -108,18 +107,19 @@
                   <configLocation>checkstyle.xml</configLocation>
                   <encoding>UTF-8</encoding>
                   <consoleOutput>true</consoleOutput>
-                  <failsOnError>true</failsOnError>
+                  <failsOnError>false</failsOnError>
+                  <failOnViolation>false</failOnViolation>
                   <linkXRef>false</linkXRef>
-                </configuration>
-                <executions>
-                  <execution>
-                    <id>validate</id>
-                    <phase>validate</phase>
-                    <goals>
-                      <goal>check</goal>
-                    </goals>
-                  </execution>
-                </executions>
+              </configuration>
+              <executions>
+               <execution>
+                 <id>validate</id>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
             </plugin>
         </plugins>
     </build>
