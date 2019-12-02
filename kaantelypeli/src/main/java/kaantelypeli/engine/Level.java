@@ -2,12 +2,10 @@ package kaantelypeli.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 public class Level {
     private final Collection<Entity> entities;
-    private Entity player;
     int gravity;
     boolean victory = false;
     
@@ -30,28 +28,28 @@ public class Level {
     
     private static Level zero() {
         Level level = new Level();
-        Entity playerZero = new Entity("player", new Point2D(0, 16));
+        Entity playerZero = new Entity("player", 0, 16);
         level.entities.add(playerZero);
-        level.entities.add(new Entity("victory", new Point2D(0, 48)));
+        level.entities.add(new Entity("victory", 0, 48));
 
         return level;
     }
     
     private static Level one() {
         Level level = new Level();
-        Entity player = new Entity("player", new Point2D(32, 32));
-        level.player = player;
+        Entity player = new Entity("player", 32, 32);
         level.entities.add(player);
-        level.entities.add(new Entity("wall", new Point2D(96, 48)));
+        level.entities.add(new Entity("wall", 96, 48));
 
         for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity("wall", new Point2D(i * 16, 0)));
-            level.entities.add(new Entity("wall", new Point2D(i * 16, 224)));
-            level.entities.add(new Entity("wall", new Point2D(0, i * 16)));
-            level.entities.add(new Entity("wall", new Point2D(224, i * 16)));
+            level.entities.add(new Entity("wall", i * 16, 0));
+            level.entities.add(new Entity("wall", i * 16, 224));
+            level.entities.add(new Entity("wall", 0, i * 16));
+            level.entities.add(new Entity("wall", 224, i * 16));
         }
 
-        level.entities.add(new Entity("victory", new Point2D(96, 16)));
+        //level.entities.add(new Entity("keyCrate", 48, 48));
+        level.entities.add(new Entity("victory", 96, 16));
         return level;
     }
     
@@ -70,7 +68,7 @@ public class Level {
             }
             collider.move(gravity);
             
-            entities.stream().filter(collidee -> collider.collide(collidee)).forEach(collidee -> {
+            entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
                 switch (action) {
                     case "victory":
@@ -82,6 +80,7 @@ public class Level {
                         break;
                     case "blocked":
                         collider.move(gravity + 540);
+                        break;
                     default:
                         break;
                 }

@@ -1,7 +1,6 @@
 package kaantelypeli.engine;
 
 import javafx.scene.shape.Rectangle;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -10,8 +9,8 @@ public class Entity extends Rectangle {
     boolean passable;
     String type;
     
-    public Entity(String type, Point2D location) {
-        super(location.getX(), location.getY(), 16, 16);
+    public Entity(String type, int x, int y) {
+        super(x, y, 16, 16);
         this.type = type;
         movable = false;
         passable = true;

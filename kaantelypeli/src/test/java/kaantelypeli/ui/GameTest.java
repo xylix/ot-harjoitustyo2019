@@ -1,7 +1,6 @@
 package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -34,7 +33,7 @@ public class GameTest extends ApplicationTest {
     @Test
     public void victoryTest() {
         clickOn(".button0");
-        sleep(200);
+        sleep(300);
         assertEquals("You're winner!\n", systemOutRule.getLog());
     }
 }
