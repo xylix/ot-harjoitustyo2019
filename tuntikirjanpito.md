@@ -14,3 +14,4 @@
 | 27.11. | 1      | Pelin visuaalinen kääntyminen                                      |
 | 27.11. | 0.5    | Palikkatyyppien avain- ja ovi lisäämisen aloitus                   |
 | 28.11. | 1      | Koodin laadun korjailua ja refaktorointia                          |
+| 2.12.  | 2      | Laadun korjailua, collision testi                                  |

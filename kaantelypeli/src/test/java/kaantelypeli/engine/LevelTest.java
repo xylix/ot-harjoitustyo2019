@@ -9,4 +9,5 @@ public class LevelTest {
         assertEquals(Level.loadLevel(1).getClass(), Level.class);
     }
     
+    
 }

@@ -42,16 +42,16 @@ public class Game extends Application {
         stage.show();
     }
 
-    private Scene toScene(Pane display, Level level) {
-        display.getChildren().addAll(level.getEntities());
-        Scene scene = new Scene(display);
+    Scene toScene(Pane pane, Level level) {
+        pane.getChildren().addAll(level.getEntities());
+        Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
                 level.changeGravity(270);
-                display.setRotate(display.getRotate() + 270);
+                pane.setRotate(pane.getRotate() + 270);
             } else if (event.getCode() == KeyCode.RIGHT) {
                 level.changeGravity(90);
-                display.setRotate(display.getRotate() + 90);
+                pane.setRotate(pane.getRotate() + 90);
             }
         });
         

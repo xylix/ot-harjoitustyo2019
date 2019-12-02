@@ -14,6 +14,7 @@ public class Entity extends Rectangle {
         this.type = type;
         movable = false;
         passable = true;
+        super.setId(type);
         
         switch (type) {
             case "wall":
@@ -50,7 +51,7 @@ public class Entity extends Rectangle {
             return "victory";
         } else if (this.type.equals("keyCrate") && collidee.type.equals("keyhole")) {
             return "open";
-        } else if (!this.equals(collidee) && !passable) {
+        } else if (!this.equals(collidee) && !collidee.passable) {
             return "blocked";
         }
         return "";
