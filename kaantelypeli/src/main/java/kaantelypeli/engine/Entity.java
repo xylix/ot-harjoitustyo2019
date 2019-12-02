@@ -22,6 +22,8 @@ public class Entity extends Rectangle {
                 passable = false;
                 break;
             case "player":
+                this.setWidth(12);
+                this.setHeight(12);
                 super.setFill(Color.BLUE);
                 movable = true;
                 break;
@@ -29,6 +31,8 @@ public class Entity extends Rectangle {
                 super.setFill(Color.WHITE);
                 break;
             case "key":
+                this.setWidth(12);
+                this.setHeight(12);
                 super.setFill(Color.BROWN);
                 movable = true;
                 passable = false;

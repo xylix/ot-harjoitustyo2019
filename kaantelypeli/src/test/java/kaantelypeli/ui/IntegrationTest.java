@@ -1,8 +1,6 @@
 package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;

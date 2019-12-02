@@ -66,8 +66,17 @@ public class Level {
             level.entities.add(new Entity("wall", 224, i * 16));
         }
         
+        for (int i = 0; i < 15; i++) { 
+            //avoid making a wall over the keyhole
+            if (i != 5) {
+                level.entities.add(new Entity("wall", i * 16, 80));
+            }
+        }
+        
         level.entities.add(new Entity("key", 48, 48));
-        level.entities.add(new Entity("keyhole", 48, 96));
+        level.entities.add(new Entity("keyhole", 80, 80));
+        
+        level.entities.add(new Entity("victory", 48, 112));
         return level;
     }
     
