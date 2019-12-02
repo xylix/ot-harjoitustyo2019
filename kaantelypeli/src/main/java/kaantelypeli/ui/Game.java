@@ -31,12 +31,10 @@ public class Game extends Application {
         pane.setBackground(new Background(new BackgroundImage(new Image("background.png"),
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
-        Button testLevel = levelButton(0, stage, pane);
-        Button levelOne = levelButton(1, stage, pane);
-        
         GridPane buttons = new GridPane();
-        buttons.add(testLevel, 0, 0);
-        buttons.add(levelOne, 0, 1);
+        for (int i = 0; i <= 2; i++) {
+            buttons.add(levelButton(i, stage, pane), 0, i);
+        }
         
         stage.setScene(new Scene(buttons));
         stage.show();

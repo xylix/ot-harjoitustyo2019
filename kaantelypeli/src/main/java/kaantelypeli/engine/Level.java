@@ -20,6 +20,8 @@ public class Level {
                 return zero();
             case 1:
                 return one();
+            case 2:
+                return two();
             default:
                 return new Level();
                 
@@ -48,8 +50,24 @@ public class Level {
             level.entities.add(new Entity("wall", 224, i * 16));
         }
 
-        //level.entities.add(new Entity("keyCrate", 48, 48));
         level.entities.add(new Entity("victory", 96, 16));
+        return level;
+    }
+    
+    private static Level two() {
+        Level level = new Level();
+        Entity player = new Entity("player", 32, 32);
+        level.entities.add(player);
+        
+        for (int i = 0; i < 15; i++) {
+            level.entities.add(new Entity("wall", i * 16, 0));
+            level.entities.add(new Entity("wall", i * 16, 224));
+            level.entities.add(new Entity("wall", 0, i * 16));
+            level.entities.add(new Entity("wall", 224, i * 16));
+        }
+        
+        level.entities.add(new Entity("key", 48, 48));
+        level.entities.add(new Entity("keyhole", 48, 96));
         return level;
     }
     
@@ -77,6 +95,8 @@ public class Level {
                         return;
                     case "open":
                         collidee.setFill(Color.PINK);
+                        collidee.passable = true;
+                        collider.setFill(Color.TRANSPARENT);
                         break;
                     case "blocked":
                         collider.move(gravity + 540);

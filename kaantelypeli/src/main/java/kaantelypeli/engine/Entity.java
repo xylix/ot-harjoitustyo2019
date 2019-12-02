@@ -28,13 +28,14 @@ public class Entity extends Rectangle {
             case "victory":
                 super.setFill(Color.WHITE);
                 break;
-            case "keyCrate":
+            case "key":
                 super.setFill(Color.BROWN);
                 movable = true;
                 passable = false;
                 break;
             case "keyhole":
-                super.setFill(Color.RED);
+                super.setFill(Color.PURPLE);
+                passable = false;
                 break;
             default:
                 break;
@@ -49,7 +50,7 @@ public class Entity extends Rectangle {
     public String collisionAction(Entity collidee) {
         if (this.type.equals("player") && collidee.type.equals("victory")) {
             return "victory";
-        } else if (this.type.equals("keyCrate") && collidee.type.equals("keyhole")) {
+        } else if (this.type.equals("key") && collidee.type.equals("keyhole")) {
             return "open";
         } else if (!this.equals(collidee) && !collidee.passable) {
             return "blocked";
