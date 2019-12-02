@@ -32,8 +32,8 @@ public class Game extends Application {
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
         GridPane buttons = new GridPane();
-        for (int i = 0; i <= 2; i++) {
-            buttons.add(levelButton(i, stage, pane), 0, i);
+        for (int i = -1; i <= 1; i++) {
+            buttons.add(levelButton(i, stage, pane), 0, i + 1);
         }
         
         stage.setScene(new Scene(buttons));

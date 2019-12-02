@@ -17,3 +17,4 @@
 | 2.12.  | 3      | Laadun korjailua, collision testi. Avainta ja avainreikää käyttävä kartta 2 |
 |        |        |                                                                             |
 |        |        |                                                                             |
+----summa: 20

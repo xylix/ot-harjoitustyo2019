@@ -16,19 +16,19 @@ public class Level {
     
     public static Level loadLevel(int levelIndex) {
         switch (levelIndex) {
+            case -1:
+                return negativeOne();
             case 0:
                 return zero();
             case 1:
                 return one();
-            case 2:
-                return two();
             default:
                 return new Level();
                 
         } 
     }
     
-    private static Level zero() {
+    private static Level negativeOne() {
         Level level = new Level();
         Entity playerZero = new Entity("player", 0, 16);
         level.entities.add(playerZero);
@@ -37,7 +37,7 @@ public class Level {
         return level;
     }
     
-    private static Level one() {
+    private static Level zero() {
         Level level = new Level();
         Entity player = new Entity("player", 32, 32);
         level.entities.add(player);
@@ -54,7 +54,7 @@ public class Level {
         return level;
     }
     
-    private static Level two() {
+    private static Level one() {
         Level level = new Level();
         Entity player = new Entity("player", 32, 32);
         level.entities.add(player);
