@@ -33,7 +33,7 @@ public class GameTest extends ApplicationTest {
     @Test
     public void victoryTest() {
         clickOn(".button-1");
-        sleep(300);
+        sleep(500);
         assertEquals("You're winner!\n", systemOutRule.getLog());
     }
 }
