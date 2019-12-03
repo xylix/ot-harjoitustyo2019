@@ -15,6 +15,6 @@
 | 27.11. | 0.5    | Palikkatyyppien avain- ja ovi lisäämisen aloitus                            |
 | 28.11. | 1      | Koodin laadun korjailua ja refaktorointia                                   |
 | 2.12.  | 3      | Laadun korjailua, collision testi. Avainta ja avainreikää käyttävä kartta 2 |
+| 3.12.  | 2      | JavaFX paketointi, release 0.0.1                                            |
 |        |        |                                                                             |
-|        |        |                                                                             |
-----summa: 20
+----summa: 22
