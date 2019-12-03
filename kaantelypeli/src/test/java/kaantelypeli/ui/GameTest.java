@@ -34,6 +34,6 @@ public class GameTest extends ApplicationTest {
     public void victoryTest() {
         clickOn(".button-1");
         sleep(500);
-        assertEquals("You're winner!\n", systemOutRule.getLog());
+        assertEquals("You're winner!" + System.lineSeparator(), systemOutRule.getLog());
     }
 }
