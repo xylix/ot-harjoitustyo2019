@@ -74,7 +74,7 @@ public class Level {
         }
         
         level.entities.add(new Entity("key", 48, 48));
-        level.entities.add(new Entity("keyhole", 80, 80));
+        level.entities.add(new Entity("door", 80, 80));
         
         level.entities.add(new Entity("victory", 48, 112));
         return level;
@@ -103,7 +103,7 @@ public class Level {
                         victory = true;
                         return;
                     case "open":
-                        collidee.setFill(Color.PINK);
+                        collidee.setFill(Color.TRANSPARENT);
                         collidee.passable = true;
                         collider.setFill(Color.TRANSPARENT);
                         break;

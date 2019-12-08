@@ -1,8 +1,11 @@
 package kaantelypeli.engine;
 
+import java.net.URL;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 
 public class Entity extends Rectangle {
     boolean movable;
@@ -15,10 +18,10 @@ public class Entity extends Rectangle {
         movable = false;
         passable = true;
         super.setId(type);
-        
+        // Fallback color if sprite not found
+        super.setFill(Color.GREEN);
         switch (type) {
             case "wall":
-                super.setFill(Color.GRAY);
                 passable = false;
                 break;
             case "player":
@@ -28,22 +31,20 @@ public class Entity extends Rectangle {
                 movable = true;
                 break;
             case "victory":
-                super.setFill(Color.WHITE);
                 break;
             case "key":
-                this.setWidth(12);
+                this.setWidth(10);
                 this.setHeight(12);
-                super.setFill(Color.BROWN);
                 movable = true;
                 passable = false;
                 break;
-            case "keyhole":
-                super.setFill(Color.PURPLE);
+            case "door":
                 passable = false;
                 break;
             default:
                 break;
         }
+        loadSprite(type + ".png");
     }
     
     public boolean collide(Entity collidee) {
@@ -54,7 +55,7 @@ public class Entity extends Rectangle {
     public String collisionAction(Entity collidee) {
         if (this.type.equals("player") && collidee.type.equals("victory")) {
             return "victory";
-        } else if (this.type.equals("key") && collidee.type.equals("keyhole")) {
+        } else if (this.type.equals("key") && collidee.type.equals("door")) {
             return "open";
         } else if (!this.equals(collidee) && !collidee.passable) {
             return "blocked";
@@ -79,6 +80,16 @@ public class Entity extends Rectangle {
                 break;
             default:
                 
+        }
+    }
+    
+    private void loadSprite(String filename) {
+        URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename);
+        if (spriteUrl != null) {
+            Image sprite = new Image(spriteUrl.toString());
+            this.setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
+        } else {
+            System.out.println("No sprite named: '" + filename + "' found");
         }
     }
     

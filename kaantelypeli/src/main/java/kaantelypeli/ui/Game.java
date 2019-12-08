@@ -4,14 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,8 +22,6 @@ public class Game extends Application {
     public void start(Stage stage) {
         Pane pane = new Pane();
         pane.setPrefSize(240, 240);
-        pane.setBackground(new Background(new BackgroundImage(new Image("background.png"),
-            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         
         GridPane buttons = new GridPane();
         for (int i = -1; i <= 1; i++) {
