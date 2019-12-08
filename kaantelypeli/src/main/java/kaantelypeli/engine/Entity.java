@@ -25,15 +25,15 @@ public class Entity extends Rectangle {
                 passable = false;
                 break;
             case "player":
-                this.setWidth(12);
-                this.setHeight(12);
+                this.setWidth(14);
+                this.setHeight(14);
                 super.setFill(Color.BLUE);
                 movable = true;
                 break;
             case "victory":
                 break;
             case "key":
-                this.setWidth(10);
+                this.setWidth(12);
                 this.setHeight(12);
                 movable = true;
                 passable = false;
@@ -79,7 +79,8 @@ public class Entity extends Rectangle {
                 this.setTranslateX(this.getTranslateX() - 1);
                 break;
             default:
-                
+                System.out.println("Illegal movement call");
+                break;
         }
     }
     
