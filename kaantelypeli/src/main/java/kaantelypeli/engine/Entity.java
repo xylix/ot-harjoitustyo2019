@@ -11,14 +11,20 @@ import javafx.scene.paint.ImagePattern;
  * Exposes entity generation, movement and collision.
  */
 public class Entity extends Rectangle {
+    public static final String VICTORY = "victory";
+    public static final String PLAYER = "player";
+    public static final String KEY = "key";
+    public static final String DOOR = "door";
+    public static final String WALL = "wall";
+    
     boolean movable;
     boolean passable;
     String type;
     
     /**
      * Creates a new entity of `type` at location `x`,`y`.
-     * @param type Type of new entity. Defined values ["wall", "player", 
-     * "victory", "key" and "door"].
+     * @param type Type of new entity. Defined values [WALL, PLAYER, 
+     * VICTORY, KEY and DOOR].
      * @param x X-coordinate of new entity.
      * @param y Y-coordinate of new entity.
      */
@@ -31,24 +37,24 @@ public class Entity extends Rectangle {
         // Fallback color if sprite not found
         super.setFill(Color.GREEN);
         switch (type) {
-            case "wall":
+            case WALL:
                 passable = false;
                 break;
-            case "player":
+            case PLAYER:
                 this.setWidth(14);
                 this.setHeight(14);
                 super.setFill(Color.BLUE);
                 movable = true;
                 break;
-            case "victory":
+            case VICTORY:
                 break;
-            case "key":
+            case KEY:
                 this.setWidth(12);
                 this.setHeight(12);
                 movable = true;
                 passable = false;
                 break;
-            case "door":
+            case DOOR:
                 passable = false;
                 break;
             default:
@@ -74,9 +80,9 @@ public class Entity extends Rectangle {
      * @return String defining what to do when `this` and `collidee` collide.
      */
     public String collisionAction(Entity collidee) {
-        if (this.type.equals("player") && collidee.type.equals("victory")) {
-            return "victory";
-        } else if (this.type.equals("key") && collidee.type.equals("door")) {
+        if (this.type.equals(PLAYER) && collidee.type.equals(VICTORY)) {
+            return VICTORY;
+        } else if (this.type.equals(KEY) && collidee.type.equals(DOOR)) {
             return "open";
         } else if (!this.equals(collidee) && !collidee.passable) {
             return "blocked";

@@ -10,9 +10,13 @@ import javafx.scene.paint.Color;
  * gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
+    public static final String VICTORY = "victory";
+    public static final String PLAYER = "player";
+    public static final String WALL = "wall";
+    
     private final Collection<Entity> entities;
     int gravity;
-    boolean victory = false;
+    boolean won = false;
     
     private Level() { 
         entities = new ArrayList<>();
@@ -42,53 +46,53 @@ public class Level {
     
     private static Level negativeOne() {
         Level level = new Level();
-        Entity playerZero = new Entity("player", 0, 16);
+        Entity playerZero = new Entity(PLAYER, 0, 16);
         level.entities.add(playerZero);
-        level.entities.add(new Entity("victory", 0, 24));
+        level.entities.add(new Entity(VICTORY, 0, 24));
 
         return level;
     }
     
     private static Level zero() {
         Level level = new Level();
-        Entity player = new Entity("player", 32, 32);
+        Entity player = new Entity(PLAYER, 32, 32);
         level.entities.add(player);
-        level.entities.add(new Entity("wall", 96, 48));
+        level.entities.add(new Entity(WALL, 96, 48));
 
         for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity("wall", i * 16, 0));
-            level.entities.add(new Entity("wall", i * 16, 224));
-            level.entities.add(new Entity("wall", 0, i * 16));
-            level.entities.add(new Entity("wall", 224, i * 16));
+            level.entities.add(new Entity(WALL, i * 16, 0));
+            level.entities.add(new Entity(WALL, i * 16, 224));
+            level.entities.add(new Entity(WALL, 0, i * 16));
+            level.entities.add(new Entity(WALL, 224, i * 16));
         }
 
-        level.entities.add(new Entity("victory", 96, 16));
+        level.entities.add(new Entity(VICTORY, 96, 16));
         return level;
     }
     
     private static Level one() {
         Level level = new Level();
-        Entity player = new Entity("player", 32, 32);
+        Entity player = new Entity(PLAYER, 32, 32);
         level.entities.add(player);
         
         for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity("wall", i * 16, 0));
-            level.entities.add(new Entity("wall", i * 16, 224));
-            level.entities.add(new Entity("wall", 0, i * 16));
-            level.entities.add(new Entity("wall", 224, i * 16));
+            level.entities.add(new Entity(WALL, i * 16, 0));
+            level.entities.add(new Entity(WALL, i * 16, 224));
+            level.entities.add(new Entity(WALL, 0, i * 16));
+            level.entities.add(new Entity(WALL, 224, i * 16));
         }
         
         for (int i = 0; i < 15; i++) { 
             //avoid making a wall over the keyhole
             if (i != 5) {
-                level.entities.add(new Entity("wall", i * 16, 80));
+                level.entities.add(new Entity(WALL, i * 16, 80));
             }
         }
         
         level.entities.add(new Entity("key", 48, 48));
         level.entities.add(new Entity("door", 80, 80));
         
-        level.entities.add(new Entity("victory", 48, 112));
+        level.entities.add(new Entity(VICTORY, 48, 112));
         return level;
     }
     
@@ -112,7 +116,7 @@ public class Level {
      */
     public void gravitate() {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
-            if (victory) {
+            if (won) {
                 return;
             }
             collider.move(gravity);
@@ -120,9 +124,9 @@ public class Level {
             entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
                 switch (action) {
-                    case "victory":
+                    case VICTORY:
                         System.out.println("You're winner!");
-                        victory = true;
+                        won = true;
                         return;
                     case "open":
                         collidee.setFill(Color.TRANSPARENT);
