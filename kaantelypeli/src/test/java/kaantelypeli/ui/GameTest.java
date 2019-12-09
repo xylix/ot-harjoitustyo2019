@@ -4,10 +4,10 @@ import java.util.concurrent.TimeoutException;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.hamcrest.number.IsCloseTo.closeTo;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -36,19 +36,6 @@ public class GameTest extends ApplicationTest {
     @Test
     public void victoryTest() {
         clickOn(".button-1");
-        sleep(500);
         assertEquals("You're winner!" + System.lineSeparator(), systemOutRule.getLog());
     }    
-
-    @Test
-    public void CollisionTest() {
-        clickOn(".button1");
-        // Find player node with css selector
-        Entity player = (Entity) stage.getScene().getRoot().lookup("#player");
-        push(KeyCode.LEFT);
-        push(KeyCode.LEFT);
-        sleep(300);
-        assertThat(player.getActualX(), closeTo(112, 96));
-        assertThat(player.getActualY(), closeTo(112, 96));
-    }
 }

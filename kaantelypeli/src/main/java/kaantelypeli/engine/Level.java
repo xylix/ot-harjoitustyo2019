@@ -44,7 +44,7 @@ public class Level {
         Level level = new Level();
         Entity playerZero = new Entity("player", 0, 16);
         level.entities.add(playerZero);
-        level.entities.add(new Entity("victory", 0, 48));
+        level.entities.add(new Entity("victory", 0, 24));
 
         return level;
     }
