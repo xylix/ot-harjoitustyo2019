@@ -27,6 +27,7 @@ public class EntityTest {
     @Test
     public void spriteNotFoundTest() {
         Entity test = new Entity("test", 0, 0);
-        assertEquals("No sprite named: 'test.png' found" + System.lineSeparator(), systemOutRule.getLog());
+        assertEquals("Entity type not supported." + System.lineSeparator() + 
+            "No sprite named: 'test.png' found" + System.lineSeparator(), systemOutRule.getLog());
     }
 }

@@ -12,9 +12,15 @@ import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
 import static kaantelypeli.engine.Level.loadLevel;
  
-
+/**
+ * Main Graphical User Interface class.
+ * @author xylix
+ */
 public class Game extends Application {
-    public static void main(String[] args) {
+    /**
+     * Launch the application.
+    */
+    public static void main() {
         Application.launch();
     }
     

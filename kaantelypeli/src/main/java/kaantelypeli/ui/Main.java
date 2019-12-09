@@ -1,11 +1,13 @@
 package kaantelypeli.ui;
 
 /**
- *
- * @author xylix
+ * 2nd Main class, helps maven-shade-plugin properly package JavaFX dependencies.
  */
 public class Main {
-    public static void main(String[] args) {
-        kaantelypeli.ui.Game.main(args);
+    /**
+     * Launches Game.main().
+     */
+    public static void main() {
+        kaantelypeli.ui.Game.main();
     }
 }

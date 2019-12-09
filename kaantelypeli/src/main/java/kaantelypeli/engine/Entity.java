@@ -8,15 +8,20 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 /**
- * Exposes constructor for entity generation and entity
- * movement and collision methods.
+ * Exposes entity generation, movement and collision.
  */
-
 public class Entity extends Rectangle {
     boolean movable;
     boolean passable;
     String type;
     
+    /**
+     * Creates a new entity of `type` at location `x`,`y`.
+     * @param type Type of new entity. Defined values ["wall", "player", 
+     * "victory", "key" and "door"].
+     * @param x X-coordinate of new entity.
+     * @param y Y-coordinate of new entity.
+     */
     public Entity(String type, int x, int y) {
         super(x, y, 16, 16);
         this.type = type;
@@ -47,16 +52,27 @@ public class Entity extends Rectangle {
                 passable = false;
                 break;
             default:
+                System.out.println("Entity type not supported.");
                 break;
         }
         loadSprite(type + ".png");
     }
     
+    /**
+     * Collision check.
+     * @param collidee Entity to check collision with.
+     * @return returns True if `this` entity is currently colliding with `collidee`
+     */
     public boolean collide(Entity collidee) {
         Shape collisionBox = Shape.intersect(this, collidee);
         return collisionBox.getBoundsInLocal().getWidth() != -1;
     }
     
+    /**
+     * Deducts what happens in a collision.
+     * @param collidee Entity to collide with.
+     * @return String defining what to do when `this` and `collidee` collide.
+     */
     public String collisionAction(Entity collidee) {
         if (this.type.equals("player") && collidee.type.equals("victory")) {
             return "victory";
@@ -64,8 +80,9 @@ public class Entity extends Rectangle {
             return "open";
         } else if (!this.equals(collidee) && !collidee.passable) {
             return "blocked";
+        } else {
+            return "";
         }
-        return "";
     }
 
     void move(int i) {
@@ -98,7 +115,7 @@ public class Entity extends Rectangle {
             System.out.println("No sprite named: '" + filename + "' found");
         }
     }
-    
+
     public double getActualX() {
         return this.getX() + this.getTranslateX();
     }

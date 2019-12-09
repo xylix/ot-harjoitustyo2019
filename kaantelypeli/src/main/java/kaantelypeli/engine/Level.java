@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * Handles level generation and level management. 
  * Exposes loadLevel static method for level generation and
- * gravitate() method for binding gravitation to game ticks 
+ * gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
     private final Collection<Entity> entities;
@@ -20,7 +20,7 @@ public class Level {
     }
     
     /**
-     * Method returns generated level from index
+     * Method returns generated level number `index`.
      *
      * @param   index   index of wanted level
      * 
@@ -97,7 +97,7 @@ public class Level {
     }
     
     /**
-     * Changes the gravity by `degrees`
+     * Changes the gravity by `degrees`.
      *
      * @param   degrees   Wanted change in degrees
      */
