@@ -3,10 +3,20 @@ package kaantelypeli.engine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
+import kaantelypeli.ui.Game;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.testfx.api.FxToolkit;
 
 public class LevelTest {
+    @Before
+    public void setUp() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Game.class);
+    }
+    
     @Test
     public void loadLevelTest() {
         assertEquals(Level.loadLevel(0).getClass(), Level.class);

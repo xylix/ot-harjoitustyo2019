@@ -2,14 +2,26 @@ package kaantelypeli.engine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.concurrent.TimeoutException;
+import javafx.stage.Stage;
+import kaantelypeli.ui.Game;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.testfx.api.FxToolkit;
 
 public class EntityTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+    private Stage stage;
+    
+    @Before
+    public void setUp() throws TimeoutException {
+        stage = FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Game.class);
+    }
     
     @Test
     public void illegalMovementTest() {
