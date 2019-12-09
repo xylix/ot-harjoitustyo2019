@@ -6,7 +6,8 @@ package kaantelypeli.ui;
 public class Main {
     /**
      * Launches Game.main().
-     * @param args
+     * @param args pass command line arguments to follow
+     * main() method convention
      */
     public static void main(String[] args) {
         kaantelypeli.ui.Game.main(args);

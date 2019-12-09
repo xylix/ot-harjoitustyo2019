@@ -18,7 +18,8 @@ import static kaantelypeli.engine.Level.loadLevel;
 public class Game extends Application {
     /**
      * Launch the application.
-     * @param args
+     * @param args pass command line arguments to follow
+     * main() method convention
     */
     public static void main(String[] args) {
         Application.launch();
