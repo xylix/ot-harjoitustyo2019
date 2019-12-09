@@ -15,10 +15,17 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-public class IntegrationTest extends ApplicationTest {
+public class GameTest extends ApplicationTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
     Stage stage;
+    
+    @Before
+    public void setUp() throws TimeoutException {
+        stage = FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Game.class);
+    }
+    
 
     @Test
     public void startButtonTest()  {      
@@ -32,12 +39,7 @@ public class IntegrationTest extends ApplicationTest {
         sleep(500);
         assertEquals("You're winner!" + System.lineSeparator(), systemOutRule.getLog());
     }    
-    @Before
-    public void setUp() throws TimeoutException {
-        stage = FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(Game.class);
-    }
-    
+
     @Test
     public void CollisionTest() {
         clickOn(".button1");

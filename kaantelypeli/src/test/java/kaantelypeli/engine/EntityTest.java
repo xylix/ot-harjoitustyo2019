@@ -1,14 +1,12 @@
 package kaantelypeli.engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
-/**
- *
- * @author xylix
- */
 public class EntityTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
@@ -29,5 +27,15 @@ public class EntityTest {
         Entity test = new Entity("test", 0, 0);
         assertEquals("Entity type not supported." + System.lineSeparator() + 
             "No sprite named: 'test.png' found" + System.lineSeparator(), systemOutRule.getLog());
+    }
+    
+    @Test
+    public void jsonTest() {
+        Entity e = new Entity("player", 0, 0);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
+        Gson gson = builder.create();
+        String json = gson.toJson(e);
+        assertEquals("\"{player,0.0,0.0}\"", json);
     }
 }
