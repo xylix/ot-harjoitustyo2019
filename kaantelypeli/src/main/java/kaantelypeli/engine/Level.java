@@ -4,18 +4,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javafx.scene.paint.Color;
 
+/**
+ * Handles level generation and level management. 
+ * Exposes loadLevel static method for level generation and
+ * gravitate() method for binding gravitation to game ticks 
+ */
 public class Level {
     private final Collection<Entity> entities;
     int gravity;
     boolean victory = false;
     
-    public Level() { 
+    private Level() { 
         entities = new ArrayList<>();
         gravity = 0;
     }
     
-    public static Level loadLevel(int levelIndex) {
-        switch (levelIndex) {
+    /**
+     * Method returns generated level from index
+     *
+     * @param   index   index of wanted level
+     * 
+     * @return generated Level
+     */
+    
+    public static Level loadLevel(int index) {
+        switch (index) {
             case -1:
                 return negativeOne();
             case 0:
@@ -24,7 +37,6 @@ public class Level {
                 return one();
             default:
                 return new Level();
-                
         } 
     }
     
@@ -84,10 +96,20 @@ public class Level {
         return this.entities;
     }
     
+    /**
+     * Changes the gravity by `degrees`
+     *
+     * @param   degrees   Wanted change in degrees
+     */
+
     public void changeGravity(int degrees) {
         gravity += degrees;
     }
 
+    /**
+     * Applies gravity to all entities on the level.
+     * Movable get moved here.
+     */
     public void gravitate() {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
             if (victory) {

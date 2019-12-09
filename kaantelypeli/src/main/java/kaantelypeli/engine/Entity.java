@@ -7,6 +7,11 @@ import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
+/**
+ * Exposes constructor for entity generation and entity
+ * movement and collision methods.
+ */
+
 public class Entity extends Rectangle {
     boolean movable;
     boolean passable;
@@ -94,4 +99,11 @@ public class Entity extends Rectangle {
         }
     }
     
+    public double getActualX() {
+        return this.getX() + this.getTranslateX();
+    }
+    
+    public double getActualY() {
+        return this.getY() + this.getTranslateY();
+    }
 }

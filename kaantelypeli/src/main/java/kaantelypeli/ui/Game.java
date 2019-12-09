@@ -32,7 +32,7 @@ public class Game extends Application {
         stage.show();
     }
 
-    Scene toScene(Pane pane, Level level) {
+    private Scene toScene(Pane pane, Level level) {
         pane.getChildren().addAll(level.getEntities());
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {

@@ -2,8 +2,8 @@ package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import kaantelypeli.engine.Entity;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -42,13 +42,11 @@ public class IntegrationTest extends ApplicationTest {
     public void CollisionTest() {
         clickOn(".button1");
         // Find player node with css selector
-        Rectangle player = (Rectangle) stage.getScene().getRoot().lookup("#player");
+        Entity player = (Entity) stage.getScene().getRoot().lookup("#player");
         push(KeyCode.LEFT);
         push(KeyCode.LEFT);
         sleep(300);
-        assertThat(player.getX() + player.getTranslateX(), closeTo(112, 96));
-        assertThat(player.getY() + player.getTranslateY(), closeTo(112, 96));
-        
-        
+        assertThat(player.getActualX(), closeTo(112, 96));
+        assertThat(player.getActualY(), closeTo(112, 96));
     }
 }
