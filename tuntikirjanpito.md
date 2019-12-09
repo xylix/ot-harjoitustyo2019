@@ -16,6 +16,7 @@
 | 28.11. | 1      | Koodin laadun korjailua ja refaktorointia                                   |
 | 2.12.  | 3      | Laadun korjailua, collision testi. Avainta ja avainreikää käyttävä kartta 2 |
 | 3.12.  | 2      | JavaFX paketointi, release 0.0.1                                            |
-| 8.12.  | 2      | Sprite implementointi, spritejen luominen                                   |
+| 8.12.  | 3      | Sprite implementointi, spritejen luominen                                   |
+| 9.12.  | 2      | Testien parantelua, javadoc aloitus                                         |
 |        |        |                                                                             |
-----summa: 24
+----summa: 27
