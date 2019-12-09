@@ -7,7 +7,7 @@ Pelin ideana on p채채st채 maaliin k채채ntelem채ll채 erilaisia tasoja nuolin채pp�
 
 [Vaatimusmaarittely](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuuri](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/arkkitehtuuri.md)
+[Arkkitehtuuri](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/arkkitehtuuriKuvaus.md)
 
 [Julkaisu viikko 5](https://github.com/xylix/ot-harjoitustyo2019/releases/tag/v0.0.1)
 
