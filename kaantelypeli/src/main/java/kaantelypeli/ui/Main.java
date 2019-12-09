@@ -6,8 +6,9 @@ package kaantelypeli.ui;
 public class Main {
     /**
      * Launches Game.main().
+     * @param args
      */
-    public static void main() {
-        kaantelypeli.ui.Game.main();
+    public static void main(String[] args) {
+        kaantelypeli.ui.Game.main(args);
     }
 }

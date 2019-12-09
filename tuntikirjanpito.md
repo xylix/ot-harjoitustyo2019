@@ -17,6 +17,7 @@
 | 2.12.  | 3      | Laadun korjailua, collision testi. Avainta ja avainreikää käyttävä kartta 2 |
 | 3.12.  | 2      | JavaFX paketointi, release 0.0.1                                            |
 | 8.12.  | 3      | Sprite implementointi, spritejen luominen                                   |
-| 9.12.  | 4      | Testien parantelua, javadoc aloitus                                         |
+| 9.12.  | 5      | Testien parantelua, javadocausta, versio 0.0.2 julkaisu                     |
 |        |        |                                                                             |
-----summa: 29
+|        |        |                                                                             |
+----summa: 30
