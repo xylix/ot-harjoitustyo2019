@@ -14,7 +14,6 @@ import static kaantelypeli.engine.Level.loadLevel;
  
 /**
  * Main Graphical User Interface class.
- * @author xylix
  */
 public class Game extends Application {
     /**
