@@ -44,10 +44,6 @@ public class EntityTest {
     @Test
     public void jsonTest() {
         Entity e = new Entity("player", 0, 0);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
-        Gson gson = builder.create();
-        String json = gson.toJson(e);
         assertEquals("\"{player,0.0,0.0}\"", e.toJson());
     }
 }

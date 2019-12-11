@@ -15,10 +15,13 @@ public class Level {
     public static final String VICTORY = "victory";
     public static final String PLAYER = "player";
     public static final String WALL = "wall";
+    public static final String LAVA = "lava";
     
-    private final Collection<Entity> entities;
+    private final ArrayList<Entity> entities;
     int gravity;
+    int id;
     boolean won = false;
+    boolean lost = false;
     
     private Level() { 
         entities = new ArrayList<>();
@@ -50,6 +53,7 @@ public class Level {
     
     private static Level negativeOne() {
         Level level = new Level();
+        level.id = -1;
         Entity playerZero = new Entity(PLAYER, 0, 16);
         level.entities.add(playerZero);
         level.entities.add(new Entity(VICTORY, 0, 24));
@@ -59,6 +63,7 @@ public class Level {
     
     private static Level zero() {
         Level level = new Level();
+        level.id = 0;
         Entity player = new Entity(PLAYER, 32, 32);
         level.entities.add(player);
         level.entities.add(new Entity(WALL, 96, 48));
@@ -76,6 +81,7 @@ public class Level {
     
     private static Level one() {
         Level level = new Level();
+        level.id = 1;
         Entity player = new Entity(PLAYER, 32, 32);
         level.entities.add(player);
         
@@ -102,6 +108,7 @@ public class Level {
     
     private static Level two() {
         Level level = new Level();
+        level.id = 2;
         Entity player = new Entity(PLAYER, 16, 32);
         level.entities.add(player);
         
@@ -115,7 +122,7 @@ public class Level {
         for (int i = 0; i < 15; i++) { 
             //avoid making a wall over the keyhole
             if (i != 5) {
-                level.entities.add(new Entity(WALL, i * 16, 80));
+                level.entities.add(new Entity(LAVA, i * 16, 80));
             }
         }
         
@@ -135,7 +142,6 @@ public class Level {
      *
      * @param   degrees   Wanted change in degrees
      */
-
     public void changeGravity(int degrees) {
         gravity += degrees;
     }
@@ -145,12 +151,20 @@ public class Level {
      * Movable get moved here.
      */
     public void gravitate() {
+        if (won) {
+            return;
+        } else if (lost) {
+            // Does not reset keys / doors
+            entities.stream().forEach((e) -> {
+                e.setTranslateX(0);
+                e.setTranslateY(0);
+            });
+            lost = false;
+            return;
+        }
+        
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
-            if (won) {
-                return;
-            }
             collider.move(gravity);
-            
             entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
                 switch (action) {
@@ -158,6 +172,10 @@ public class Level {
                         System.out.println("You're winner!");
                         won = true;
                         return;
+                    case "loss":
+                        //System.out.println("You have lost this level " + losses + "times");
+                        lost = true;
+                        break;
                     case "open":
                         collidee.setFill(Color.TRANSPARENT);
                         collidee.passable = true;

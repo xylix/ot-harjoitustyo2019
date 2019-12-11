@@ -18,6 +18,7 @@ public class Entity extends Rectangle {
     public static final String KEY = "key";
     public static final String DOOR = "door";
     public static final String WALL = "wall";
+    public static final String LAVA = "lava";
     
     boolean movable;
     boolean passable;
@@ -59,13 +60,16 @@ public class Entity extends Rectangle {
             case DOOR:
                 passable = false;
                 break;
+            case LAVA:
+                passable = true;
+                break;
             default:
                 System.out.println("Entity type not supported.");
                 break;
         }
         loadSprite(type + ".png");
     }
-    
+
     /**
      * Collision check.
      * @param collidee Entity to check collision with.
@@ -84,6 +88,8 @@ public class Entity extends Rectangle {
     public String collisionAction(Entity collidee) {
         if (this.type.equals(PLAYER) && collidee.type.equals(VICTORY)) {
             return VICTORY;
+        } else if (this.type.equals(PLAYER) && collidee.type.equals(LAVA)) {
+            return "loss";
         } else if (this.type.equals(KEY) && collidee.type.equals(DOOR)) {
             return "open";
         } else if (!this.equals(collidee) && !collidee.passable) {
@@ -133,7 +139,7 @@ public class Entity extends Rectangle {
     }
     
     /**
-     * Converts the entity into a JSON representation 
+     * Converts the entity into a JSON representation.
      * @return JSON representation of the entity.
      */
     public String toJson() {

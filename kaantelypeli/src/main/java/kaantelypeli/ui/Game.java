@@ -67,7 +67,6 @@ public class Game extends Application {
         level.setOnMouseClicked((MouseEvent t) -> {
             level.setText("loading");
             Level activeLevel = loadLevel(i);
-            //System.out.println(loadLevel(i).toJson());
             stage.setScene(toScene(pane, activeLevel));
         });
         return level;

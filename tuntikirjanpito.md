@@ -18,6 +18,6 @@
 | 3.12.  | 2      | JavaFX paketointi, release 0.0.1                                            |
 | 8.12.  | 3      | Sprite implementointi, spritejen luominen                                   |
 | 9.12.  | 5      | Testien parantelua, javadocausta, versio 0.0.2 julkaisu                     |
-|        |        |                                                                             |
+| 11.12. | 2      | Laavan implementointi. Levelin 2 työstöä. Siirto tiedostoihin aloitettu     |
 |        |        |                                                                             |
 ----summa: 30
