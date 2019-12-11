@@ -31,7 +31,7 @@ public class Game extends Application {
         pane.setPrefSize(240, 240);
         
         GridPane buttons = new GridPane();
-        for (int i = -1; i <= 1; i++) {
+        for (int i = -1; i <= 2; i++) {
             buttons.add(levelButton(i, stage, pane), 0, i + 1);
         }
         
@@ -67,6 +67,7 @@ public class Game extends Application {
         level.setOnMouseClicked((MouseEvent t) -> {
             level.setText("loading");
             Level activeLevel = loadLevel(i);
+            //System.out.println(loadLevel(i).toJson());
             stage.setScene(toScene(pane, activeLevel));
         });
         return level;

@@ -1,8 +1,5 @@
 package kaantelypeli.engine;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 import kaantelypeli.ui.Game;
 import org.junit.Test;
@@ -24,16 +21,8 @@ public class LevelTest {
     
     @Test
     public void jsonTest() {
-        ArrayList<Entity> entities = new ArrayList<>();
-        Entity e = new Entity("player", 0, 0);
-        Entity e2 = new Entity("wall", 4, 0);
-        entities.add(e);
-        entities.add(e2);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
-        Gson gson = builder.create();
-        String json = gson.toJson(entities);
-        assertEquals("[\"{player,0.0,0.0}\",\"{wall,4.0,0.0}\"]", json);
+        Level l = Level.loadLevel(-1);
+        assertEquals("[\"{player,0.0,16.0}\",\"{victory,0.0,24.0}\"]", l.toJson());
     }
     
     

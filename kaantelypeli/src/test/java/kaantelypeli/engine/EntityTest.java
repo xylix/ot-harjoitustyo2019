@@ -48,6 +48,6 @@ public class EntityTest {
         builder.registerTypeAdapter(Entity.class, new EntityAdapter());
         Gson gson = builder.create();
         String json = gson.toJson(e);
-        assertEquals("\"{player,0.0,0.0}\"", json);
+        assertEquals("\"{player,0.0,0.0}\"", e.toJson());
     }
 }

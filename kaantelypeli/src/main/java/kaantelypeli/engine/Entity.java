@@ -1,5 +1,7 @@
 package kaantelypeli.engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.net.URL;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -128,5 +130,16 @@ public class Entity extends Rectangle {
     
     public double getActualY() {
         return this.getY() + this.getTranslateY();
+    }
+    
+    /**
+     * Converts the entity into a JSON representation 
+     * @return JSON representation of the entity.
+     */
+    public String toJson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
+        Gson gson = builder.create();
+        return gson.toJson(this);
     }
 }

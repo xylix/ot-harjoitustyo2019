@@ -1,5 +1,7 @@
 package kaantelypeli.engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import javafx.scene.paint.Color;
@@ -39,6 +41,8 @@ public class Level {
                 return zero();
             case 1:
                 return one();
+            case 2:
+                return two();
             default:
                 return new Level();
         } 
@@ -96,6 +100,32 @@ public class Level {
         return level;
     }
     
+    private static Level two() {
+        Level level = new Level();
+        Entity player = new Entity(PLAYER, 16, 32);
+        level.entities.add(player);
+        
+        for (int i = 0; i < 15; i++) {
+            level.entities.add(new Entity(WALL, i * 16, 0));
+            level.entities.add(new Entity(WALL, i * 16, 224));
+            level.entities.add(new Entity(WALL, 0, i * 16));
+            level.entities.add(new Entity(WALL, 224, i * 16));
+        }
+        
+        for (int i = 0; i < 15; i++) { 
+            //avoid making a wall over the keyhole
+            if (i != 5) {
+                level.entities.add(new Entity(WALL, i * 16, 80));
+            }
+        }
+        
+        level.entities.add(new Entity("key", 16, 16));
+        level.entities.add(new Entity("door", 80, 80));
+        
+        level.entities.add(new Entity(VICTORY, 48, 112));
+        return level;
+    }
+    
     public Collection<Entity> getEntities() {
         return this.entities;
     }
@@ -141,5 +171,17 @@ public class Level {
                 }
             });
         });
+    }
+
+    /**
+     * Converts the level's entity list to JSON, which can be used as the entire 
+     * levels JSON representation.
+     * @return JSON representation of the level
+     */
+    public String toJson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
+        Gson gson = builder.create();
+        return gson.toJson(entities);
     }
 }
