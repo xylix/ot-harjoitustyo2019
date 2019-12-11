@@ -40,7 +40,7 @@ public class Game extends Application {
     }
 
     private Scene toScene(Pane pane, Level level) {
-        pane.getChildren().addAll(level.getEntities());
+        pane.getChildren().addAll(level.getHitboxes());
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {

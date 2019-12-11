@@ -1,10 +1,13 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Handles level generation and level management. 
@@ -156,8 +159,8 @@ public class Level {
         } else if (lost) {
             // Does not reset keys / doors
             entities.stream().forEach((e) -> {
-                e.setTranslateX(0);
-                e.setTranslateY(0);
+                e.hitbox.setTranslateX(0);
+                e.hitbox.setTranslateY(0);
             });
             lost = false;
             return;
@@ -177,9 +180,9 @@ public class Level {
                         lost = true;
                         break;
                     case "open":
-                        collidee.setFill(Color.TRANSPARENT);
+                        collidee.hitbox.setFill(Color.TRANSPARENT);
                         collidee.passable = true;
-                        collider.setFill(Color.TRANSPARENT);
+                        collider.hitbox.setFill(Color.TRANSPARENT);
                         break;
                     case "blocked":
                         collider.move(gravity + 540);
@@ -197,9 +200,11 @@ public class Level {
      * @return JSON representation of the level
      */
     public String toJson() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
-        Gson gson = builder.create();
+        Gson gson = new Gson();
         return gson.toJson(entities);
+    }
+
+    public List<Rectangle> getHitboxes() {
+        return entities.stream().map(e -> e.hitbox).collect(Collectors.toList());
     }
 }

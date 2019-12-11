@@ -19,5 +19,6 @@
 | 8.12.  | 3      | Sprite implementointi, spritejen luominen                                   |
 | 9.12.  | 5      | Testien parantelua, javadocausta, versio 0.0.2 julkaisu                     |
 | 11.12. | 2      | Laavan implementointi. Levelin 2 työstöä. Siirto tiedostoihin aloitettu     |
+| 12.12. | 5      | Pelikenttä / entity <-> json muunnos                                        |
 |        |        |                                                                             |
-----summa: 30
+----summa: 35

@@ -20,9 +20,9 @@ public class LevelTest {
     }
     
     @Test
-    public void jsonTest() {
+    public void toJsonTest() {
         Level l = Level.loadLevel(-1);
-        assertEquals("[\"{player,0.0,16.0}\",\"{victory,0.0,24.0}\"]", l.toJson());
+        assertEquals("[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"movable\":false,\"passable\":true}]", l.toJson());
     }
     
     

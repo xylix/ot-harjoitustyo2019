@@ -1,8 +1,9 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import java.net.URL;
+import java.util.Objects;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -12,7 +13,8 @@ import javafx.scene.paint.ImagePattern;
 /**
  * Exposes entity generation, movement and collision.
  */
-public class Entity extends Rectangle {
+public class Entity {
+
     public static final String VICTORY = "victory";
     public static final String PLAYER = "player";
     public static final String KEY = "key";
@@ -20,9 +22,13 @@ public class Entity extends Rectangle {
     public static final String WALL = "wall";
     public static final String LAVA = "lava";
     
-    boolean movable;
-    boolean passable;
-    String type;
+    final String type;
+    final int xCoord;
+    final int yCoord;
+    
+    boolean movable = false;
+    boolean passable = true;
+    final transient Rectangle hitbox;
     
     /**
      * Creates a new entity of `type` at location `x`,`y`.
@@ -32,28 +38,33 @@ public class Entity extends Rectangle {
      * @param y Y-coordinate of new entity.
      */
     public Entity(String type, int x, int y) {
-        super(x, y, 16, 16);
         this.type = type;
-        movable = false;
-        passable = true;
-        super.setId(type);
+        this.hitbox = new Rectangle(x, y, 16, 16);
+        xCoord = x;
+        yCoord = y;
+        hitbox.setId(type);
         // Fallback color if sprite not found
-        super.setFill(Color.GREEN);
+        hitbox.setFill(Color.GREEN);
+        loadEntity(type);
+    }
+    
+    
+    private void loadEntity(String type) {
         switch (type) {
             case WALL:
                 passable = false;
                 break;
             case PLAYER:
-                this.setWidth(14);
-                this.setHeight(14);
-                super.setFill(Color.BLUE);
+                hitbox.setWidth(14);
+                hitbox.setHeight(14);
+                hitbox.setFill(Color.BLUE);
                 movable = true;
                 break;
             case VICTORY:
                 break;
             case KEY:
-                this.setWidth(12);
-                this.setHeight(12);
+                hitbox.setWidth(12);
+                hitbox.setHeight(12);
                 movable = true;
                 passable = false;
                 break;
@@ -61,7 +72,6 @@ public class Entity extends Rectangle {
                 passable = false;
                 break;
             case LAVA:
-                passable = true;
                 break;
             default:
                 System.out.println("Entity type not supported.");
@@ -76,7 +86,7 @@ public class Entity extends Rectangle {
      * @return returns True if `this` entity is currently colliding with `collidee`
      */
     public boolean collide(Entity collidee) {
-        Shape collisionBox = Shape.intersect(this, collidee);
+        Shape collisionBox = Shape.intersect(hitbox, collidee.hitbox);
         return collisionBox.getBoundsInLocal().getWidth() != -1;
     }
     
@@ -103,16 +113,16 @@ public class Entity extends Rectangle {
         i = Math.abs(i % 360);
         switch (i) {
             case 0:
-                this.setTranslateY(this.getTranslateY() + 1); 
+                hitbox.setTranslateY(hitbox.getTranslateY() + 1); 
                 break;
             case 90:
-                this.setTranslateX(this.getTranslateX() + 1);
+                hitbox.setTranslateX(hitbox.getTranslateX() + 1);
                 break;
             case 180:
-                this.setTranslateY(this.getTranslateY() - 1);
+                hitbox.setTranslateY(hitbox.getTranslateY() - 1);
                 break;
             case 270:
-                this.setTranslateX(this.getTranslateX() - 1);
+                hitbox.setTranslateX(hitbox.getTranslateX() - 1);
                 break;
             default:
                 System.out.println("Illegal movement call");
@@ -124,28 +134,77 @@ public class Entity extends Rectangle {
         URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename);
         if (spriteUrl != null) {
             Image sprite = new Image(spriteUrl.toString());
-            this.setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
+            hitbox.setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
         } else {
             System.out.println("No sprite named: '" + filename + "' found");
         }
     }
 
     public double getActualX() {
-        return this.getX() + this.getTranslateX();
+        return hitbox.getX() + hitbox.getTranslateX();
     }
     
     public double getActualY() {
-        return this.getY() + this.getTranslateY();
+        return hitbox.getY() + hitbox.getTranslateY();
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.type);
+        hash = 79 * hash + this.xCoord;
+        hash = 79 * hash + this.yCoord;
+        hash = 79 * hash + (this.movable ? 1 : 0);
+        hash = 79 * hash + (this.passable ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Entity other = (Entity) obj;
+        if (this.xCoord != other.xCoord) {
+            return false;
+        }
+        if (this.yCoord != other.yCoord) {
+            return false;
+        }
+        if (this.movable != other.movable) {
+            return false;
+        }
+        if (this.passable != other.passable) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
-     * Converts the entity into a JSON representation.
+     * Converts this entity into a JSON representation.
      * @return JSON representation of the entity.
      */
     public String toJson() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Entity.class, new EntityAdapter());
-        Gson gson = builder.create();
+        Gson gson = new Gson();
         return gson.toJson(this);
+    }
+    
+    /**
+     * Converts a JSON representation to an entity.
+     * @param json A valid JSON representation of an entity.
+     * @return Generated entity.
+     */
+    public static Entity fromJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Entity.class);
     }
 }
