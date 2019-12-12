@@ -23,7 +23,7 @@ public class LevelTest {
     @Test
     public void toJsonTest() {
         Level l = loadLevel(-1);
-        assertEquals("{\"entities\":[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"movable\":false,\"passable\":true}],\"gravity\":0,\"id\":-1,\"won\":false,\"lost\":false}", l.toJson());
+        assertEquals("{\"entities\":[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"width\":16,\"height\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}],\"gravity\":0,\"id\":-1,\"won\":false,\"lost\":false}", l.toJson());
     }
     
     @Test

@@ -23,7 +23,7 @@ public class EntityTest {
     
     @Test
     public void illegalMovementTest() {
-        Entity test = new Entity("player", 0, 0);
+        Entity test = new Entity("player", 0, 0, 16, 16);
         double x = test.getHitbox().getX() + test.getHitbox().getTranslateX();
         double y = test.getHitbox().getY() + test.getHitbox().getTranslateY();
         test.move(4);
@@ -34,28 +34,28 @@ public class EntityTest {
     
     @Test
     public void spriteNotFoundTest() {
-        Entity test = new Entity("test", 0, 0);
+        Entity test = new Entity("test", 0, 0, 16, 16);
         assertEquals("Entity type not supported." + System.lineSeparator(), systemOutRule.getLog());
     }
     
     @Test
     public void toJsonTest() {
-        Entity e = new Entity("player", 0, 0);
-        assertEquals("{\"type\":\"player\",\"xCoord\":0,\"yCoord\":0,\"movable\":true,\"passable\":true}", e.toJson());
+        Entity e = new Entity("player", 0, 0, 16, 16);
+        assertEquals("{\"type\":\"player\",\"xCoord\":0,\"yCoord\":0,\"width\":16,\"height\":16,\"movable\":true,\"passable\":true}", e.toJson());
     }
     
     @Test
     public void hashCodeTest() {
-        Entity e = new Entity("player", 0, 0);
-        Entity e2 = new Entity("player", 0, 0);
+        Entity e = new Entity("player", 0, 0, 16, 16);
+        Entity e2 = new Entity("player", 0, 0, 16, 16);
         assertEquals(e.hashCode(), e2.hashCode());
-        Entity e3 = new Entity("wall", 0, 0);
+        Entity e3 = new Entity("wall", 0, 0, 16, 16);
         assertFalse(e.hashCode() == e3.hashCode());
     }
     
     @Test
     public void getHitboxTest() {
-        Entity e = new Entity("player", 0, 0);
+        Entity e = new Entity("player", 0, 0, 16, 16);
         assertFalse(e.getHitbox() == null);
     }
 }

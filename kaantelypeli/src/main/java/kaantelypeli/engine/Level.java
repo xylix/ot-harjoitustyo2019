@@ -15,9 +15,6 @@ import javafx.scene.shape.Rectangle;
  */
 public class Level {
     public static final String VICTORY = "victory";
-    public static final String PLAYER = "player";
-    public static final String WALL = "wall";
-    public static final String LAVA = "lava";
     
     private final ArrayList<Entity> entities;
     int gravity;

@@ -3,6 +3,8 @@ package kaantelypeli.engine;
 import com.google.gson.Gson;
 import java.net.URL;
 import java.util.Objects;
+
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
@@ -21,8 +23,7 @@ public class Entity {
     public static final String LAVA = "lava";
     
     final String type;
-    final int xCoord;
-    final int yCoord;
+    final int xCoord, yCoord, width, height;
     
     boolean movable = false;
     boolean passable = true;
@@ -34,16 +35,19 @@ public class Entity {
      * VICTORY, KEY and DOOR].
      * @param x X-coordinate of new entity.
      * @param y Y-coordinate of new entity.
+     * @param width width of new entity.
+     * @param height height of new entity.
      */
-    public Entity(String type, int x, int y) {
+    public Entity(String type, int x, int y, int width, int height) {
         this.type = type;
         xCoord = x;
         yCoord = y;
-        // Fallback color if sprite not found
-        loadEntity(type);
+        this.width = width;
+        this.height = height;
+        setProps(type);
     }
     
-    private void loadEntity(String type) {
+    private void setProps(String type) {
         switch (type) {
             case WALL:
                 passable = false;
@@ -122,9 +126,10 @@ public class Entity {
         URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename + ".png");
         if (spriteUrl != null) {
             Image sprite = new Image(spriteUrl.toString());
-            hitbox.setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
+            getHitbox().setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
         } else {
             System.out.println("No sprite named: '" + filename + "' found");
+            getHitbox().setFill(Color.GREEN);
         }
     }
 
@@ -169,16 +174,6 @@ public class Entity {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
-    
-    /**
-     * Converts a JSON representation to an entity.
-     * @param json A valid JSON representation of an entity.
-     * @return Generated entity.
-     */
-    public static final Entity fromJson(String json) {
-        Gson gson = new Gson();
-        return gson.fromJson(json, Entity.class);
-    }
 
     /**
      * Returns the entity hitbox or sets and returns if does not exist.
@@ -188,7 +183,7 @@ public class Entity {
         if (this.hitbox != null) {
             return hitbox;
         } else {
-            this.hitbox = new Rectangle(xCoord, yCoord, 16, 16);
+            this.hitbox = new Rectangle(xCoord, yCoord, width, height);
             hitbox.setId(type);
             loadSprite(type);
             return hitbox;
