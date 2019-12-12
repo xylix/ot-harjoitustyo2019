@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
-import static kaantelypeli.engine.Level.loadLevel;
+import kaantelypeli.fs.FileOperations;
  
 /**
  * Main Graphical User Interface class.
@@ -39,7 +39,19 @@ public class Game extends Application {
         stage.show();
     }
 
-    private Scene toScene(Pane pane, Level level) {
+    private static Button levelButton(int i, Stage stage, Pane pane) {
+        Button level = new Button("level " + i);
+        level.getStyleClass().add("button" + i);
+        level.setOnMouseClicked((MouseEvent t) -> {
+            level.setText("loading");
+            Level activeLevel = FileOperations.loadLevel(i);
+            stage.setScene(toScene(pane, activeLevel));
+        });
+        return level;
+    }
+    
+    
+    private static Scene toScene(Pane pane, Level level) {
         pane.getChildren().addAll(level.getHitboxes());
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
@@ -60,16 +72,4 @@ public class Game extends Application {
         }.start();
         return scene;
     }
-
-    private Button levelButton(int i, Stage stage, Pane pane) {
-        Button level = new Button("level " + i);
-        level.getStyleClass().add("button" + i);
-        level.setOnMouseClicked((MouseEvent t) -> {
-            level.setText("loading");
-            Level activeLevel = loadLevel(i);
-            stage.setScene(toScene(pane, activeLevel));
-        });
-        return level;
-    }
-    
 }

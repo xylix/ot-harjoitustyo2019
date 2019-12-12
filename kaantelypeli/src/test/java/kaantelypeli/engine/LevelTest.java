@@ -1,6 +1,7 @@
 package kaantelypeli.engine;
 
 import java.util.concurrent.TimeoutException;
+import static kaantelypeli.fs.FileOperations.loadLevel;
 import kaantelypeli.ui.Game;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -16,13 +17,13 @@ public class LevelTest {
     
     @Test
     public void loadLevelTest() {
-        assertEquals(Level.loadLevel(0).getClass(), Level.class);
+        assertEquals(loadLevel(0).getClass(), Level.class);
     }
     
     @Test
     public void toJsonTest() {
-        Level l = Level.loadLevel(-1);
-        assertEquals("[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"movable\":false,\"passable\":true}]", l.toJson());
+        Level l = loadLevel(-1);
+        assertEquals("{\"entities\":[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"movable\":false,\"passable\":true}],\"gravity\":0,\"id\":-1,\"won\":false,\"lost\":false}", l.toJson());
     }
     
     

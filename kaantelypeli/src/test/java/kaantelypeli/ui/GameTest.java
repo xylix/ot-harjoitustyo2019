@@ -1,10 +1,7 @@
 package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import kaantelypeli.engine.Entity;
-import static org.hamcrest.number.IsCloseTo.closeTo;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

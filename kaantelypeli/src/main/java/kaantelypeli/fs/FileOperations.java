@@ -3,8 +3,9 @@ package kaantelypeli.fs;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 
@@ -14,11 +15,11 @@ import kaantelypeli.engine.Level;
 public class FileOperations {
     /**
      * Load level JSON from file and parse it into a Level.
-     * @param filename Path of file to load.
+     * @param levelId Index number of level to load
      * @return generated level
      */
-    public static Level loadLevel(String filename) {
-        JsonElement json = loadJson(filename);
+    public static Level loadLevel(int levelId) {
+        JsonElement json = loadJson("levels/level" + levelId + ".json");
         return levelFromJson(json);
     }
     
@@ -38,7 +39,8 @@ public class FileOperations {
      * @return JsonElement containing parsed contents
      */
     public static JsonElement loadJson(String filename) {
-        try (FileReader fr = new FileReader(filename)) {
+        InputStream path = FileOperations.class.getClassLoader().getResourceAsStream(filename);
+        try (InputStreamReader fr = new InputStreamReader(path)) {
             JsonElement json = JsonParser.parseReader(fr);
             return json;
         } catch (IOException e) {

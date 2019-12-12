@@ -1,7 +1,6 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,119 +22,16 @@ public class Level {
     private final ArrayList<Entity> entities;
     int gravity;
     int id;
-    boolean won = false;
-    boolean lost = false;
+    boolean won;
+    boolean lost;
     
     private Level() { 
         entities = new ArrayList<>();
         gravity = 0;
+        won = false;
+        lost = false;
     }
-    
-    /**
-     * Method returns generated level number `index`.
-     *
-     * @param   index   index of wanted level
-     * 
-     * @return generated Level
-     */
-    
-    public static Level loadLevel(int index) {
-        switch (index) {
-            case -1:
-                return negativeOne();
-            case 0:
-                return zero();
-            case 1:
-                return one();
-            case 2:
-                return two();
-            default:
-                return new Level();
-        } 
-    }
-    
-    private static Level negativeOne() {
-        Level level = new Level();
-        level.id = -1;
-        Entity playerZero = new Entity(PLAYER, 0, 16);
-        level.entities.add(playerZero);
-        level.entities.add(new Entity(VICTORY, 0, 24));
 
-        return level;
-    }
-    
-    private static Level zero() {
-        Level level = new Level();
-        level.id = 0;
-        Entity player = new Entity(PLAYER, 32, 32);
-        level.entities.add(player);
-        level.entities.add(new Entity(WALL, 96, 48));
-
-        for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity(WALL, i * 16, 0));
-            level.entities.add(new Entity(WALL, i * 16, 224));
-            level.entities.add(new Entity(WALL, 0, i * 16));
-            level.entities.add(new Entity(WALL, 224, i * 16));
-        }
-
-        level.entities.add(new Entity(VICTORY, 96, 16));
-        return level;
-    }
-    
-    private static Level one() {
-        Level level = new Level();
-        level.id = 1;
-        Entity player = new Entity(PLAYER, 32, 32);
-        level.entities.add(player);
-        
-        for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity(WALL, i * 16, 0));
-            level.entities.add(new Entity(WALL, i * 16, 224));
-            level.entities.add(new Entity(WALL, 0, i * 16));
-            level.entities.add(new Entity(WALL, 224, i * 16));
-        }
-        
-        for (int i = 0; i < 15; i++) { 
-            //avoid making a wall over the keyhole
-            if (i != 5) {
-                level.entities.add(new Entity(WALL, i * 16, 80));
-            }
-        }
-        
-        level.entities.add(new Entity("key", 48, 48));
-        level.entities.add(new Entity("door", 80, 80));
-        
-        level.entities.add(new Entity(VICTORY, 48, 112));
-        return level;
-    }
-    
-    private static Level two() {
-        Level level = new Level();
-        level.id = 2;
-        Entity player = new Entity(PLAYER, 16, 32);
-        level.entities.add(player);
-        
-        for (int i = 0; i < 15; i++) {
-            level.entities.add(new Entity(WALL, i * 16, 0));
-            level.entities.add(new Entity(WALL, i * 16, 224));
-            level.entities.add(new Entity(WALL, 0, i * 16));
-            level.entities.add(new Entity(WALL, 224, i * 16));
-        }
-        
-        for (int i = 0; i < 15; i++) { 
-            //avoid making a wall over the keyhole
-            if (i != 5) {
-                level.entities.add(new Entity(LAVA, i * 16, 80));
-            }
-        }
-        
-        level.entities.add(new Entity("key", 16, 16));
-        level.entities.add(new Entity("door", 80, 80));
-        
-        level.entities.add(new Entity(VICTORY, 48, 112));
-        return level;
-    }
-    
     public Collection<Entity> getEntities() {
         return this.entities;
     }
@@ -159,8 +55,8 @@ public class Level {
         } else if (lost) {
             // Does not reset keys / doors
             entities.stream().forEach((e) -> {
-                e.hitbox.setTranslateX(0);
-                e.hitbox.setTranslateY(0);
+                e.getHitbox().setTranslateX(0);
+                e.getHitbox().setTranslateY(0);
             });
             lost = false;
             return;
@@ -180,9 +76,9 @@ public class Level {
                         lost = true;
                         break;
                     case "open":
-                        collidee.hitbox.setFill(Color.TRANSPARENT);
+                        collidee.getHitbox().setFill(Color.TRANSPARENT);
                         collidee.passable = true;
-                        collider.hitbox.setFill(Color.TRANSPARENT);
+                        collider.getHitbox().setFill(Color.TRANSPARENT);
                         break;
                     case "blocked":
                         collider.move(gravity + 540);
@@ -201,10 +97,10 @@ public class Level {
      */
     public String toJson() {
         Gson gson = new Gson();
-        return gson.toJson(entities);
+        return gson.toJson(this);
     }
 
     public List<Rectangle> getHitboxes() {
-        return entities.stream().map(e -> e.hitbox).collect(Collectors.toList());
+        return entities.stream().map(Entity::getHitbox).collect(Collectors.toList());
     }
 }

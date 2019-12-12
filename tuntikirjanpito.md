@@ -20,5 +20,6 @@
 | 9.12.  | 5      | Testien parantelua, javadocausta, versio 0.0.2 julkaisu                     |
 | 11.12. | 2      | Laavan implementointi. Levelin 2 työstöä. Siirto tiedostoihin aloitettu     |
 | 12.12. | 5      | Pelikenttä / entity <-> json muunnos                                        |
+| 13.12. | 2      | JSON muuntelun parantelua ja testailua                                      |
 |        |        |                                                                             |
-----summa: 35
+----summa: 37

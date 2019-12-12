@@ -1,14 +1,13 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import java.net.URL;
 import java.util.Objects;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import kaantelypeli.fs.FileOperations;
 
 /**
  * Exposes entity generation, movement and collision.
@@ -28,7 +27,7 @@ public class Entity {
     
     boolean movable = false;
     boolean passable = true;
-    final transient Rectangle hitbox;
+    private transient Rectangle hitbox;
     
     /**
      * Creates a new entity of `type` at location `x`,`y`.
@@ -39,15 +38,11 @@ public class Entity {
      */
     public Entity(String type, int x, int y) {
         this.type = type;
-        this.hitbox = new Rectangle(x, y, 16, 16);
         xCoord = x;
         yCoord = y;
-        hitbox.setId(type);
         // Fallback color if sprite not found
-        hitbox.setFill(Color.GREEN);
         loadEntity(type);
     }
-    
     
     private void loadEntity(String type) {
         switch (type) {
@@ -55,16 +50,11 @@ public class Entity {
                 passable = false;
                 break;
             case PLAYER:
-                hitbox.setWidth(14);
-                hitbox.setHeight(14);
-                hitbox.setFill(Color.BLUE);
                 movable = true;
                 break;
             case VICTORY:
                 break;
             case KEY:
-                hitbox.setWidth(12);
-                hitbox.setHeight(12);
                 movable = true;
                 passable = false;
                 break;
@@ -77,7 +67,6 @@ public class Entity {
                 System.out.println("Entity type not supported.");
                 break;
         }
-        loadSprite(type + ".png");
     }
 
     /**
@@ -131,7 +120,7 @@ public class Entity {
     }
     
     private void loadSprite(String filename) {
-        URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename);
+        URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename + ".png");
         if (spriteUrl != null) {
             Image sprite = new Image(spriteUrl.toString());
             hitbox.setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
@@ -161,32 +150,16 @@ public class Entity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (obj == null) {
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        } else if (this == obj) {
+            return true;
+        } else if (getClass() != obj.getClass()) {
             return false;
         }
+        
         final Entity other = (Entity) obj;
-        if (this.xCoord != other.xCoord) {
-            return false;
-        }
-        if (this.yCoord != other.yCoord) {
-            return false;
-        }
-        if (this.movable != other.movable) {
-            return false;
-        }
-        if (this.passable != other.passable) {
-            return false;
-        }
-        if (!Objects.equals(this.type, other.type)) {
-            return false;
-        }
-        return true;
+        return this.toJson().equals(other.toJson());
     }
 
     /**
@@ -206,5 +179,20 @@ public class Entity {
     public static Entity fromJson(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, Entity.class);
+    }
+
+    /**
+     * Returns the entity hitbox or sets and returns if does not exist.
+     * @return Rectangle representing the Entity's JavaFX existence
+     */
+    public Rectangle getHitbox() {
+        if (this.hitbox != null) {
+            return hitbox;
+        } else {
+            this.hitbox = new Rectangle(xCoord, yCoord, 16, 16);
+            hitbox.setId(type);
+            loadSprite(type);
+            return hitbox;
+        }
     }
 }
