@@ -54,7 +54,7 @@ public class Level {
             return;
         } else if (lost) {
             // Does not reset keys / doors
-            entities.stream().forEach((e) -> {
+            entities.stream().forEach(e -> {
                 e.getHitbox().setTranslateX(0);
                 e.getHitbox().setTranslateY(0);
             });
@@ -72,7 +72,6 @@ public class Level {
                         won = true;
                         return;
                     case "loss":
-                        //System.out.println("You have lost this level " + losses + "times");
                         lost = true;
                         break;
                     case "open":

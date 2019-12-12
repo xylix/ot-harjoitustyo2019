@@ -43,4 +43,19 @@ public class EntityTest {
         Entity e = new Entity("player", 0, 0);
         assertEquals("{\"type\":\"player\",\"xCoord\":0,\"yCoord\":0,\"movable\":true,\"passable\":true}", e.toJson());
     }
+    
+    @Test
+    public void hashCodeTest() {
+        Entity e = new Entity("player", 0, 0);
+        Entity e2 = new Entity("player", 0, 0);
+        assertEquals(e.hashCode(), e2.hashCode());
+        Entity e3 = new Entity("wall", 0, 0);
+        assertFalse(e.hashCode() == e3.hashCode());
+    }
+    
+    @Test
+    public void getHitboxTest() {
+        Entity e = new Entity("player", 0, 0);
+        assertFalse(e.getHitbox() == null);
+    }
 }

@@ -13,6 +13,9 @@ import kaantelypeli.engine.Level;
  * Static methods for file reading and JSON conversion.
  */
 public class FileOperations {
+    private FileOperations() {
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * Load level JSON from file and parse it into a Level.
      * @param levelId Index number of level to load
@@ -41,8 +44,7 @@ public class FileOperations {
     public static JsonElement loadJson(String filename) {
         InputStream path = FileOperations.class.getClassLoader().getResourceAsStream(filename);
         try (InputStreamReader fr = new InputStreamReader(path)) {
-            JsonElement json = JsonParser.parseReader(fr);
-            return json;
+            return JsonParser.parseReader(fr);
         } catch (IOException e) {
             System.out.println(e);
             return null;

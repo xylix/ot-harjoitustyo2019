@@ -26,5 +26,12 @@ public class LevelTest {
         assertEquals("{\"entities\":[{\"type\":\"player\",\"xCoord\":0,\"yCoord\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"xCoord\":0,\"yCoord\":24,\"movable\":false,\"passable\":true}],\"gravity\":0,\"id\":-1,\"won\":false,\"lost\":false}", l.toJson());
     }
     
+    @Test
+    public void changeGravityTest() {
+        Level l = loadLevel(-1);
+        int old = l.gravity;
+        l.changeGravity(4);
+        assertEquals(old + 4, l.gravity);
+    }
     
 }
