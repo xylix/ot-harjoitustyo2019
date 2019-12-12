@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import kaantelypeli.fs.FileOperations;
 
 /**
  * Exposes entity generation, movement and collision.
@@ -176,7 +175,7 @@ public class Entity {
      * @param json A valid JSON representation of an entity.
      * @return Generated entity.
      */
-    public static Entity fromJson(String json) {
+    public static final Entity fromJson(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, Entity.class);
     }
