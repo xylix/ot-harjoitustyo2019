@@ -1,7 +1,7 @@
 package kaantelypeli.ui;
 
 import java.util.concurrent.TimeoutException;
-import javafx.stage.Stage;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,11 +15,10 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 public class GameTest extends ApplicationTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
-    Stage stage;
-    
+
     @Before
     public void setUp() throws TimeoutException {
-        stage = FxToolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Game.class);
     }
     

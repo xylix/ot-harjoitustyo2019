@@ -2,7 +2,6 @@ package kaantelypeli.engine;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.scene.paint.Color;
@@ -18,7 +17,6 @@ public class Level {
     
     private final ArrayList<Entity> entities;
     int gravity;
-    int id;
     boolean won;
     boolean lost;
     
@@ -27,10 +25,6 @@ public class Level {
         gravity = 0;
         won = false;
         lost = false;
-    }
-
-    public Collection<Entity> getEntities() {
-        return this.entities;
     }
     
     /**
@@ -51,7 +45,7 @@ public class Level {
             return;
         } else if (lost) {
             // Does not reset keys / doors
-            entities.stream().forEach(e -> {
+            entities.forEach(e -> {
                 e.getHitbox().setTranslateX(0);
                 e.getHitbox().setTranslateY(0);
             });

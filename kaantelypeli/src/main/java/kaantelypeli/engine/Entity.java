@@ -23,10 +23,13 @@ public class Entity {
     public static final String LAVA = "lava";
     
     final String type;
-    final int xCoord, yCoord, width, height;
+    final int x;
+    final int y;
+    final int width;
+    final int height;
     
-    boolean movable = false;
-    boolean passable = true;
+    boolean movable;
+    boolean passable;
     private transient Rectangle hitbox;
     
     /**
@@ -40,30 +43,29 @@ public class Entity {
      */
     public Entity(String type, int x, int y, int width, int height) {
         this.type = type;
-        xCoord = x;
-        yCoord = y;
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
+        this.movable = false;
+        this.passable = true;
         setProps(type);
     }
     
     private void setProps(String type) {
         switch (type) {
             case WALL:
+            case DOOR:
                 passable = false;
                 break;
             case PLAYER:
                 movable = true;
                 break;
-            case VICTORY:
-                break;
             case KEY:
                 movable = true;
                 passable = false;
                 break;
-            case DOOR:
-                passable = false;
-                break;
+            case VICTORY:
             case LAVA:
                 break;
             default:
@@ -145,8 +147,8 @@ public class Entity {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.type);
-        hash = 79 * hash + this.xCoord;
-        hash = 79 * hash + this.yCoord;
+        hash = 79 * hash + this.x;
+        hash = 79 * hash + this.y;
         hash = 79 * hash + (this.movable ? 1 : 0);
         hash = 79 * hash + (this.passable ? 1 : 0);
         return hash;
@@ -180,13 +182,11 @@ public class Entity {
      * @return Rectangle representing the Entity's JavaFX existence
      */
     public Rectangle getHitbox() {
-        if (this.hitbox != null) {
-            return hitbox;
-        } else {
-            this.hitbox = new Rectangle(xCoord, yCoord, width, height);
+        if (this.hitbox == null) {
+            this.hitbox = new Rectangle(x, y, width, height);
             hitbox.setId(type);
             loadSprite(type);
-            return hitbox;
         }
+        return hitbox;
     }
 }
