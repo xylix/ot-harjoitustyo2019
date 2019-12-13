@@ -1,6 +1,7 @@
 package kaantelypeli.fs;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -65,7 +66,7 @@ public class FileOperations {
      * @return Generated Level
      */
     public static Level levelFromJson(JsonElement json) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.fromJson(json, Level.class);
     }
     
