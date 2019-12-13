@@ -76,7 +76,7 @@ public class FileOperations {
      * @return Generated entity.
      */
     public static Entity entityFromJson(JsonElement json) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.fromJson(json, Entity.class);
     }
 

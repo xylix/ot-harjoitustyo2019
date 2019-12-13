@@ -21,6 +21,6 @@
 | 10.12. | 2      | Laavan implementointi. Levelin 2 työstöä. Siirto tiedostoihin aloitettu       |
 | 11.12. | 5      | Pelikenttä / entity <-> json muunnos                                          |
 | 12.12. | 4      | JSON muuntelun parantelua ja testailua                                        |
-| 13.12. | 2      | Kenttien muurien muuttaminen järkeviksi leveiksi yksittäisksi muurientityiksi |
+| 13.12. | 4      | Kenttien muurien muuttaminen järkeviksi leveiksi yksittäisksi muurientityiksi |
 |        |        |                                                                               |
 ----summa: 41

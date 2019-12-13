@@ -3,10 +3,34 @@
 		"type": "player",
 		"x": 16,
 		"y": 32,
-		"width": 16,
-		"height": 16,
+		"width": 14,
+		"height": 14,
 		"movable": true,
 		"passable": true
+	}, {
+		"type": "player",
+		"x": 144,
+		"y": 32,
+		"width": 14,
+		"height": 14,
+		"movable": true,
+        "passable": true
+    }, {
+        "type": "lava",
+        "x": 64,
+        "y": 64,
+        "width": 16,
+        "height": 16,
+        "movable": true,
+        "passable": false
+	}, {
+		"type": "wall",
+		"x": 80,
+		"y": 0,
+		"width": 16,
+		"height": 80,
+		"movable": false,
+		"passable": false
 	}, {
 		"type": "wall",
 		"x": 0,
@@ -40,41 +64,49 @@
 		"movable": false,
 		"passable": false
 	}, {
-		"type": "lava",
+		"type": "wall",
 		"x": 0,
 		"y": 80,
-		"width": 64,
+		"width": 48,
 		"height": 16,
 		"movable": false,
-		"passable": true
+		"passable": false
 	}, {
-		"type": "lava",
-		"x": 96,
+		"type": "wall",
+		"x": 80,
 		"y": 80,
 		"width": 112,
 		"height": 16,
 		"movable": false,
-		"passable": true
-	}, {
-		"type": "key",
-		"x": 16,
-		"y": 16,
-		"width": 16,
-		"height": 16,
-		"movable": true,
 		"passable": false
 	}, {
-		"type": "door",
-		"x": 80,
-		"y": 80,
-		"width": 16,
+		"type": "wall",
+		"x": 32,
+		"y": 128,
+		"width": 160,
+		"height": 16,
+		"movable": false,
+		"passable": false
+	}, {
+		"type": "wall",
+		"x": 0,
+		"y": 176,
+		"width": 144,
+		"height": 16,
+		"movable": false,
+		"passable": false
+	}, {
+		"type": "wall",
+		"x": 160,
+		"y": 176,
+		"width": 80,
 		"height": 16,
 		"movable": false,
 		"passable": false
 	}, {
 		"type": "victory",
 		"x": 48,
-		"y": 112,
+		"y": 192,
 		"width": 16,
 		"height": 16,
 		"movable": false,

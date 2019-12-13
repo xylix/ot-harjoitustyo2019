@@ -40,41 +40,41 @@
 		"movable": false,
 		"passable": false
 	}, {
-		"type": "lava",
+		"type": "wall",
 		"x": 0,
 		"y": 80,
 		"width": 64,
 		"height": 16,
 		"movable": false,
-		"passable": true
+		"passable": false
 	}, {
-		"type": "lava",
+		"type": "wall",
 		"x": 96,
 		"y": 80,
 		"width": 112,
 		"height": 16,
 		"movable": false,
-		"passable": true
-	}, {
-		"type": "key",
-		"x": 16,
-		"y": 16,
-		"width": 16,
-		"height": 16,
-		"movable": true,
 		"passable": false
 	}, {
-		"type": "door",
-		"x": 80,
-		"y": 80,
-		"width": 16,
+		"type": "wall",
+		"x": 32,
+		"y": 128,
+		"width": 208,
+		"height": 16,
+		"movable": false,
+		"passable": false
+	}, {
+		"type": "wall",
+		"x": 0,
+		"y": 160,
+		"width": 208,
 		"height": 16,
 		"movable": false,
 		"passable": false
 	}, {
 		"type": "victory",
 		"x": 48,
-		"y": 112,
+		"y": 192,
 		"width": 16,
 		"height": 16,
 		"movable": false,

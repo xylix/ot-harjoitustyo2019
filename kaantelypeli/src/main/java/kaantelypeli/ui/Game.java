@@ -31,7 +31,7 @@ public class Game extends Application {
         pane.setPrefSize(240, 240);
         
         GridPane buttons = new GridPane();
-        for (int i = -1; i <= 2; i++) {
+        for (int i = -1; i <= 5; i++) {
             buttons.add(levelButton(i, stage, pane), 0, i + 1);
         }
         
