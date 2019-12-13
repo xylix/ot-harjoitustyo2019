@@ -1,14 +1,11 @@
 package kaantelypeli.engine;
+import static kaantelypeli.fs.FileOperations.loadSprite;
 
 import com.google.gson.Gson;
-import java.net.URL;
 import java.util.Objects;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 
 /**
  * Exposes entity generation, movement and collision.
@@ -123,17 +120,6 @@ public class Entity {
                 break;
         }
     }
-    
-    private void loadSprite(String filename) {
-        URL spriteUrl = getClass().getClassLoader().getResource("sprites/" + filename + ".png");
-        if (spriteUrl != null) {
-            Image sprite = new Image(spriteUrl.toString());
-            getHitbox().setFill(new ImagePattern(sprite, 0, 0, 16, 16, false));
-        } else {
-            System.out.println("No sprite named: '" + filename + "' found");
-            getHitbox().setFill(Color.GREEN);
-        }
-    }
 
     public double getActualX() {
         return hitbox.getX() + hitbox.getTranslateX();
@@ -185,7 +171,7 @@ public class Entity {
         if (this.hitbox == null) {
             this.hitbox = new Rectangle(x, y, width, height);
             hitbox.setId(type);
-            loadSprite(type);
+            hitbox.setFill(loadSprite(type));
         }
         return hitbox;
     }

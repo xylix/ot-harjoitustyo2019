@@ -3,9 +3,17 @@ package kaantelypeli.fs;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 
@@ -69,5 +77,21 @@ public class FileOperations {
     public static Entity entityFromJson(JsonElement json) {
         Gson gson = new Gson();
         return gson.fromJson(json, Entity.class);
+    }
+
+    /**
+     * Loads a sprite from a Filename.
+     * @param filename name of sprite file to load.
+     * @return a JavaFX Paint generated from loaded sprite or a green fill if not found.
+     */
+    public static Paint loadSprite(String filename) {
+        URL spriteUrl = FileOperations.class.getClassLoader().getResource("sprites/" + filename + ".png");
+        if (spriteUrl != null) {
+            Image sprite = new Image(spriteUrl.toString());
+            return new ImagePattern(sprite, 0, 0, 16, 16, false);
+        } else {
+            System.out.println("No sprite named: '" + filename + "' found");
+            return (Color.GREEN);
+        }
     }
 }

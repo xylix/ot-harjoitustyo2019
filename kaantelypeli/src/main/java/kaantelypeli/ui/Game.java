@@ -50,7 +50,6 @@ public class Game extends Application {
         return level;
     }
     
-    
     private static Scene toScene(Pane pane, Level level) {
         pane.getChildren().addAll(level.getHitboxes());
         Scene scene = new Scene(pane);
