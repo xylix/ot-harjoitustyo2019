@@ -28,7 +28,6 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
         Pane pane = new Pane();
-        pane.setPrefSize(240, 240);
         
         GridPane buttons = new GridPane();
         for (int i = -1; i <= 5; i++) {

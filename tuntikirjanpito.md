@@ -22,5 +22,6 @@
 | 11.12. | 5      | Pelikenttä / entity <-> json muunnos                                          |
 | 12.12. | 4      | JSON muuntelun parantelua ja testailua                                        |
 | 13.12. | 4      | Kenttien muurien muuttaminen järkeviksi leveiksi yksittäisksi muurientityiksi |
+| 14.12. | 2      | Kenttien 4&5 hiontaa, skaalauksen lisäys                                      |
 |        |        |                                                                               |
-----summa: 41
+----summa: 43

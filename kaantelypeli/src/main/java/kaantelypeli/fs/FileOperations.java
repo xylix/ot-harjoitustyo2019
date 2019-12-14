@@ -83,13 +83,14 @@ public class FileOperations {
     /**
      * Loads a sprite from a Filename.
      * @param filename name of sprite file to load.
+     * @param scale Integer scaling for sprite size
      * @return a JavaFX Paint generated from loaded sprite or a green fill if not found.
      */
-    public static Paint loadSprite(String filename) {
+    public static Paint loadSprite(String filename, int scale) {
         URL spriteUrl = FileOperations.class.getClassLoader().getResource("sprites/" + filename + ".png");
         if (spriteUrl != null) {
             Image sprite = new Image(spriteUrl.toString());
-            return new ImagePattern(sprite, 0, 0, 16, 16, false);
+            return new ImagePattern(sprite, 0, 0, 16 * scale, 16 * scale, false);
         } else {
             System.out.println("No sprite named: '" + filename + "' found");
             return (Color.GREEN);

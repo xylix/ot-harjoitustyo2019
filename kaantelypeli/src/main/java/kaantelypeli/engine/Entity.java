@@ -18,6 +18,7 @@ public class Entity {
     public static final String DOOR = "door";
     public static final String WALL = "wall";
     public static final String LAVA = "lava";
+    public static final int SCALE = 2;
     
     final String type;
     final int x;
@@ -46,10 +47,10 @@ public class Entity {
         this.height = height;
         this.movable = false;
         this.passable = true;
-        setProps(type);
+        setProperties(type);
     }
     
-    private void setProps(String type) {
+    private void setProperties(String type) {
         switch (type) {
             case WALL:
             case DOOR:
@@ -104,16 +105,16 @@ public class Entity {
         i = Math.abs(i % 360);
         switch (i) {
             case 0:
-                hitbox.setTranslateY(hitbox.getTranslateY() + 1); 
+                hitbox.setTranslateY(hitbox.getTranslateY() + 1 * SCALE); 
                 break;
             case 90:
-                hitbox.setTranslateX(hitbox.getTranslateX() + 1);
+                hitbox.setTranslateX(hitbox.getTranslateX() + 1 * SCALE);
                 break;
             case 180:
-                hitbox.setTranslateY(hitbox.getTranslateY() - 1);
+                hitbox.setTranslateY(hitbox.getTranslateY() - 1 * SCALE);
                 break;
             case 270:
-                hitbox.setTranslateX(hitbox.getTranslateX() - 1);
+                hitbox.setTranslateX(hitbox.getTranslateX() - 1 * SCALE);
                 break;
             default:
                 System.out.println("Illegal movement call");
@@ -169,9 +170,9 @@ public class Entity {
      */
     public Rectangle getHitbox() {
         if (this.hitbox == null) {
-            this.hitbox = new Rectangle(x, y, width, height);
+            this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
             hitbox.setId(type);
-            hitbox.setFill(loadSprite(type));
+            hitbox.setFill(loadSprite(type, SCALE));
         }
         return hitbox;
     }
