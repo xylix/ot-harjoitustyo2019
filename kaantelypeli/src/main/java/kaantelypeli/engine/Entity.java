@@ -2,16 +2,17 @@ package kaantelypeli.engine;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 import com.google.gson.Gson;
+import org.tinylog.Logger;
 import java.util.Objects;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import kaantelypeli.fs.FileOperations;
 
 /**
  * Exposes entity generation, movement and collision.
  */
 public class Entity {
-
     public static final String VICTORY = "victory";
     public static final String PLAYER = "player";
     public static final String KEY = "key";
@@ -23,17 +24,17 @@ public class Entity {
     final String type;
     final int x;
     final int y;
-    final int width;
-    final int height;
     
-    boolean movable;
-    boolean passable;
+    int width;
+    int height;
+    boolean movable = false;
+    boolean passable = true;
     private transient Rectangle hitbox;
     
     /**
-     * Creates a new entity of `type` at location `x`,`y`.
-     * @param type Type of new entity. Defined values [WALL, PLAYER, 
-     * VICTORY, KEY and DOOR].
+     * Creates a new entity of `type` at location `x`,`y` with 
+     * non-default width and height.
+     * @param type Type of new entity. See resources/entities for info.
      * @param x X-coordinate of new entity.
      * @param y Y-coordinate of new entity.
      * @param width width of new entity.
@@ -45,31 +46,28 @@ public class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.movable = false;
-        this.passable = true;
         setProperties(type);
     }
     
+    /**
+     * Creates a new entity of `type` at location `x`,`y` with default width and height.
+     * @param type Type of new entity. See resources/entities for info.
+     * @param x X-coordinate of new entity.
+     * @param y Y-coordinate of new entity.
+     */
+    public Entity(String type, int x, int y) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        setProperties(type);
+    }
+
     private void setProperties(String type) {
-        switch (type) {
-            case WALL:
-            case DOOR:
-                passable = false;
-                break;
-            case PLAYER:
-                movable = true;
-                break;
-            case KEY:
-                movable = true;
-                passable = false;
-                break;
-            case VICTORY:
-            case LAVA:
-                break;
-            default:
-                System.out.println("Entity type not supported.");
-                break;
-        }
+        Entity source = FileOperations.loadEntity(type);
+        width = source.width;
+        height = source.width;
+        movable = source.movable;
+        passable = source.passable;
     }
 
     /**
@@ -117,7 +115,7 @@ public class Entity {
                 hitbox.setTranslateX(hitbox.getTranslateX() - 1 * SCALE);
                 break;
             default:
-                System.out.println("Illegal movement call");
+                Logger.error("Illegal movement call");
                 break;
         }
     }

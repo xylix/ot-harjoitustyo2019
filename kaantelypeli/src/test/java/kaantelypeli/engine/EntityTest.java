@@ -7,12 +7,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.testfx.api.FxToolkit;
 
 public class EntityTest {
     @Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+    public final SystemErrRule systemErrRule = new SystemErrRule()
+            .muteForSuccessfulTests().enableLog();
     
     @Before
     public void setUp() throws TimeoutException {
@@ -28,13 +29,13 @@ public class EntityTest {
         test.move(4);
         assertEquals(x, test.getActualX(), 0);
         assertEquals(y, test.getActualY(), 0);
-        assertEquals("Illegal movement call" + System.lineSeparator(), systemOutRule.getLog());
+        assertTrue(systemErrRule.getLog().contains("Illegal movement call"));
     }
     
-    @Test
-    public void spriteNotFoundTest() {
+    @Test (expected = NullPointerException.class)
+    public void entityNotFoundTest() {
         new Entity("test", 0, 0, 16, 16);
-        assertEquals("Entity type not supported." + System.lineSeparator(), systemOutRule.getLog());
+        assertTrue(systemErrRule.getLog().contains("Entity: test not found."));
     }
     
     @Test

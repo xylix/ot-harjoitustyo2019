@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import org.tinylog.Logger;
+
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -41,7 +43,7 @@ public class FileOperations {
      * @return generated entity
      */
     public static Entity loadEntity(String filename) {
-        JsonElement json = loadJson(filename);
+        JsonElement json = loadJson("entities/" + filename + ".json");
         return entityFromJson(json);
     }
     
@@ -52,10 +54,13 @@ public class FileOperations {
      */
     public static JsonElement loadJson(String filename) {
         InputStream path = FileOperations.class.getClassLoader().getResourceAsStream(filename);
+        if (path == null) {
+            Logger.error("Entity: " + filename + " not found.");
+        }
         try (InputStreamReader fr = new InputStreamReader(path)) {
             return JsonParser.parseReader(fr);
         } catch (IOException e) {
-            System.out.println(e);
+            Logger.error(e);
             return null;
         }
     }
@@ -92,7 +97,7 @@ public class FileOperations {
             Image sprite = new Image(spriteUrl.toString());
             return new ImagePattern(sprite, 0, 0, 16 * scale, 16 * scale, false);
         } else {
-            System.out.println("No sprite named: '" + filename + "' found");
+            Logger.error("No sprite named: '" + filename + "' found");
             return (Color.GREEN);
         }
     }
