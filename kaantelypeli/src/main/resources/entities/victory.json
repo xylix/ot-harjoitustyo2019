@@ -3,5 +3,6 @@
     "width": 16,
     "height": 16,
     "passable": "true",
-    "movable": "false"
+    "movable": "false",
+    "actionMap": {}
 }

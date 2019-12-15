@@ -46,8 +46,8 @@ public class Level {
         } else if (lost) {
             // Does not reset keys / doors
             entities.forEach(e -> {
-                e.getHitbox().setTranslateX(0);
-                e.getHitbox().setTranslateY(0);
+                e.hitbox.setTranslateX(0);
+                e.hitbox.setTranslateY(0);
             });
             lost = false;
             return;
@@ -66,9 +66,9 @@ public class Level {
                         lost = true;
                         break;
                     case "open":
-                        collidee.getHitbox().setFill(Color.TRANSPARENT);
+                        collidee.hitbox.setFill(Color.TRANSPARENT);
                         collidee.passable = true;
-                        collider.getHitbox().setFill(Color.TRANSPARENT);
+                        collider.hitbox.setFill(Color.TRANSPARENT);
                         break;
                     default:
                         if (collidee.passable) {
@@ -92,6 +92,6 @@ public class Level {
     }
 
     public List<Rectangle> getHitboxes() {
-        return entities.stream().map(Entity::getHitbox).collect(Collectors.toList());
+        return entities.stream().map(e -> e.hitbox).collect(Collectors.toList());
     }
 }

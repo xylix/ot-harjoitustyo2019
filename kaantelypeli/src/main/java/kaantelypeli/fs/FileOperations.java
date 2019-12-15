@@ -17,8 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
+import kaantelypeli.engine.Properties;
 
 /**
  * Static methods for file reading and JSON conversion.
@@ -34,17 +34,19 @@ public class FileOperations {
      */
     public static Level loadLevel(int levelId) {
         JsonElement json = loadJson("levels/level" + levelId + ".json");
-        return levelFromJson(json);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.fromJson(json, Level.class);
     }
-    
+
     /**
-     * Load Entity JSON from file and parse it into an Entity.
-     * @param filename Path of file to load.
-     * @return generated entity
+     * Loads Properties from file and parse it into a Properties instance.
+     * @param filename name of entity properties to load
+     * @return generated properties
      */
-    public static Entity loadEntity(String filename) {
+    public static Properties loadProperties(String filename) {
         JsonElement json = loadJson("entities/" + filename + ".json");
-        return entityFromJson(json);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.fromJson(json, Properties.class);
     }
     
     /**
@@ -65,26 +67,6 @@ public class FileOperations {
         }
     }
     
-    /**
-     * Converts JSON representation of a level to a new Level.
-     * @param json Valid level JSON. (Must contain a list of entities).
-     * @return Generated Level
-     */
-    public static Level levelFromJson(JsonElement json) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.fromJson(json, Level.class);
-    }
-    
-    /**
-     * Converts JSON representation of an entity to a new Entity.
-     * @param json Valid entity JSON.
-     * @return Generated entity.
-     */
-    public static Entity entityFromJson(JsonElement json) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.fromJson(json, Entity.class);
-    }
-
     /**
      * Loads a sprite from a Filename.
      * @param filename name of sprite file to load.

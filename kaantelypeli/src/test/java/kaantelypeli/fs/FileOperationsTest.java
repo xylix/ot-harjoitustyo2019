@@ -1,26 +1,30 @@
 package kaantelypeli.fs;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import kaantelypeli.engine.Entity;
-import static kaantelypeli.fs.FileOperations.entityFromJson;
-import static kaantelypeli.fs.FileOperations.loadEntity;
+import kaantelypeli.engine.Properties;
+import static kaantelypeli.fs.FileOperations.loadProperties;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class FileOperationsTest {
     @Test
     public void entityFromJsonTest() {
-        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"passable\":\"true\",\"movable\":\"true\"}");
-        Entity test = entityFromJson(json);
-        Entity e = new Entity("player", 0, 0, 16, 16);
+        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"passable\":\"true\",\"movable\":\"true\"}");
+        Gson gson = new Gson();
+        Entity test = (gson.fromJson(json, Entity.class));
+        Entity e = new Entity("player", 0, 0);
         assertEquals(e, test);
     }
     
     @Test
-    public void loadEntityTest() {
-        Entity e = loadEntity("player");
-        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"movable\":\"true\",\"passable\":\"true\"}");
-        assertEquals(e, entityFromJson(json));
+    public void loadPropertiesTest() {
+        Properties p = loadProperties("player");
+        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":\"true\",\"passable\":\"true\"}");
+        Gson gson = new Gson();
+        Properties p2 = gson.fromJson(json, Properties.class);
+        assertEquals(gson.toJson(p), gson.toJson(p2));
     }
 }

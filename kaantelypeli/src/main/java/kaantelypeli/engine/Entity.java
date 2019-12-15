@@ -2,6 +2,7 @@ package kaantelypeli.engine;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.JsonAdapter;
 import java.util.HashMap;
 import org.tinylog.Logger;
 import java.util.Objects;
@@ -13,26 +14,33 @@ import kaantelypeli.fs.FileOperations;
 /**
  * Exposes entity generation, movement and collision.
  */
+@JsonAdapter(EntitySerializer.class)
 public class Entity {
-    public static final String VICTORY = "victory";
-    public static final String PLAYER = "player";
-    public static final String KEY = "key";
-    public static final String DOOR = "door";
-    public static final String WALL = "wall";
-    public static final String LAVA = "lava";
     public static final int SCALE = 2;
     
     final String type;
-    private final int x;
-    private final int y;
+    final int x;
+    final int y;
     
     private HashMap<String, String> actionMap;
-    private int width;
-    private int height;
-    private transient Rectangle hitbox;
-        
-    boolean movable = false;
-    boolean passable = true;
+    private Integer width;
+    private Integer height;
+    transient Rectangle hitbox;
+    boolean movable;
+    boolean passable;
+    
+    /**
+     Creates a new entity of `type` at location `x`,`y` with default width and height.
+     * @param type Type of new entity. See resources/entities for info.
+     * @param x X-coordinate of new entity.
+     * @param y Y-coordinate of new entity.
+     */
+    public Entity(String type, int x, int y) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        setProperties();
+    }
     
     /**
      * Creates a new entity of `type` at location `x`,`y` with 
@@ -49,29 +57,31 @@ public class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
-        setProperties(type);
+        setProperties();
     }
     
-    /**
-     * Creates a new entity of `type` at location `x`,`y` with default width and height.
-     * @param type Type of new entity. See resources/entities for info.
-     * @param x X-coordinate of new entity.
-     * @param y Y-coordinate of new entity.
+    /*
+     * Sets entity properties based on entity types definition file.
+     * Definition files located in entities/
      */
-    public Entity(String type, int x, int y) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        setProperties(type);
-    }
-
-    private void setProperties(String type) {
-        Entity source = FileOperations.loadEntity(type);
-        width = source.width;
-        height = source.width;
+    final void setProperties() {
+        Properties source = FileOperations.loadProperties(type);
+        if (width == null || height == null) {
+            width = source.width;
+            height = source.height;
+        }
         movable = source.movable;
         passable = source.passable;
-        actionMap = source.actionMap;
+        if (source.actionMap == null) {
+            actionMap = new HashMap<>();
+        } else {
+            actionMap = source.actionMap;
+        }
+        if (this.hitbox == null) {
+            this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
+            hitbox.setId(type);
+            hitbox.setFill(loadSprite(type, SCALE));
+        }
     }
 
     /**
@@ -90,7 +100,7 @@ public class Entity {
      * @return String defining what to do when `this` and `collidee` collide.
      */
     public String collisionAction(Entity collidee) {
-        return this.getActionMap().getOrDefault(collidee.type, "");
+        return this.actionMap.getOrDefault(collidee.type, "");
     }
 
     void move(int i) {
@@ -130,7 +140,7 @@ public class Entity {
         hash = 79 * hash + this.y;
         hash = 79 * hash + (this.movable ? 1 : 0);
         hash = 79 * hash + (this.passable ? 1 : 0);
-        hash = 79 * hash + this.getActionMap().hashCode();
+        hash = 79 * hash + this.actionMap.hashCode();
         return hash;
     }
 
@@ -155,27 +165,5 @@ public class Entity {
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
-    }
-
-    /**
-     * Returns the entity hitbox or sets and returns if does not exist.
-     * @return Rectangle representing the Entity's JavaFX existence
-     */
-    public Rectangle getHitbox() {
-        if (this.hitbox == null) {
-            this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
-            hitbox.setId(type);
-            hitbox.setFill(loadSprite(type, SCALE));
-        }
-        return hitbox;
-    }
-    
-    public HashMap<String, String> getActionMap() {
-        if (this.actionMap != null) {
-            return this.actionMap;
-        } else {
-            this.actionMap = new HashMap<>();
-            return this.actionMap;
-        }
     }
 }

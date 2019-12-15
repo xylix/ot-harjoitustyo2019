@@ -2,23 +2,11 @@
     "entities": [{
             "type": "player",
             "x": 0,
-            "y": 16,
-            "width": 16,
-            "height": 16,
-            "movable": true,
-            "passable": true,
-            "actionMap": {
-                "victory": "victory",
-                "lava": "loss"
-            }
+            "y": 16
         }, {
             "type": "victory",
             "x": 0,
-            "y": 24,
-            "width": 16,
-            "height": 16,
-            "movable": false,
-            "passable": true
+            "y": 24
         }],
     "gravity": 0,
     "won": false,

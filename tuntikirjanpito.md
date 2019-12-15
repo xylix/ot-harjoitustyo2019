@@ -23,6 +23,6 @@
 | 12.12. | 4      | JSON muuntelun parantelua ja testailua                                        |
 | 13.12. | 4      | Kenttien muurien muuttaminen järkeviksi leveiksi yksittäisksi muurientityiksi |
 | 14.12. | 2      | Kenttien 4&5 hiontaa, skaalauksen lisäys                                      |
-| 15.12. | 2      | Move interaction defining to JSON from java code                              |
+| 15.12. | 4      | Move interaction defining to JSON from java code                              |
 |        |        |                                                                               |
-----summa: 45
+----summa: 47

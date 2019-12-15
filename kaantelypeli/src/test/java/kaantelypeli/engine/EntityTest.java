@@ -23,9 +23,9 @@ public class EntityTest {
     
     @Test
     public void illegalMovementTest() {
-        Entity test = new Entity("player", 0, 0, 16, 16);
-        double x = test.getHitbox().getX() + test.getHitbox().getTranslateX();
-        double y = test.getHitbox().getY() + test.getHitbox().getTranslateY();
+        Entity test = new Entity("player", 0, 0);
+        double x = test.hitbox.getX() + test.hitbox.getTranslateX();
+        double y = test.hitbox.getY() + test.hitbox.getTranslateY();
         test.move(4);
         assertEquals(x, test.getActualX(), 0);
         assertEquals(y, test.getActualY(), 0);
@@ -34,28 +34,28 @@ public class EntityTest {
     
     @Test (expected = NullPointerException.class)
     public void entityNotFoundTest() {
-        new Entity("test", 0, 0, 16, 16);
+        new Entity("test", 0, 0);
         assertTrue(systemErrRule.getLog().contains("Entity: test not found."));
     }
     
     @Test
     public void toJsonTest() {
-        Entity e = new Entity("player", 0, 0, 16, 16);
-        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"movable\":true,\"passable\":true}", e.toJson());
+        Entity e = new Entity("player", 0, 0);
+        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":true,\"passable\":true}", e.toJson());
     }
     
     @Test
     public void hashCodeTest() {
-        Entity e = new Entity("player", 0, 0, 16, 16);
-        Entity e2 = new Entity("player", 0, 0, 16, 16);
+        Entity e = new Entity("player", 0, 0);
+        Entity e2 = new Entity("player", 0, 0);
         assertEquals(e.hashCode(), e2.hashCode());
-        Entity e3 = new Entity("wall", 0, 0, 16, 16);
+        Entity e3 = new Entity("wall", 0, 0);
         assertNotEquals(e.hashCode(), e3.hashCode());
     }
     
     @Test
     public void getHitboxTest() {
-        Entity e = new Entity("player", 0, 0, 16, 16);
-        assertNotNull(e.getHitbox());
+        Entity e = new Entity("player", 0, 0);
+        assertNotNull(e.hitbox);
     }
 }

@@ -6,11 +6,7 @@
             "width": 14,
             "height": 14,
             "movable": true,
-            "passable": true,
-            "actionMap": {
-                "victory": "victory",
-                "lava": "loss"
-            }
+            "passable": true
         }, {
             "type": "player",
             "x": 144,
@@ -18,12 +14,7 @@
             "width": 14,
             "height": 14,
             "movable": true,
-
-            "passable": true,
-            "actionMap": {
-                "victory": "victory",
-                "lava": "loss"
-            }
+            "passable": true
         }, {
             "type": "lava",
             "x": 64,
