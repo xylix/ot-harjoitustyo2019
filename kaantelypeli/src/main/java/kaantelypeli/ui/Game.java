@@ -6,8 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
 import kaantelypeli.fs.FileOperations;
@@ -26,31 +27,29 @@ public class Game extends Application {
     }
     
     @Override
-    public void start(Stage stage) {
-        Pane pane = new Pane();
-        
-        GridPane buttons = new GridPane();
+    public void start(Stage stage) {        
+        VBox buttons = new VBox();
         for (int i = -1; i <= 5; i++) {
-            buttons.add(levelButton(i, stage, pane), 0, i + 1);
+            buttons.getChildren().add(levelButton(i, stage));
         }
         
         stage.setScene(new Scene(buttons));
         stage.show();
     }
 
-    private static Button levelButton(int i, Stage stage, Pane pane) {
+    private static Button levelButton(int i, Stage stage) {
         Button level = new Button("level " + i);
         level.getStyleClass().add("button" + i);
         level.setOnMouseClicked((MouseEvent t) -> {
             level.setText("loading");
             Level activeLevel = FileOperations.loadLevel(i);
-            stage.setScene(toScene(pane, activeLevel));
+            stage.setScene(toScene(activeLevel));
         });
         return level;
     }
     
-    private static Scene toScene(Pane pane, Level level) {
-        pane.getChildren().addAll(level.getHitboxes());
+    private static Scene toScene(Level level) {
+        Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
