@@ -6,7 +6,8 @@
 		"width": 16,
 		"height": 16,
 		"movable": true,
-		"passable": true
+		"passable": true,
+                "actionMap": {"victory": "victory", "lava": "loss"}
 	}, {
 		"type": "wall",
 		"x": 0,

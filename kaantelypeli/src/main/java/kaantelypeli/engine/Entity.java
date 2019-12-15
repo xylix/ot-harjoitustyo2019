@@ -2,6 +2,7 @@ package kaantelypeli.engine;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 import com.google.gson.Gson;
+import java.util.HashMap;
 import org.tinylog.Logger;
 import java.util.Objects;
 
@@ -22,14 +23,16 @@ public class Entity {
     public static final int SCALE = 2;
     
     final String type;
-    final int x;
-    final int y;
+    private final int x;
+    private final int y;
     
-    int width;
-    int height;
+    private HashMap<String, String> actionMap;
+    private int width;
+    private int height;
+    private transient Rectangle hitbox;
+        
     boolean movable = false;
     boolean passable = true;
-    private transient Rectangle hitbox;
     
     /**
      * Creates a new entity of `type` at location `x`,`y` with 
@@ -68,6 +71,7 @@ public class Entity {
         height = source.width;
         movable = source.movable;
         passable = source.passable;
+        actionMap = source.actionMap;
     }
 
     /**
@@ -86,17 +90,7 @@ public class Entity {
      * @return String defining what to do when `this` and `collidee` collide.
      */
     public String collisionAction(Entity collidee) {
-        if (this.type.equals(PLAYER) && collidee.type.equals(VICTORY)) {
-            return VICTORY;
-        } else if (this.type.equals(PLAYER) && collidee.type.equals(LAVA)) {
-            return "loss";
-        } else if (this.type.equals(KEY) && collidee.type.equals(DOOR)) {
-            return "open";
-        } else if (!this.equals(collidee) && !collidee.passable) {
-            return "blocked";
-        } else {
-            return "";
-        }
+        return this.getActionMap().getOrDefault(collidee.type, "");
     }
 
     void move(int i) {
@@ -136,6 +130,7 @@ public class Entity {
         hash = 79 * hash + this.y;
         hash = 79 * hash + (this.movable ? 1 : 0);
         hash = 79 * hash + (this.passable ? 1 : 0);
+        hash = 79 * hash + this.getActionMap().hashCode();
         return hash;
     }
 
@@ -173,5 +168,14 @@ public class Entity {
             hitbox.setFill(loadSprite(type, SCALE));
         }
         return hitbox;
+    }
+    
+    public HashMap<String, String> getActionMap() {
+        if (this.actionMap != null) {
+            return this.actionMap;
+        } else {
+            this.actionMap = new HashMap<>();
+            return this.actionMap;
+        }
     }
 }

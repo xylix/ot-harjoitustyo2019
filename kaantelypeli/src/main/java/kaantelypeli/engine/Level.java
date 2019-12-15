@@ -70,11 +70,12 @@ public class Level {
                         collidee.passable = true;
                         collider.getHitbox().setFill(Color.TRANSPARENT);
                         break;
-                    case "blocked":
-                        collider.move(gravity + 540);
-                        break;
                     default:
-                        break;
+                        if (collidee.passable) {
+                            break;
+                        } else {
+                            collider.move(gravity + 540);
+                        }
                 }
             });
         });

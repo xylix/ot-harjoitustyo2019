@@ -41,7 +41,7 @@ public class EntityTest {
     @Test
     public void toJsonTest() {
         Entity e = new Entity("player", 0, 0, 16, 16);
-        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"width\":16,\"height\":16,\"movable\":true,\"passable\":true}", e.toJson());
+        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"movable\":true,\"passable\":true}", e.toJson());
     }
     
     @Test

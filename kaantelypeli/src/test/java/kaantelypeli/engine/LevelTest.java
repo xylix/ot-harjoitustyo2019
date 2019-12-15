@@ -23,7 +23,7 @@ public class LevelTest {
     @Test
     public void negativeOnetoJsonTest() {
         Level l = loadLevel(-1);
-        assertEquals("{\"entities\":[{\"type\":\"player\",\"x\":0,\"y\":16,\"width\":16,\"height\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"x\":0,\"y\":24,\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}],\"gravity\":0,\"won\":false,\"lost\":false}", l.toJson());
+        assertEquals("{\"entities\":[{\"type\":\"player\",\"x\":0,\"y\":16,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"x\":0,\"y\":24,\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}],\"gravity\":0,\"won\":false,\"lost\":false}", l.toJson());
     }
     
     @Test

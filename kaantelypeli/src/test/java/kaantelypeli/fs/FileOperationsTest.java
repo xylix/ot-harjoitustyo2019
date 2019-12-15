@@ -11,7 +11,7 @@ import org.junit.Test;
 public class FileOperationsTest {
     @Test
     public void entityFromJsonTest() {
-        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"width\":16,\"height\":16,\"passable\":\"true\",\"movable\":\"true\"}");
+        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"passable\":\"true\",\"movable\":\"true\"}");
         Entity test = entityFromJson(json);
         Entity e = new Entity("player", 0, 0, 16, 16);
         assertEquals(e, test);
@@ -20,7 +20,7 @@ public class FileOperationsTest {
     @Test
     public void loadEntityTest() {
         Entity e = loadEntity("player");
-        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"width\":16,\"height\":16,\"movable\":\"true\",\"passable\":\"true\"}");
+        JsonElement json = JsonParser.parseString("{\"type\": \"player\",\"x\": 0.0,\"y\": 0.0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":16,\"height\":16,\"movable\":\"true\",\"passable\":\"true\"}");
         assertEquals(e, entityFromJson(json));
     }
 }
