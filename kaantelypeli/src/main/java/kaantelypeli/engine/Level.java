@@ -44,7 +44,6 @@ public class Level {
         if (won) {
             return;
         } else if (lost) {
-            // Does not reset keys / doors
             entities.forEach(e -> {
                 e.hitbox.setTranslateX(0);
                 e.hitbox.setTranslateY(0);

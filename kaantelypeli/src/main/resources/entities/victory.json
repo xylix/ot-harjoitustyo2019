@@ -1,8 +1,6 @@
 {
-    "type": "victory",
     "width": 16,
     "height": 16,
     "passable": "true",
-    "movable": "false",
-    "actionMap": {}
+    "movable": "false"
 }

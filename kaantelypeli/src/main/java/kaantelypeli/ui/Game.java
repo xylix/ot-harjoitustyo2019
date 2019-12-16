@@ -29,7 +29,7 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {        
         VBox buttons = new VBox();
-        for (int i = -1; i <= 5; i++) {
+        for (int i = -1; i <= 4; i++) {
             buttons.getChildren().add(levelButton(i, stage));
         }
         

@@ -1,5 +1,5 @@
 {
-    "type": "wall",
+    "type": "lava",
     "width": 16,
     "height": 16,
     "passable": "true",

@@ -1,20 +1,20 @@
 {
     "entities": [{
             "type": "player",
-            "x": 16,
+            "x": 32,
             "y": 32
-        }, {
-            "type": "wall",
-            "x": 0,
-            "y": 0,
-            "width": 240,
-            "height": 16
         }, {
             "type": "wall",
             "x": 0,
             "y": 0,
             "width": 16,
             "height": 240
+        }, {
+            "type": "wall",
+            "x": 0,
+            "y": 0,
+            "width": 240,
+            "height": 16
         }, {
             "type": "wall",
             "x": 224,
@@ -28,35 +28,31 @@
             "width": 240,
             "height": 16
         }, {
-            "type": "lava",
+            "type": "wall",
             "x": 0,
             "y": 80,
-            "width": 64,
+            "width": 80,
             "height": 16
         }, {
-            "type": "lava",
+            "type": "wall",
             "x": 96,
             "y": 80,
-            "width": 112,
+            "width": 128,
             "height": 16
         }, {
             "type": "key",
-            "x": 16,
-            "y": 16,
-            "width": 16,
-            "height": 16
-        }, {
+            "x": 48,
+            "y": 48
+        }, 
+        {
             "type": "door",
             "x": 80,
-            "y": 80,
-            "width": 16,
-            "height": 16
+            "y": 80
         }, {
             "type": "victory",
             "x": 48,
             "y": 112
         }],
-    "gravity": 0,
     "won": false,
     "lost": false
 }
