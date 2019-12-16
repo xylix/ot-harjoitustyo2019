@@ -1,7 +1,5 @@
 package kaantelypeli.ui;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -14,6 +12,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
 import kaantelypeli.fs.FileOperations;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
  
 /**
  * Main Graphical User Interface class.
@@ -39,7 +40,8 @@ public class Game extends Application {
         });
         
         Button levelEditor = new Button("Level editor");
-        levelEditor.setOnMouseClicked(t -> LevelEditor.editorMenu(stage));
+        LevelEditor editor = new LevelEditor();
+        levelEditor.setOnMouseClicked(t -> editor.editorMenu(stage));
         buttons.getChildren().add(levelEditor);
         stage.setScene(new Scene(buttons));
         stage.show();

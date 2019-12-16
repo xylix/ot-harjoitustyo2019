@@ -1,11 +1,12 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Handles level generation and level management. 
@@ -15,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 public class Level {
     public static final String VICTORY = "victory";
     
-    private final ArrayList<Entity> entities;
+    private ArrayList<Entity> entities;
     int gravity;
     boolean won;
     boolean lost;
@@ -25,6 +26,11 @@ public class Level {
         gravity = 0;
         won = false;
         lost = false;
+    }
+
+    public Level(ArrayList<Entity> entities) {
+        this();
+        this.entities = entities;
     }
     
     /**
@@ -82,8 +88,7 @@ public class Level {
     }
 
     /**
-     * Converts the level's entity list to JSON, which can be used as the entire 
-     * levels JSON representation.
+     * Converts the level to JSON.
      * @return JSON representation of the level
      */
     public String toJson() {
