@@ -48,6 +48,7 @@ public class Level {
                 e.hitbox.setTranslateX(0);
                 e.hitbox.setTranslateY(0);
             });
+            gravity = 0;
             lost = false;
             return;
         }

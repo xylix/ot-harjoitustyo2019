@@ -72,11 +72,7 @@ public class Entity {
         }
         movable = source.movable;
         passable = source.passable;
-        if (source.actionMap == null) {
-            actionMap = new HashMap<>();
-        } else {
-            actionMap = source.actionMap;
-        }
+        actionMap = Objects.requireNonNullElseGet(source.actionMap, HashMap::new);
         if (this.hitbox == null) {
             this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
             hitbox.setId(type);

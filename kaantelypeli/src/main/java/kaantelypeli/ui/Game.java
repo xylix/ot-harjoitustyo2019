@@ -1,14 +1,7 @@
 package kaantelypeli.ui;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.util.Comparator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -36,7 +29,7 @@ public class Game extends Application {
     }
     
     @Override
-    public void start(Stage stage) throws URISyntaxException {        
+    public void start(Stage stage) {
         VBox buttons = new VBox();
         InputStreamReader levelFolder = new InputStreamReader(Game.class.getResourceAsStream("/levels"));
         BufferedReader br = new BufferedReader(levelFolder);
@@ -45,6 +38,9 @@ public class Game extends Application {
             buttons.getChildren().add(levelButton(line, stage));
         });
         
+        Button levelEditor = new Button("Level editor");
+        levelEditor.setOnMouseClicked(t -> LevelEditor.editorMenu(stage));
+        buttons.getChildren().add(levelEditor);
         stage.setScene(new Scene(buttons));
         stage.show();
     }

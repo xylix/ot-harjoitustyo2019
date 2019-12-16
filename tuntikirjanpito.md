@@ -25,5 +25,5 @@
 | 14.12. | 2      | Kenttien 4&5 hiontaa, skaalauksen lisäys                                      |
 | 15.12. | 4      | Move interaction defining to JSON from java code                              |
 | 16.12. | 2      | Lataa levelit pathin perusteella, shadeemisen fixailua                        |
-|        |        |                                                                               |
-----summa: 49
+| 16.12. | 5      | Level editorin kehittämistä                                                   |
+----summa: 54
