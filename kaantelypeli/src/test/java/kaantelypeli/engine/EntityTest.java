@@ -18,7 +18,6 @@ public class EntityTest {
     @Before
     public void setUp() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(Game.class);
     }
     
     @Test

@@ -1,5 +1,14 @@
 package kaantelypeli.ui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.util.Comparator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -27,22 +36,26 @@ public class Game extends Application {
     }
     
     @Override
-    public void start(Stage stage) {        
+    public void start(Stage stage) throws URISyntaxException {        
         VBox buttons = new VBox();
-        for (int i = -1; i <= 4; i++) {
-            buttons.getChildren().add(levelButton(i, stage));
-        }
+        InputStreamReader levelFolder = new InputStreamReader(Game.class.getResourceAsStream("/levels"));
+        BufferedReader br = new BufferedReader(levelFolder);
+
+        br.lines().forEach(line -> {
+            buttons.getChildren().add(levelButton(line, stage));
+        });
         
         stage.setScene(new Scene(buttons));
         stage.show();
     }
-
-    private static Button levelButton(int i, Stage stage) {
-        Button level = new Button("level " + i);
-        level.getStyleClass().add("button" + i);
+    
+    private static Button levelButton(String file, Stage stage) {
+        final String levelName = file.replace(".json", "");
+        Button level = new Button(levelName);
+        level.getStyleClass().add("button" + levelName);
         level.setOnMouseClicked((MouseEvent t) -> {
             level.setText("loading");
-            Level activeLevel = FileOperations.loadLevel(i);
+            Level activeLevel = FileOperations.loadLevel(levelName);
             stage.setScene(toScene(activeLevel));
         });
         return level;

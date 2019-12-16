@@ -29,11 +29,11 @@ public class FileOperations {
     }
     /**
      * Load level JSON from file and parse it into a Level.
-     * @param levelId Index number of level to load
+     * @param level Name of level to load
      * @return generated level
      */
-    public static Level loadLevel(int levelId) {
-        JsonElement json = loadJson("levels/level" + levelId + ".json");
+    public static Level loadLevel(String level) {
+        JsonElement json = loadJson("levels/" + level + ".json");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.fromJson(json, Level.class);
     }

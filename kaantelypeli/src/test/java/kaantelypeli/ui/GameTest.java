@@ -25,13 +25,13 @@ public class GameTest extends ApplicationTest {
 
     @Test
     public void startButtonTest()  {      
-        verifyThat(".button1", hasText("level 1"));
-        clickOn(".button1");
+        verifyThat(".button0", hasText("0"));
+        clickOn(".button0");
     }
     
     @Test
     public void victoryTest() {
         clickOn(".button-1");
         assertEquals("You're winner!" + System.lineSeparator(), systemOutRule.getLog());
-    }    
+    }
 }

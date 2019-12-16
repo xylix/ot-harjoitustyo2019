@@ -17,18 +17,18 @@ public class LevelTest {
     
     @Test
     public void loadLevelTest() {
-        assertEquals(loadLevel(0).getClass(), Level.class);
+        assertEquals(loadLevel("0").getClass(), Level.class);
     }
     
     @Test
     public void negativeOnetoJsonTest() {
-        Level l = loadLevel(-1);
+        Level l = loadLevel("-1");
         assertEquals("{\"entities\":[{\"type\":\"player\",\"x\":0,\"y\":16,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":true,\"passable\":true},{\"type\":\"victory\",\"x\":0,\"y\":24,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}],\"gravity\":0,\"won\":false,\"lost\":false}", l.toJson());
     }
     
     @Test
     public void changeGravityTest() {
-        Level l = loadLevel(-1);
+        Level l = loadLevel("-1");
         int old = l.gravity;
         l.changeGravity(4);
         assertEquals(old + 4, l.gravity);
