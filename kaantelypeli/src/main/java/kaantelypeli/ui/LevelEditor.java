@@ -6,12 +6,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 import kaantelypeli.fs.FileOperations;
 import org.tinylog.Logger;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -20,6 +24,7 @@ import static kaantelypeli.engine.Entity.SCALE;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 public class LevelEditor {
+    Level editing;
 
     public void editorMenu(Stage stage) {
         ChoiceDialog<Integer> choice = new ChoiceDialog<>();
@@ -48,16 +53,33 @@ public class LevelEditor {
             pane.getChildren().stream().forEach(child -> nodes.add(new Entity(child.getId(),
                         (int) child.getLayoutX(), (int)child.getLayoutY()))
             );
-            Logger.info(new Level(nodes).toJson());
+            editing = new Level(nodes);
         });
         
-        Level l = FileOperations.loadLevel(level + "");
-        l.getHitboxes().forEach(rect -> {
+        editing = FileOperations.loadLevel(level + "");
+        editing.getHitboxes().forEach(rect -> {
             rect.setOnMouseClicked(click -> editDialog((int) rect.getX(), (int)rect.getY(), stage));
             pane.getChildren().add(rect);
         });
-        
-        return new Scene(pane);
+
+        Button save = new Button("Save as");
+        save.setOnMouseClicked(c -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+                    "JSON files", "*.json"));
+            File saveLocation = fileChooser.showSaveDialog(stage);
+            try (FileWriter fw = new FileWriter(saveLocation)){
+                fw.write(editing.toJson());
+            } catch (IOException e) {
+                Logger.error(e);
+            }
+        });
+
+        VBox vbox = new VBox(pane);
+        vbox.setPrefHeight((240 + 16)* SCALE );
+        vbox.getChildren().add(save);
+
+        return new Scene(vbox);
     }
 
     private static int floorToScale(int i) {

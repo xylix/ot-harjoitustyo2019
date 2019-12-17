@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Level {
     public static final String VICTORY = "victory";
     
-    private ArrayList<Entity> entities;
+    private List<Entity> entities;
     int gravity;
     boolean won;
     boolean lost;
@@ -28,7 +28,7 @@ public class Level {
         lost = false;
     }
 
-    public Level(ArrayList<Entity> entities) {
+    public Level(List<Entity> entities) {
         this();
         this.entities = entities;
     }
@@ -54,7 +54,6 @@ public class Level {
                 e.hitbox.setTranslateX(0);
                 e.hitbox.setTranslateY(0);
             });
-            gravity = 0;
             lost = false;
             return;
         }
