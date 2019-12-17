@@ -24,21 +24,29 @@ import static kaantelypeli.engine.Entity.SCALE;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 public class LevelEditor {
+    Stage stage;
     Level editing;
 
-    public void editorMenu(Stage stage) {
+    public LevelEditor(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void editorMenu() {
         ChoiceDialog<Integer> choice = new ChoiceDialog<>();
         choice.initOwner(stage);
         choice.setHeaderText("Level to load");
+        choice.setGraphic(null);
+        choice.setTitle(null);
+
         for (int i = 1; i <= 4; i++) {
             choice.getItems().add(i);
         }
         
         Optional<Integer> result = choice.showAndWait();
-        result.ifPresent(input -> stage.setScene(editor(input, stage)));
+        result.ifPresent(input -> stage.setScene(editor(input)));
     }
     
-    public Scene editor(int level, Stage stage) {
+    public Scene editor(int level) {
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
 
@@ -62,22 +70,9 @@ public class LevelEditor {
             pane.getChildren().add(rect);
         });
 
-        Button save = new Button("Save as");
-        save.setOnMouseClicked(c -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
-                    "JSON files", "*.json"));
-            File saveLocation = fileChooser.showSaveDialog(stage);
-            try (FileWriter fw = new FileWriter(saveLocation)){
-                fw.write(editing.toJson());
-            } catch (IOException e) {
-                Logger.error(e);
-            }
-        });
-
         VBox vbox = new VBox(pane);
         vbox.setPrefHeight((240 + 16)* SCALE );
-        vbox.getChildren().add(save);
+        vbox.getChildren().add(saveButton(editing, stage));
 
         return new Scene(vbox);
     }
@@ -97,15 +92,17 @@ public class LevelEditor {
         height.setPromptText("height");
 
         VBox inputs = new VBox();
+        inputs.setId("editInputs");
         inputs.getChildren().addAll(type, width, height);
 
         TextInputDialog dialog = new TextInputDialog();
-        dialog.initOwner(stage);
         dialog.setHeaderText("Editing tile [" + x + "," + y + "]");
         dialog.setContentText("Set tile type");
         dialog.setGraphic(null);
         dialog.setTitle(null);
         dialog.getDialogPane().setContent(inputs);
+        dialog.getDialogPane().getStyleClass().add("tileDialog");
+        dialog.initOwner(stage);
 
         Optional<String> result = dialog.showAndWait();
         Rectangle rect = new Rectangle(x, y, 0, 0);
@@ -122,6 +119,21 @@ public class LevelEditor {
         } else {
             return Optional.empty();
         }
+    }
 
+    private static Button saveButton(Level l, Stage stage) {
+        Button save = new Button("Save as");
+        save.setOnMouseClicked(c -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+                    "JSON files", "*.json"));
+            File saveLocation = fileChooser.showSaveDialog(stage);
+            try (FileWriter fw = new FileWriter(saveLocation)){
+                fw.write(l.toJson());
+            } catch (IOException e) {
+                Logger.error(e);
+            }
+        });
+        return save;
     }
 }

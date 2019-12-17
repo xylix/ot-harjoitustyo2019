@@ -38,11 +38,12 @@ public class Game extends Application {
         br.lines().forEach(line -> {
             buttons.getChildren().add(levelButton(line, stage));
         });
-        
-        Button levelEditor = new Button("Level editor");
-        LevelEditor editor = new LevelEditor();
-        levelEditor.setOnMouseClicked(t -> editor.editorMenu(stage));
-        buttons.getChildren().add(levelEditor);
+
+        LevelEditor editor = new LevelEditor(stage);
+        Button editorButton = new Button("Level editor");
+        editorButton.setOnMouseClicked(t -> editor.editorMenu());
+        editorButton.setId("editor");
+        buttons.getChildren().add(editorButton);
         stage.setScene(new Scene(buttons));
         stage.show();
     }
@@ -50,7 +51,7 @@ public class Game extends Application {
     private static Button levelButton(String file, Stage stage) {
         final String levelName = file.replace(".json", "");
         Button level = new Button(levelName);
-        level.getStyleClass().add("button" + levelName);
+        level.setId("button" + levelName);
         level.setOnMouseClicked((MouseEvent t) -> {
             level.setText("loading");
             Level activeLevel = FileOperations.loadLevel(levelName);

@@ -1,13 +1,14 @@
 package kaantelypeli.engine;
 
-import java.util.concurrent.TimeoutException;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.testfx.api.FxToolkit;
+
+import java.util.concurrent.TimeoutException;
+
+import static org.junit.Assert.*;
 
 public class EntityTest {
     @Rule
