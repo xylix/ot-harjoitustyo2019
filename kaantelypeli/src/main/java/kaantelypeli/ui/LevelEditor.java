@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
@@ -26,6 +27,7 @@ import static kaantelypeli.fs.FileOperations.loadSprite;
 public class LevelEditor {
     Stage stage;
     Level editing;
+    private ArrayList<Entity> nodes;
 
     public LevelEditor(Stage stage) {
         this.stage = stage;
@@ -43,36 +45,41 @@ public class LevelEditor {
         }
         
         Optional<Integer> result = choice.showAndWait();
-        result.ifPresent(input -> stage.setScene(editor(input)));
+        result.ifPresent(input ->  {
+            stage.setScene(editor(input));
+            Logger.info("Opened a copy of level " + input + " in editor");
+        });
     }
     
     public Scene editor(int level) {
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
 
-        pane.setOnMouseClicked(c -> {
-            int x = (int) c.getSceneX();
-            int y = (int) c.getSceneY();
-            editDialog(floorToScale(x), floorToScale(y), stage).ifPresent(node -> {
-                pane.getChildren().add(node);
-            });
-
-            ArrayList<Entity> nodes = new ArrayList<>();
-            pane.getChildren().stream().forEach(child -> nodes.add(new Entity(child.getId(),
-                        (int) child.getLayoutX(), (int)child.getLayoutY()))
-            );
-            editing = new Level(nodes);
-        });
-        
+        ArrayList<Entity> nodes = new ArrayList<>();
         editing = FileOperations.loadLevel(level + "");
+
         editing.getHitboxes().forEach(rect -> {
-            rect.setOnMouseClicked(click -> editDialog((int) rect.getX(), (int)rect.getY(), stage));
             pane.getChildren().add(rect);
+            nodes.add(new Entity(rect.getId(), (int) rect.getTranslateX(), (int) rect.getTranslateY()));
         });
 
         VBox vbox = new VBox(pane);
         vbox.setPrefHeight((240 + 16)* SCALE );
         vbox.getChildren().add(saveButton(editing, stage));
+
+        pane.setOnMouseClicked((MouseEvent click) -> {
+            int x = (int) click.getSceneX();
+            int y = (int) click.getSceneY();
+            editDialog(floorToScale(x), floorToScale(y), stage).ifPresent(node -> {
+                pane.getChildren().add(node);
+                final Entity e = new Entity(node.getId(),
+                        (int) node.getX(), (int) node.getY(),
+                        (int) node.getWidth(), (int) node.getHeight());
+                Logger.info(e.getJson());
+                nodes.add(e);
+            });
+            editing = new Level(nodes);
+        });
 
         return new Scene(vbox);
     }
@@ -82,7 +89,7 @@ public class LevelEditor {
     }
 
     private static Optional<Rectangle> editDialog(int x, int y, Stage stage) {
-        ChoiceBox<String> type = new ChoiceBox();
+        ChoiceBox<String> type = new ChoiceBox<>();
         TextField width = new TextField();
         TextField height = new TextField();
         type.setItems(FXCollections.observableArrayList(Arrays.asList(
@@ -105,16 +112,22 @@ public class LevelEditor {
         dialog.initOwner(stage);
 
         Optional<String> result = dialog.showAndWait();
-        Rectangle rect = new Rectangle(x, y, 0, 0);
 
         if (result.isPresent() && !type.getValue().equals("")) {
+            final Rectangle rect = new Rectangle(x, y, 0, 0);
+
             rect.setId(type.getValue());
             rect.setFill(loadSprite(type.getValue(), SCALE));
-            if (width.getText().equals("")) rect.setWidth(16 * SCALE);
-            else rect.setWidth(Integer.parseInt(width.getText()) * SCALE);
-            if (height.getText().equals("")) rect.setHeight(16 * SCALE);
-            else rect.setHeight(Integer.parseInt(height.getText()) * SCALE);
-            dialog.close();
+            if (width.getText().equals("")) {
+                rect.setWidth(16 * SCALE);
+            } else  {
+                rect.setWidth(Integer.parseInt(width.getText()) * SCALE);
+            }
+            if (height.getText().equals("")) {
+                rect.setHeight(16 * SCALE);
+            } else {
+                rect.setHeight(Integer.parseInt(height.getText()) * SCALE);
+            }
             return Optional.of(rect);
         } else {
             return Optional.empty();
@@ -128,10 +141,13 @@ public class LevelEditor {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                     "JSON files", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
-            try (FileWriter fw = new FileWriter(saveLocation)){
-                fw.write(l.toJson());
-            } catch (IOException e) {
-                Logger.error(e);
+            // Null if user cancels dialog or OS dialog doesn't work.
+            if (saveLocation != null) {
+                try (FileWriter fw = new FileWriter(saveLocation)){
+                    fw.write(l.toJson());
+                } catch (IOException e) {
+                    Logger.error(e);
+                }
             }
         });
         return save;

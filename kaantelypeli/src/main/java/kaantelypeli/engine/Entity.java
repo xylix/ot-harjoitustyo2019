@@ -1,15 +1,15 @@
 package kaantelypeli.engine;
-import static kaantelypeli.fs.FileOperations.loadSprite;
-
 import com.google.gson.Gson;
 import com.google.gson.annotations.JsonAdapter;
-import java.util.HashMap;
-import org.tinylog.Logger;
-import java.util.Objects;
-
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import kaantelypeli.fs.FileOperations;
+import org.tinylog.Logger;
+
+import java.util.HashMap;
+import java.util.Objects;
+
+import static kaantelypeli.fs.FileOperations.loadSprite;
 
 /**
  * Exposes entity generation, movement and collision.
@@ -151,14 +151,14 @@ public class Entity {
         }
         
         final Entity other = (Entity) obj;
-        return this.toJson().equals(other.toJson());
+        return this.getJson().equals(other.getJson());
     }
 
     /**
      * Converts this entity into a JSON representation.
      * @return JSON representation of the entity.
      */
-    public String toJson() {
+    public String getJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }

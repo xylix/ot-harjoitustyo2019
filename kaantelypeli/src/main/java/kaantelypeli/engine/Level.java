@@ -28,6 +28,11 @@ public class Level {
         lost = false;
     }
 
+    /**
+     * Creates level from entity list.
+     * LevelEditor uses this.
+     * @param entities list of entities to place on level
+     */
     public Level(List<Entity> entities) {
         this();
         this.entities = entities;

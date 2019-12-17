@@ -1,5 +1,6 @@
 package kaantelypeli.engine;
 
+import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,8 +13,7 @@ import static org.junit.Assert.*;
 
 public class EntityTest {
     @Rule
-    public final SystemErrRule systemErrRule = new SystemErrRule()
-            .muteForSuccessfulTests().enableLog();
+    public final SystemErrRule systemErrRule = new SystemErrRule().muteForSuccessfulTests().enableLog();
     
     @Before
     public void setUp() throws TimeoutException {
@@ -21,7 +21,7 @@ public class EntityTest {
     }
     
     @Test
-    public void illegalMovementTest() {
+    public void illegalMovement() {
         Entity test = new Entity("player", 0, 0);
         double x = test.hitbox.getX() + test.hitbox.getTranslateX();
         double y = test.hitbox.getY() + test.hitbox.getTranslateY();
@@ -32,15 +32,16 @@ public class EntityTest {
     }
     
     @Test (expected = NullPointerException.class)
-    public void entityNotFoundTest() {
+    public void entityNotFound() {
         new Entity("test", 0, 0);
         assertTrue(systemErrRule.getLog().contains("Entity: test not found."));
     }
     
     @Test
-    public void toJsonTest() {
+    public void getJson() {
         Entity e = new Entity("player", 0, 0);
-        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":true,\"passable\":true}", e.toJson());
+        assertEquals("{\"type\":\"player\",\"x\":0,\"y\":0,\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":true,\"passable\":true}",
+                e.getJson());
     }
     
     @Test
@@ -53,8 +54,10 @@ public class EntityTest {
     }
     
     @Test
-    public void getHitboxTest() {
+    public void getHitbox() {
         Entity e = new Entity("player", 0, 0);
-        assertNotNull(e.hitbox);
+        Rectangle hitbox = e.hitbox;
+        assertEquals(0, (int) hitbox.getX());
+        assertEquals(0, (int) hitbox.getY());
     }
 }
