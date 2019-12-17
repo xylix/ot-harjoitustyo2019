@@ -26,6 +26,6 @@
 | 15.12. | 4      | Move interaction defining to JSON from java code                              |
 | 16.12. | 2      | Lataa levelit pathin perusteella, shadeemisen fixailua                        |
 | 16.12. | 7      | Level editorin kehittämistä                                                   |
-| 17.12. | 3      | Tiedostotallennus editoriin ja editor testejä                                 |
+| 17.12. | 5      | Tiedostotallennus editoriin ja editor testejä                                 |
 |        |        |                                                                               |
-----summa: 59
+----summa: 62

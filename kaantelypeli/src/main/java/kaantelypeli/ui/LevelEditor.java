@@ -27,7 +27,6 @@ import static kaantelypeli.fs.FileOperations.loadSprite;
 public class LevelEditor {
     Stage stage;
     Level editing;
-    private ArrayList<Entity> nodes;
 
     public LevelEditor(Stage stage) {
         this.stage = stage;
@@ -74,7 +73,7 @@ public class LevelEditor {
                 pane.getChildren().add(node);
                 final Entity e = new Entity(node.getId(),
                         (int) node.getX(), (int) node.getY(),
-                        (int) node.getWidth(), (int) node.getHeight());
+                        (int) node.getWidth()  / SCALE, (int) node.getHeight()  / SCALE);
                 Logger.info(e.getJson());
                 nodes.add(e);
             });

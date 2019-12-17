@@ -41,35 +41,18 @@ public class LevelEditorTest extends ApplicationTest {
     @Test
     public void addTile() {
         openFirstLevel();
-        clickOn(MouseButton.PRIMARY);
-        // Navigate to type selector.
-        press(KeyCode.SHIFT);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        release(KeyCode.SHIFT);
-        push(KeyCode.SPACE);
-        // Confirm type and close dialog.
+        systemOutRule.clearLog();
+        spawnTile();
         push(KeyCode.ENTER);
+        assertEquals("INFO: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
+                + System.lineSeparator(), systemOutRule.getLog());
     }
 
     @Test
     public void addWideTile() {
         openFirstLevel();
         systemOutRule.clearLog();
-        clickOn(MouseButton.PRIMARY);
-
-        // Navigate to type selector
-        press(KeyCode.SHIFT);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        release(KeyCode.SHIFT);
-        push(KeyCode.SPACE);
-        push(KeyCode.SPACE);
-
+        spawnTile();
         // Set width and height
         push(KeyCode.TAB);
         push(KeyCode.DIGIT3);
@@ -79,13 +62,21 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.DIGIT2);
 
         push(KeyCode.ENTER);
-        assertEquals("INFO: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":64,\"height\":64,\"movable\":false,\"passable\":false}"
+        assertEquals("INFO: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
                  + System.lineSeparator(), systemOutRule.getLog());
     }
-
-    @Test
-    public void saveLevel() {
-
+    
+    public void spawnTile() {
+        clickOn(MouseButton.PRIMARY);
+        // Navigate to type selector.
+        press(KeyCode.SHIFT);
+        push(KeyCode.TAB);
+        push(KeyCode.TAB);
+        push(KeyCode.TAB);
+        push(KeyCode.TAB);
+        release(KeyCode.SHIFT);
+        push(KeyCode.SPACE);
+        push(KeyCode.SPACE);
     }
 
     public void openFirstLevel() {
