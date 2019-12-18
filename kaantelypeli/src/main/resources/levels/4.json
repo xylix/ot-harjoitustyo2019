@@ -28,12 +28,6 @@
             "width": 240,
             "height": 16
         }, {
-            "type": "lava",
-            "x": 16,
-            "y": 80,
-            "width": 64,
-            "height": 16
-        }, {
             "type": "wall",
             "x": 16,
             "y": 96,

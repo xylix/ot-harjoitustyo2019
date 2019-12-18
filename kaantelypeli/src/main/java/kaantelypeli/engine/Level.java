@@ -80,8 +80,9 @@ public class Level {
                         lost = true;
                         break;
                     case "open":
-                        collidee.hitbox.setFill(Color.TRANSPARENT);
                         collidee.passable = true;
+                        collidee.hitbox.setFill(Color.TRANSPARENT);
+                        collider.movable = false;
                         collider.hitbox.setFill(Color.TRANSPARENT);
                         break;
                     default:
