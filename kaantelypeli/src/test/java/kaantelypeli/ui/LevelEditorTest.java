@@ -9,9 +9,15 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -66,6 +72,27 @@ public class LevelEditorTest extends ApplicationTest {
                  + System.lineSeparator(), systemOutRule.getLog());
     }
     
+    @Test
+    public void saveLevel() {
+        // Skip test if running headless, Monocle's filesave dialog is not implemented on headless environments
+        if (System.getProperty("testfx.headless", "false").equals("true")) {
+            org.junit.Assume.assumeTrue(false);
+        }
+        openFirstLevel();
+        push(KeyCode.SPACE);
+        systemOutRule.clearLog();
+        sleep(200);
+        push(KeyCode.ENTER);
+        assertThat(systemOutRule.getLog(), containsString("INFO: Saving file to"));
+
+        try {
+            URL level = LevelEditor.class.getClassLoader().getResource("levels/edited.json");
+            Files.delete(Paths.get(level.getPath()));
+        } catch (NullPointerException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void spawnTile() {
         clickOn(MouseButton.PRIMARY);
         // Navigate to type selector.

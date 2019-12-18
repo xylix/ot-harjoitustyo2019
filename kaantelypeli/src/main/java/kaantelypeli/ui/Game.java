@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -41,7 +40,7 @@ public class Game extends Application {
 
         LevelEditor editor = new LevelEditor(stage);
         Button editorButton = new Button("Level editor");
-        editorButton.setOnMouseClicked(t -> editor.editorMenu());
+        editorButton.setOnAction(event -> editor.editorMenu());
         editorButton.setId("editor");
         buttons.getChildren().add(editorButton);
         stage.setScene(new Scene(buttons));
@@ -52,7 +51,7 @@ public class Game extends Application {
         final String levelName = file.replace(".json", "");
         Button level = new Button(levelName);
         level.setId("button" + levelName);
-        level.setOnMouseClicked((MouseEvent t) -> {
+        level.setOnAction((event) -> {
             level.setText("loading");
             Level activeLevel = FileOperations.loadLevel(levelName);
             stage.setScene(toScene(activeLevel));

@@ -135,8 +135,10 @@ public class LevelEditor {
 
     private static Button saveButton(Level l, Stage stage) {
         Button save = new Button("Save as");
-        save.setOnMouseClicked(c -> {
+        save.setOnAction(c -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName("edited");
+            fileChooser.setInitialDirectory(new File(LevelEditor.class.getClassLoader().getResource("levels").getFile()));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                     "JSON files", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
@@ -144,6 +146,7 @@ public class LevelEditor {
             if (saveLocation != null) {
                 try (FileWriter fw = new FileWriter(saveLocation)){
                     fw.write(l.toJson());
+                    Logger.info("Saving file to " + saveLocation.getPath());
                 } catch (IOException e) {
                     Logger.error(e);
                 }
