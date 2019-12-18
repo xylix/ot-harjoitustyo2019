@@ -91,8 +91,7 @@ public class LevelEditor {
         ChoiceBox<String> type = new ChoiceBox<>();
         TextField width = new TextField();
         TextField height = new TextField();
-        type.setItems(FXCollections.observableArrayList(Arrays.asList(
-                "door", "key", "lava", "player", "victory", "wall")));
+        type.setItems(FXCollections.observableArrayList(Arrays.asList("door", "key", "lava", "player", "victory", "wall")));
 
         width.setPromptText("width");
         height.setPromptText("height");
@@ -112,7 +111,7 @@ public class LevelEditor {
 
         Optional<String> result = dialog.showAndWait();
 
-        if (result.isPresent() && !type.getValue().equals("")) {
+        if (result.isPresent()) {
             final Rectangle rect = new Rectangle(x, y, 0, 0);
 
             rect.setId(type.getValue());
@@ -150,6 +149,8 @@ public class LevelEditor {
                 } catch (IOException e) {
                     Logger.error(e);
                 }
+            } else {
+                Logger.info("Save dialog cancelled");
             }
         });
         return save;

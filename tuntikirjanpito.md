@@ -27,5 +27,6 @@
 | 16.12. | 2      | Lataa levelit pathin perusteella, shadeemisen fixailua                        |
 | 16.12. | 7      | Level editorin kehittämistä                                                   |
 | 17.12. | 5      | Tiedostotallennus editoriin ja editor testejä                                 |
+| 18.12. | 2      | Editortestauksen parannusta                                                   |
 |        |        |                                                                               |
-----summa: 62
+----summa: 64

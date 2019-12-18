@@ -51,7 +51,7 @@ public class Game extends Application {
         final String levelName = file.replace(".json", "");
         Button level = new Button(levelName);
         level.setId("button" + levelName);
-        level.setOnAction((event) -> {
+        level.setOnAction(event -> {
             level.setText("loading");
             Level activeLevel = FileOperations.loadLevel(levelName);
             stage.setScene(toScene(activeLevel));

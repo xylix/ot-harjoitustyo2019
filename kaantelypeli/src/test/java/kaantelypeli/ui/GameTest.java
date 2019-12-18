@@ -23,7 +23,12 @@ public class GameTest extends ApplicationTest {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Game.class);
     }
-    
+
+    @Test
+    public void openEditor() {
+        verifyThat("#editor", hasText("Level editor"));
+        clickOn("#editor");
+    }
 
     @Test
     public void startButtonTest()  {      

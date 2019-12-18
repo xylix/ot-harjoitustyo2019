@@ -18,35 +18,25 @@ import java.util.concurrent.TimeoutException;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 public class LevelEditorTest extends ApplicationTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().muteForSuccessfulTests().enableLog();
-
     @Before
     public void setUp() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Game.class);
-    }
-
-    @Test
-    public void openEditor() {
-        verifyThat("#editor", hasText("Level editor"));
-        clickOn("#editor");
+        openFirstLevel();
     }
 
     @Test
     public void openLevel() {
-        openFirstLevel();
         assertEquals("INFO: Opened a copy of level 1 in editor" + System.lineSeparator(), systemOutRule.getLog());
 
     }
 
     @Test
     public void addTile() {
-        openFirstLevel();
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
@@ -55,8 +45,15 @@ public class LevelEditorTest extends ApplicationTest {
     }
 
     @Test
+    public void cancelAddingTile() {
+        systemOutRule.clearLog();
+        clickOn(MouseButton.PRIMARY);
+        push(KeyCode.ESCAPE);
+        assertEquals("", systemOutRule.getLog());
+    }
+
+    @Test
     public void addWideTile() {
-        openFirstLevel();
         systemOutRule.clearLog();
         spawnTile();
         // Set width and height
@@ -78,7 +75,6 @@ public class LevelEditorTest extends ApplicationTest {
         if (System.getProperty("testfx.headless", "false").equals("true")) {
             org.junit.Assume.assumeTrue(false);
         }
-        openFirstLevel();
         push(KeyCode.SPACE);
         systemOutRule.clearLog();
         sleep(200);
@@ -92,6 +88,19 @@ public class LevelEditorTest extends ApplicationTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void cancelledSave () {
+        if (System.getProperty("testfx.headless", "false").equals("true")) {
+            org.junit.Assume.assumeTrue(false);
+        }
+        push(KeyCode.SPACE);
+        sleep(200);
+        push(KeyCode.ESCAPE);
+        assertThat(systemOutRule.getLog(), containsString("Save dialog cancelled"));
+    }
+
+
 
     public void spawnTile() {
         clickOn(MouseButton.PRIMARY);
