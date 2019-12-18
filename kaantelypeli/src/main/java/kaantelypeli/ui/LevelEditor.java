@@ -46,7 +46,7 @@ public class LevelEditor {
         Optional<Integer> result = choice.showAndWait();
         result.ifPresent(input ->  {
             stage.setScene(editor(input));
-            Logger.info("Opened a copy of level " + input + " in editor");
+            Logger.trace("Opened a copy of level " + input + " in editor");
         });
     }
     
@@ -74,7 +74,7 @@ public class LevelEditor {
                 final Entity e = new Entity(node.getId(),
                         (int) node.getX(), (int) node.getY(),
                         (int) node.getWidth()  / SCALE, (int) node.getHeight()  / SCALE);
-                Logger.info(e.getJson());
+                Logger.trace(e.getJson());
                 nodes.add(e);
             });
             editing = new Level(nodes);
@@ -145,12 +145,12 @@ public class LevelEditor {
             if (saveLocation != null) {
                 try (FileWriter fw = new FileWriter(saveLocation)){
                     fw.write(l.toJson());
-                    Logger.info("Saving file to " + saveLocation.getPath());
+                    Logger.trace("Saving file to " + saveLocation.getPath());
                 } catch (IOException e) {
                     Logger.error(e);
                 }
             } else {
-                Logger.info("Save dialog cancelled");
+                Logger.trace("Save dialog cancelled");
             }
         });
         return save;

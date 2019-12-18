@@ -39,6 +39,6 @@ public class GameTest extends ApplicationTest {
     @Test
     public void victoryTest() {
         clickOn("#button-1");
-        assertEquals("You're winner!" + System.lineSeparator(), systemOutRule.getLog());
+        assertEquals("TRACE: victory\nYou're winner!\n", systemOutRule.getLogWithNormalizedLineSeparator());
     }
 }

@@ -1,12 +1,14 @@
 package kaantelypeli.engine;
 
-import java.util.concurrent.TimeoutException;
-import static kaantelypeli.fs.FileOperations.loadLevel;
 import kaantelypeli.ui.Game;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Test;
 import org.testfx.api.FxToolkit;
+
+import java.util.concurrent.TimeoutException;
+
+import static kaantelypeli.fs.FileOperations.loadLevel;
+import static org.junit.Assert.assertEquals;
 
 public class LevelTest {
     @Before
@@ -17,7 +19,8 @@ public class LevelTest {
     
     @Test
     public void loadLevelTest() {
-        assertEquals(loadLevel("0").getClass(), Level.class);
+        Level l = loadLevel("0");
+        assertEquals(l.getClass(), Level.class);
     }
     
     @Test

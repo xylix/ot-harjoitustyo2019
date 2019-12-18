@@ -3,6 +3,7 @@ package kaantelypeli.engine;
 import com.google.gson.Gson;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,9 @@ public class Level {
             collider.move(gravity);
             entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
+                if (!action.isBlank()) {
+                    Logger.trace(action);
+                }
                 switch (action) {
                     case VICTORY:
                         System.out.println("You're winner!");

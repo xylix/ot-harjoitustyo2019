@@ -31,7 +31,7 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void openLevel() {
-        assertEquals("INFO: Opened a copy of level 1 in editor" + System.lineSeparator(), systemOutRule.getLog());
+        assertEquals("TRACE: Opened a copy of level 1 in editor" + System.lineSeparator(), systemOutRule.getLog());
 
     }
 
@@ -40,7 +40,7 @@ public class LevelEditorTest extends ApplicationTest {
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
-        assertEquals("INFO: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
                 + System.lineSeparator(), systemOutRule.getLog());
     }
 
@@ -65,13 +65,13 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.DIGIT2);
 
         push(KeyCode.ENTER);
-        assertEquals("INFO: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
                  + System.lineSeparator(), systemOutRule.getLog());
     }
     
     @Test
     public void saveLevel() {
-        // Skip test if running headless, Monocle's filesave dialog is not implemented on headless environments
+        // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
         if (System.getProperty("testfx.headless", "false").equals("true")) {
             org.junit.Assume.assumeTrue(false);
         }
@@ -79,7 +79,6 @@ public class LevelEditorTest extends ApplicationTest {
         systemOutRule.clearLog();
         sleep(200);
         push(KeyCode.ENTER);
-        assertThat(systemOutRule.getLog(), containsString("INFO: Saving file to"));
 
         try {
             URL level = LevelEditor.class.getClassLoader().getResource("levels/edited.json");
@@ -87,6 +86,7 @@ public class LevelEditorTest extends ApplicationTest {
         } catch (NullPointerException | IOException e) {
             e.printStackTrace();
         }
+        assertThat(systemOutRule.getLog(), containsString("TRACE: Saving file to"));
     }
 
     @Test
