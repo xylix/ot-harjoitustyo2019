@@ -9,6 +9,7 @@ import org.tinylog.Logger;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static kaantelypeli.ui.Game.SCALE;
 import static kaantelypeli.utils.FileOperations.loadSprite;
 
 /**
@@ -16,8 +17,6 @@ import static kaantelypeli.utils.FileOperations.loadSprite;
  */
 @JsonAdapter(EntitySerializer.class)
 public class Entity {
-    public static final int SCALE = 2;
-    
     final String type;
     final int x;
     final int y;

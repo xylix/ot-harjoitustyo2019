@@ -41,7 +41,7 @@ public class LevelEditorTest extends ApplicationTest {
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"door\",\"x\":16,\"y\":32,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
                 + System.lineSeparator(), systemOutRule.getLog());
     }
 
@@ -66,7 +66,7 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.DIGIT2);
 
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"door\",\"x\":32,\"y\":64,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"door\",\"x\":16,\"y\":32,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
                  + System.lineSeparator(), systemOutRule.getLog());
     }
     

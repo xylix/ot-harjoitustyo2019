@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static kaantelypeli.engine.Entity.SCALE;
+import static kaantelypeli.ui.Game.SCALE;
 
 /**
  * Static methods for file reading and JSON conversion.

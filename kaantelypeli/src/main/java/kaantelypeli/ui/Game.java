@@ -14,11 +14,12 @@ import kaantelypeli.utils.FileOperations;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
- 
+
 /**
  * Main Graphical User Interface class.
  */
 public class Game extends Application {
+    public static final int SCALE = 2;
     /**
      * Launch the application.
      * @param args pass command line arguments to follow

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static kaantelypeli.engine.Entity.SCALE;
+import static kaantelypeli.ui.Game.SCALE;
 import static kaantelypeli.utils.Parsing.valueOfWithDefault;
 
 public class LevelEditor {
@@ -82,7 +82,7 @@ public class LevelEditor {
     }
 
     private static int floorToScale(int i) {
-        return (i / 16) * 16;
+        return (i / (16 * SCALE)) * (16 * SCALE) / SCALE;
     }
 
     private static Optional<Rectangle> editDialog(int x, int y, Stage stage) {
