@@ -19,7 +19,7 @@ public class EntitySerializer implements JsonDeserializer<Entity> {
         return entity;
     }
 
-    class EntityData {
+    private class EntityData {
         String type;
         int x;
         int y;

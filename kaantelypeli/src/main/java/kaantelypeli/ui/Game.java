@@ -34,9 +34,7 @@ public class Game extends Application {
         InputStreamReader levelFolder = new InputStreamReader(Game.class.getResourceAsStream("/levels"));
         BufferedReader br = new BufferedReader(levelFolder);
 
-        br.lines().forEach(line -> {
-            buttons.getChildren().add(levelButton(line, stage));
-        });
+        br.lines().forEach(line -> buttons.getChildren().add(levelButton(line, stage)));
 
         LevelEditor editor = new LevelEditor(stage);
         Button editorButton = new Button("Level editor");
@@ -74,7 +72,7 @@ public class Game extends Application {
         
         new AnimationTimer() {
             @Override
-            public void handle(long nykyhetki) {
+            public void handle(long timestamp) {
                 level.gravitate();
             }
         }.start();

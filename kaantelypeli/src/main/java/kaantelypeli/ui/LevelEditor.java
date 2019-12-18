@@ -25,7 +25,7 @@ import static kaantelypeli.engine.Entity.SCALE;
 import static kaantelypeli.fs.FileOperations.loadSprite;
 
 public class LevelEditor {
-    Stage stage;
+    final Stage stage;
     Level editing;
 
     public LevelEditor(Stage stage) {
@@ -55,7 +55,7 @@ public class LevelEditor {
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
 
         ArrayList<Entity> nodes = new ArrayList<>();
-        editing = FileOperations.loadLevel(level + "");
+        editing = FileOperations.loadLevel(String.valueOf(level));
 
         editing.getHitboxes().forEach(rect -> {
             pane.getChildren().add(rect);

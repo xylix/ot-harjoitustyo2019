@@ -18,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 public class LevelEditorTest extends ApplicationTest {
     @Rule
@@ -71,9 +72,9 @@ public class LevelEditorTest extends ApplicationTest {
     
     @Test
     public void saveLevel() {
-        // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
         if (System.getProperty("testfx.headless", "false").equals("true")) {
-            org.junit.Assume.assumeTrue(false);
+            // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
+            assumeTrue(false);
         }
         push(KeyCode.SPACE);
         systemOutRule.clearLog();
@@ -92,7 +93,8 @@ public class LevelEditorTest extends ApplicationTest {
     @Test
     public void cancelledSave () {
         if (System.getProperty("testfx.headless", "false").equals("true")) {
-            org.junit.Assume.assumeTrue(false);
+            // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
+            assumeTrue(false);
         }
         push(KeyCode.SPACE);
         sleep(200);
