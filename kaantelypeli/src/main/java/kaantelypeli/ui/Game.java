@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
-import kaantelypeli.fs.FileOperations;
+import kaantelypeli.utils.FileOperations;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -41,6 +41,7 @@ public class Game extends Application {
         editorButton.setOnAction(event -> editor.editorMenu());
         editorButton.setId("editor");
         buttons.getChildren().add(editorButton);
+
         stage.setScene(new Scene(buttons));
         stage.show();
     }

@@ -3,13 +3,13 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.JsonAdapter;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import kaantelypeli.fs.FileOperations;
+import kaantelypeli.utils.FileOperations;
 import org.tinylog.Logger;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-import static kaantelypeli.fs.FileOperations.loadSprite;
+import static kaantelypeli.utils.FileOperations.loadSprite;
 
 /**
  * Exposes entity generation, movement and collision.
@@ -73,10 +73,12 @@ public class Entity {
         movable = source.movable;
         passable = source.passable;
         actionMap = Objects.requireNonNullElseGet(source.actionMap, HashMap::new);
-        if (this.hitbox == null) {
-            this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
-            hitbox.setId(type);
-            hitbox.setFill(loadSprite(type, SCALE));
+        this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
+        hitbox.setId(type);
+        if (source.graphics != null) {
+            this.hitbox.setFill(loadSprite(source.graphics));
+        } else {
+            this.hitbox.setFill(loadSprite(type + ".png"));
         }
     }
 
@@ -161,5 +163,9 @@ public class Entity {
     public String getJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    public Rectangle getHitbox() {
+        return this.hitbox;
     }
 }

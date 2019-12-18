@@ -3,15 +3,15 @@ package kaantelypeli.ui;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
-import kaantelypeli.fs.FileOperations;
+import kaantelypeli.utils.FileOperations;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static kaantelypeli.engine.Entity.SCALE;
-import static kaantelypeli.fs.FileOperations.loadSprite;
+import static kaantelypeli.utils.Parsing.valueOfWithDefault;
 
 public class LevelEditor {
     final Stage stage;
@@ -54,13 +54,11 @@ public class LevelEditor {
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
 
-        ArrayList<Entity> nodes = new ArrayList<>();
+
         editing = FileOperations.loadLevel(String.valueOf(level));
 
-        editing.getHitboxes().forEach(rect -> {
-            pane.getChildren().add(rect);
-            nodes.add(new Entity(rect.getId(), (int) rect.getTranslateX(), (int) rect.getTranslateY()));
-        });
+        pane.getChildren().addAll(editing.getHitboxes());
+        ArrayList<Entity> entities = new ArrayList<>(editing.getEntities());
 
         VBox vbox = new VBox(pane);
         vbox.setPrefHeight((240 + 16)* SCALE );
@@ -72,19 +70,19 @@ public class LevelEditor {
             editDialog(floorToScale(x), floorToScale(y), stage).ifPresent(node -> {
                 pane.getChildren().add(node);
                 final Entity e = new Entity(node.getId(),
-                        (int) node.getX(), (int) node.getY(),
-                        (int) node.getWidth()  / SCALE, (int) node.getHeight()  / SCALE);
+                        (int) node.getX() / SCALE, (int) node.getY() / SCALE,
+                        (int) node.getWidth() / SCALE, (int) node.getHeight() / SCALE);
+                entities.add(e);
                 Logger.trace(e.getJson());
-                nodes.add(e);
             });
-            editing = new Level(nodes);
+            editing = new Level(entities);
         });
 
         return new Scene(vbox);
     }
 
     private static int floorToScale(int i) {
-        return (i / (16 * SCALE)) * 16 * SCALE;
+        return (i / 16) * 16;
     }
 
     private static Optional<Rectangle> editDialog(int x, int y, Stage stage) {
@@ -112,21 +110,11 @@ public class LevelEditor {
         Optional<String> result = dialog.showAndWait();
 
         if (result.isPresent()) {
-            final Rectangle rect = new Rectangle(x, y, 0, 0);
+            int w = valueOfWithDefault(width.getText(), 16);
+            int h = valueOfWithDefault(height.getText(), 16);
 
-            rect.setId(type.getValue());
-            rect.setFill(loadSprite(type.getValue(), SCALE));
-            if (width.getText().equals("")) {
-                rect.setWidth(16 * SCALE);
-            } else  {
-                rect.setWidth(Integer.parseInt(width.getText()) * SCALE);
-            }
-            if (height.getText().equals("")) {
-                rect.setHeight(16 * SCALE);
-            } else {
-                rect.setHeight(Integer.parseInt(height.getText()) * SCALE);
-            }
-            return Optional.of(rect);
+            final Entity e = new Entity(type.getValue(), x, y, w, h);
+            return Optional.of(e.getHitbox());
         } else {
             return Optional.empty();
         }
@@ -144,7 +132,7 @@ public class LevelEditor {
             // Null if user cancels dialog or OS dialog doesn't work.
             if (saveLocation != null) {
                 try (FileWriter fw = new FileWriter(saveLocation)){
-                    fw.write(l.toJson());
+                    fw.write(l.getJson());
                     Logger.trace("Saving file to " + saveLocation.getPath());
                 } catch (IOException e) {
                     Logger.error(e);

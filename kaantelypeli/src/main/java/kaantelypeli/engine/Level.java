@@ -1,11 +1,13 @@
 package kaantelypeli.engine;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,12 +102,16 @@ public class Level {
      * Converts the level to JSON.
      * @return JSON representation of the level
      */
-    public String toJson() {
-        Gson gson = new Gson();
+    public String getJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
     }
 
     public List<Rectangle> getHitboxes() {
         return entities.stream().map(e -> e.hitbox).collect(Collectors.toList());
+    }
+
+    public List<Entity> getEntities() {
+        return Collections.unmodifiableList(entities);
     }
 }

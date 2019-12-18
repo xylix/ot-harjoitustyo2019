@@ -3,6 +3,7 @@
     "height": 14,
     "passable": "true",
     "movable": "true",
+    "graphics": "player.gif",
     "actionMap": {
         "victory": "victory",
         "lava": "loss"
