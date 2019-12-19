@@ -1,12 +1,13 @@
 from flask import Flask, request
+import pathlib
 import os
 import json
 
 app = Flask(__name__)
+pathlib.Path('levels').mkdir(exist_ok=True, )
+
 if __name__ == '__main__':
-    if not os.path.exists('levels'):
-        os.makedirs('levels')
-    app.run(debug=True)
+    app.run()
 
 
 @app.route('/levels', methods=['GET'])

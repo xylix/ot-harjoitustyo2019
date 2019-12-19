@@ -12,4 +12,4 @@
 .idea
 *.iml
 dependency-reduced-pom.xml
-env
+venv
