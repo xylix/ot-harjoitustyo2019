@@ -40,7 +40,15 @@ public class Level {
         this();
         this.entities = entities;
     }
-    
+
+    /**
+     * Boolean to externally check if level has ended.
+     * @return is the level over
+     */
+    public boolean over() {
+        return won;
+    }
+
     /**
      * Changes the gravity by `degrees`.
      *

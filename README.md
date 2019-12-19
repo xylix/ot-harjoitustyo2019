@@ -1,5 +1,5 @@
 ## Kääntelypeli (ohjelmistotekniikan harjoitustyö 2019)
-Pelin ideana on päästä maaliin kääntelemällä erilaisia tasoja nuolinäppäimillä. Versiossa 0.0.1 on vasta yksi mielekäs taso, taso 1. Tasot -1 ja 0 ovat mielekkäitä lähinnä ominaisuuksien koekäyttöön ja testailuun.
+Pelin ideana on päästä maaliin kääntelemällä erilaisia tasoja nuolinäppäimillä. Versiossa 0.2.2 on 5 tasoa ja tasonmuokkaustyökalu.
 
 ## Linkkejä
 

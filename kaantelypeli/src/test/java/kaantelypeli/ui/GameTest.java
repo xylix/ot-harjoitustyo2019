@@ -26,19 +26,19 @@ public class GameTest extends ApplicationTest {
 
     @Test
     public void openEditor() {
-        verifyThat("#editor", hasText("Level editor"));
+        verifyThat("#editor", hasText("editor"));
         clickOn("#editor");
     }
 
     @Test
     public void startButtonTest()  {      
-        verifyThat("#button0", hasText("0"));
-        clickOn("#button0");
+        verifyThat("#level0", hasText("level0"));
+        clickOn("#level0");
     }
     
     @Test
     public void victoryTest() {
-        clickOn("#button-1");
+        clickOn("#level-1");
         assertEquals("TRACE: victory\nYou're winner!\n", systemOutRule.getLogWithNormalizedLineSeparator());
     }
 }

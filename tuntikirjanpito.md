@@ -28,5 +28,6 @@
 | 16.12. | 7      | Level editorin kehittämistä                                                   |
 | 17.12. | 5      | Tiedostotallennus editoriin ja editor testejä                                 |
 | 18.12. | 2      | Editortestauksen parannusta                                                   |
+| 19.12. | 3      | Editor featureja ja arkkitehtuuria, taso 5.                                   |
 |        |        |                                                                               |
-----summa: 64
+----summa: 67
