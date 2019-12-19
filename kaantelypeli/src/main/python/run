@@ -1,3 +1,5 @@
 #!/bin/bash
 export FLASK_APP=fileserver.py
+export FLASK_DEBUG=1
+export FLASK_ENV=development
 python -m flask run
