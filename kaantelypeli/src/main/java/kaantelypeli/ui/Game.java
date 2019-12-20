@@ -59,7 +59,7 @@ public class Game extends Application {
     }
 
     private void cloudMenu() {
-        ChoiceDialog<String> choice = selector(FILESERVER + "/levels/", mainStage);
+        ChoiceDialog<String> choice = selector(FILESERVER + "/levels", mainStage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
             mainStage.setScene(toScene(downloadLevel(input)));
@@ -76,7 +76,7 @@ public class Game extends Application {
     
     private Scene toScene(Level level) {
         Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
-        pane.setPrefHeight((240 + 14) * SCALE);
+        pane.setPrefHeight((240) * SCALE);
 
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {

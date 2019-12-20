@@ -5,9 +5,11 @@ import javafx.scene.input.MouseButton;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +25,9 @@ import static org.junit.Assume.assumeTrue;
 public class LevelEditorTest extends ApplicationTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().muteForSuccessfulTests().enableLog();
+    @Rule
+    public final SystemErrRule systemErrRule = new SystemErrRule().muteForSuccessfulTests();
+
     @Before
     public void setUp() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
@@ -32,7 +37,8 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void openLevel() {
-        assertEquals("TRACE: Opened a copy of level 1 in editor" + System.lineSeparator(), systemOutRule.getLog());
+        assertEquals("TRACE: GETing: http://localhost:5000/levels/1" + System.lineSeparator() +
+                "TRACE: Opened a copy of level http://localhost:5000/levels/1 in editor" + System.lineSeparator(), systemOutRule.getLog());
 
     }
 
@@ -41,7 +47,7 @@ public class LevelEditorTest extends ApplicationTest {
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"wall\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"victory\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}"
                 + System.lineSeparator(), systemOutRule.getLog());
     }
 
@@ -66,7 +72,7 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.DIGIT2);
 
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"wall\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
+        assertEquals("TRACE: {\"type\":\"victory\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":true}"
                  + System.lineSeparator(), systemOutRule.getLog());
     }
     
@@ -86,7 +92,7 @@ public class LevelEditorTest extends ApplicationTest {
             URL level = LevelEditor.class.getClassLoader().getResource("levels/e.json");
             Files.delete(Paths.get(level.getPath()));
         } catch (NullPointerException | IOException e) {
-            e.printStackTrace();
+            Logger.error(e.getStackTrace());
         }
         assertThat(systemOutRule.getLog(), containsString("TRACE: Saving file to"));
     }
@@ -117,18 +123,14 @@ public class LevelEditorTest extends ApplicationTest {
     public void spawnTile() {
         clickOn(MouseButton.PRIMARY);
         // Navigate to type selector.
-        press(KeyCode.SHIFT);
         push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        push(KeyCode.TAB);
-        release(KeyCode.SHIFT);
         push(KeyCode.SPACE);
         push(KeyCode.SPACE);
     }
 
     public void openFirstLevel() {
         clickOn("#editor");
+
         push(KeyCode.DOWN);
         push(KeyCode.ENTER);
     }

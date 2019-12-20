@@ -14,6 +14,12 @@ public class FXUtils {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Create a JavaFX button
+     * @param name Name and Id for the button
+     * @param action Action to call on button press
+     * @return Button with the given options
+     */
     public static Button button(String name, EventHandler<ActionEvent> action) {
         Button button = new Button(name);
         button.setOnAction(action);
@@ -21,6 +27,12 @@ public class FXUtils {
         return button;
     }
 
+    /**
+     * Create a list selector for a JSON list retrieved from URL
+     * @param url list URL
+     * @param stage stage to parent this choice dialog
+     * @return ChoiceDialog with the given options
+     */
     public static ChoiceDialog<String> selector(String url, Stage stage) {
         ChoiceDialog<String> choice = new ChoiceDialog<>();
         choice.initOwner(stage);

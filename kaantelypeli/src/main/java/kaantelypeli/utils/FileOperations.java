@@ -40,12 +40,12 @@ public class FileOperations {
 
     /**
      * Load level JSON from URL as a Level object.
-     * @param level
-     * @return
+     * @param url URL of the wanted level on a file server
+     * @return Downloaded and parsed Level
      */
-    public static Level downloadLevel(String level) {
-        Logger.trace("GETting: " + level);
-        return Unirest.get(level).asObject(Level.class).getBody();
+    public static Level downloadLevel(String url) {
+        Logger.trace("GETing: " + url);
+        return Unirest.get(url).asObject(Level.class).getBody();
     }
 
 

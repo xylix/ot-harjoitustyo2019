@@ -49,7 +49,7 @@ public class LevelEditor {
      * Entry point, starts a selection dialog
      */
     public void editorMenu() {
-        ChoiceDialog<String> choice = selector(FILESERVER + "/levels/", stage);
+        ChoiceDialog<String> choice = selector(FILESERVER + "/levels", stage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
             levelName = input;
