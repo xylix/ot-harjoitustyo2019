@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Stage;
 import kong.unirest.Unirest;
+import org.tinylog.Logger;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class FXUtils {
     }
 
     /**
-     * Create a JavaFX button
+     * Create a JavaFX button.
      * @param name Name and Id for the button
      * @param action Action to call on button press
      * @return Button with the given options
@@ -28,7 +29,7 @@ public class FXUtils {
     }
 
     /**
-     * Create a list selector for a JSON list retrieved from URL
+     * Create a list selector for a JSON list retrieved from URL.
      * @param url list URL
      * @param stage stage to parent this choice dialog
      * @return ChoiceDialog with the given options
@@ -39,9 +40,10 @@ public class FXUtils {
         choice.setHeaderText("Level to load");
         choice.setGraphic(null);
         choice.setTitle(null);
+        Logger.trace("GETing: " + url);
         List<Object> options = Unirest.get(url).asJson().getBody().getArray().toList();
         for (Object i : options) {
-            choice.getItems().add(url + '/' + i);
+            choice.getItems().add(i.toString());
         }
         return choice;
     }

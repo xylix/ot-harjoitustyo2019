@@ -47,7 +47,7 @@ public class Game extends Application {
         BufferedReader br = new BufferedReader(levelFolder);
         br.lines().forEach(line -> buttons.getChildren().add(levelButton(line, stage)));
 
-        Button cloud = button("server-levels", event -> cloudMenu());
+        Button cloud = button("levels", event -> cloudMenu());
         buttons.getChildren().add(cloud);
         LevelEditor editor = new LevelEditor(stage, mainMenu);
         Button editorButton = button("editor", event -> editor.editorMenu());
@@ -62,7 +62,7 @@ public class Game extends Application {
         ChoiceDialog<String> choice = selector(FILESERVER + "/levels", mainStage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
-            mainStage.setScene(toScene(downloadLevel(input)));
+            mainStage.setScene(toScene(downloadLevel(FILESERVER + "/levels/" + input)));
         });
     }
 

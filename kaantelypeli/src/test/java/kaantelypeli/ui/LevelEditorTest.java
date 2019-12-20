@@ -35,7 +35,6 @@ public class LevelEditorTest extends ApplicationTest {
     public void openLevel() {
         assertEquals("TRACE: GETing: " + FILESERVER + "/levels/3" + System.lineSeparator() +
                 "TRACE: Opened a copy of level " +  FILESERVER + "/levels/3 in editor" + System.lineSeparator(), systemOutRule.getLog());
-
     }
 
     @Test
