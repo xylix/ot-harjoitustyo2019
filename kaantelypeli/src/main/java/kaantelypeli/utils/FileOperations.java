@@ -28,22 +28,21 @@ public class FileOperations {
         throw new IllegalStateException("Utility class");
     }
     /**
-     * Load level JSON from file and parse it into a Level.
+     * Load level JSON from file and parse it into a Level. If String is url load from address.
      * @param level Name of level to load
      * @return generated level
      */
     public static Level loadLevel(String level) {
-        JsonElement json = loadJson("levels/" + level + ".json");
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.fromJson(json, Level.class);
+        if (level.contains("http")) {
+            return downloadLevel(level);
+        } else {
+            JsonElement json = loadJson("levels/" + level + ".json");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.fromJson(json, Level.class);
+        }
     }
 
-    /**
-     * Load level JSON from URL as a Level object.
-     * @param url URL of the wanted level on a file server
-     * @return Downloaded and parsed Level
-     */
-    public static Level downloadLevel(String url) {
+    private static Level downloadLevel(String url) {
         Logger.trace("GETing: " + url);
         return Unirest.get(url).asObject(Level.class).getBody();
     }

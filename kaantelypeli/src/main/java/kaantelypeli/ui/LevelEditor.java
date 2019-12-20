@@ -60,11 +60,8 @@ public class LevelEditor {
     private Scene editor(String level) {
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
-        if (level.contains("http")) {
-            editing = FileOperations.downloadLevel(level);
-        } else {
-            editing = FileOperations.loadLevel(level);
-        }
+
+        editing = FileOperations.loadLevel(level);
         pane.getChildren().addAll(editing.getHitboxes());
         ArrayList<Entity> entities = new ArrayList<>(editing.getEntities());
         VBox vbox = new VBox(pane);

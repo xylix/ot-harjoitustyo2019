@@ -33,9 +33,8 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void openLevel() {
-        assertEquals("TRACE: GETing: " + FILESERVER + "/levels/3" + System.lineSeparator() +
-                "TRACE: Opened a copy of level " +  FILESERVER + "/levels/3 in editor" + System.lineSeparator(), systemOutRule.getLog());
-
+        assertThat(systemOutRule.getLog(),
+                containsString("TRACE: Opened a copy of level 1 in editor"));
     }
 
     @Test
@@ -43,7 +42,7 @@ public class LevelEditorTest extends ApplicationTest {
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"victory\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":true}"
+        assertEquals("TRACE: {\"type\":\"wall\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":16,\"height\":16,\"movable\":false,\"passable\":false}"
                 + System.lineSeparator(), systemOutRule.getLog());
     }
 
@@ -68,7 +67,7 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.DIGIT2);
 
         push(KeyCode.ENTER);
-        assertEquals("TRACE: {\"type\":\"victory\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":true}"
+        assertEquals("TRACE: {\"type\":\"wall\",\"x\":0,\"y\":32,\"actionMap\":{},\"width\":32,\"height\":32,\"movable\":false,\"passable\":false}"
                  + System.lineSeparator(), systemOutRule.getLog());
     }
     

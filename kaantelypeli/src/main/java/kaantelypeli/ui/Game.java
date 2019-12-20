@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import kaantelypeli.engine.Level;
-import kaantelypeli.utils.FileOperations;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 import static kaantelypeli.utils.FXUtils.button;
 import static kaantelypeli.utils.FXUtils.selector;
-import static kaantelypeli.utils.FileOperations.downloadLevel;
+import static kaantelypeli.utils.FileOperations.loadLevel;
 
 /**
  * Main Graphical User Interface class.
@@ -47,7 +46,7 @@ public class Game extends Application {
         BufferedReader br = new BufferedReader(levelFolder);
         br.lines().forEach(line -> buttons.getChildren().add(levelButton(line, stage)));
 
-        Button cloud = button("server-levels", event -> cloudMenu());
+        Button cloud = button("levels", event -> cloudMenu());
         buttons.getChildren().add(cloud);
         LevelEditor editor = new LevelEditor(stage, mainMenu);
         Button editorButton = button("editor", event -> editor.editorMenu());
@@ -62,14 +61,14 @@ public class Game extends Application {
         ChoiceDialog<String> choice = selector(FILESERVER + "/levels", mainStage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
-            mainStage.setScene(toScene(downloadLevel(input)));
+            mainStage.setScene(toScene(loadLevel(FILESERVER + "/levels/" + input)));
         });
     }
 
     private Button levelButton(String file, Stage stage) {
         final String levelName = file.replace(".json", "");
         return button(levelName, event -> {
-            Level activeLevel = FileOperations.loadLevel(levelName);
+            Level activeLevel = loadLevel(levelName);
             stage.setScene(toScene(activeLevel));
         });
     }
