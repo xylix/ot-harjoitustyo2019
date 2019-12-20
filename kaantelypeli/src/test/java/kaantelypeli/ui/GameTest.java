@@ -30,6 +30,11 @@ public class GameTest extends ApplicationTest {
         clickOn("#editor");
     }
 
+    /*@Test
+    public void cloudLevel() {
+        assertTrue(false);
+    }*/
+
     @Test
     public void startButtonTest()  {      
         verifyThat("#test0", hasText("test0"));

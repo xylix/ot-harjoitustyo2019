@@ -29,5 +29,6 @@
 | 17.12. | 5      | Tiedostotallennus editoriin ja editor testejä                                 |
 | 18.12. | 2      | Editortestauksen parannusta                                                   |
 | 19.12. | 6      | Editor featureja ja arkkitehtuuria, taso 5. File uploadausta.                 |
-| 20.12. | 1      | Lisää file uploadaus työstöä                                                  |
-summa: 71
+| 20.12. | 4      | Lisää file uploadaus työstöä                                                  |
+|        |        |                                                                               |
+summa: 74

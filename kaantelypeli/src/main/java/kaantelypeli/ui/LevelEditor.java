@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static kaantelypeli.ui.Game.FILESERVER;
 import static kaantelypeli.ui.Game.SCALE;
 import static kaantelypeli.utils.FXUtils.button;
+import static kaantelypeli.utils.FXUtils.selector;
 import static kaantelypeli.utils.Parsing.valueOfWithDefault;
 
 public class LevelEditor {
@@ -32,6 +34,7 @@ public class LevelEditor {
     private Level editing;
     private final Scene mainMenu;
     private String levelName;
+
 
     /**
      * Create a new LevelEditor object.
@@ -46,26 +49,22 @@ public class LevelEditor {
      * Entry point, starts a selection dialog
      */
     public void editorMenu() {
-        ChoiceDialog<String> choice = new ChoiceDialog<>();
-        choice.initOwner(stage);
-        choice.setHeaderText("Level to load");
-        choice.setGraphic(null);
-        choice.setTitle(null);
-        for (int i = 1; i <= 4; i++) {
-            choice.getItems().add(i + "");
-        }
+        ChoiceDialog<String> choice = selector(FILESERVER + "/levels/", stage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
+            levelName = input;
             stage.setScene(editor(input));
         });
     }
-    
+
     private Scene editor(String level) {
-        this.levelName = level;
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
-
-        editing = FileOperations.loadLevel(String.valueOf(level));
+        if (level.contains("http")) {
+            editing = FileOperations.downloadLevel(level);
+        } else {
+            editing = FileOperations.loadLevel(level);
+        }
         pane.getChildren().addAll(editing.getHitboxes());
         ArrayList<Entity> entities = new ArrayList<>(editing.getEntities());
         VBox vbox = new VBox(pane);
@@ -150,13 +149,14 @@ public class LevelEditor {
 
     private Button uploadButton() {
         return button("upload", (c -> {
-            String url = "http://localhost:5000/levels/" + levelName;
+            String url = FILESERVER + "/levels/" + levelName;
             Logger.trace("POSTing to " + url);
             Logger.trace(
             Unirest.post(url)
                     .header("Content-Type", "application/json")
                     .body(editing.getJson())
-                    .asString());
+                    .connectTimeout(4000)
+                    .asEmpty());
         }));
     }
 }

@@ -1,4 +1,5 @@
 from flask import Flask, request
+from glob import glob
 import pathlib
 import os
 import json
@@ -12,7 +13,11 @@ if __name__ == '__main__':
 
 @app.route('/levels', methods=['GET'])
 def list_level():
-    return str(os.listdir('levels'))
+    contents = os.listdir('levels')
+    parsed = []
+    for i in contents:
+        parsed.append(i.split('.')[0])
+    return str(parsed)
 
 
 @app.route('/levels/<level_id>', methods=['GET', 'POST'])

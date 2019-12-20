@@ -10,6 +10,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import kaantelypeli.engine.Level;
 import kaantelypeli.engine.Properties;
+import kong.unirest.Unirest;
 import org.tinylog.Logger;
 
 import java.io.IOException;
@@ -36,6 +37,17 @@ public class FileOperations {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.fromJson(json, Level.class);
     }
+
+    /**
+     * Load level JSON from URL as a Level object.
+     * @param level
+     * @return
+     */
+    public static Level downloadLevel(String level) {
+        Logger.trace("GETting: " + level);
+        return Unirest.get(level).asObject(Level.class).getBody();
+    }
+
 
     /**
      * Loads Properties from file and parse it into a Properties instance.

@@ -76,13 +76,14 @@ public class LevelEditorTest extends ApplicationTest {
             // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
             assumeTrue(false);
         }
+        push(KeyCode.TAB);
         push(KeyCode.SPACE);
-        systemOutRule.clearLog();
         sleep(200);
+        push(KeyCode.E);
         push(KeyCode.ENTER);
 
         try {
-            URL level = LevelEditor.class.getClassLoader().getResource("levels/edited.json");
+            URL level = LevelEditor.class.getClassLoader().getResource("levels/e.json");
             Files.delete(Paths.get(level.getPath()));
         } catch (NullPointerException | IOException e) {
             e.printStackTrace();
@@ -96,13 +97,22 @@ public class LevelEditorTest extends ApplicationTest {
             // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
             assumeTrue(false);
         }
+        push(KeyCode.TAB);
         push(KeyCode.SPACE);
         sleep(200);
         push(KeyCode.ESCAPE);
         assertThat(systemOutRule.getLog(), containsString("Save dialog cancelled"));
     }
 
-
+    @Test
+    public void levelUpload() {
+        push(KeyCode.TAB);
+        push(KeyCode.TAB);
+        push(KeyCode.SPACE);
+        sleep(200);
+        assertThat(systemOutRule.getLog(), containsString("TRACE: POSTing to http://localhost:5000/levels/"));
+        assertThat(systemOutRule.getLog(), containsString("TRACE: kong.unirest.EmptyResponse"));
+    }
 
     public void spawnTile() {
         clickOn(MouseButton.PRIMARY);

@@ -74,11 +74,7 @@ public class Entity {
         actionMap = Objects.requireNonNullElseGet(source.actionMap, HashMap::new);
         this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
         hitbox.setId(type);
-        if (source.graphics != null) {
-            this.hitbox.setFill(loadSprite(source.graphics));
-        } else {
-            this.hitbox.setFill(loadSprite(type + ".png"));
-        }
+        this.hitbox.setFill(loadSprite(Objects.requireNonNullElseGet(source.graphics, () -> type + ".png")));
     }
 
     /**
