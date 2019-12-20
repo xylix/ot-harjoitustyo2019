@@ -28,17 +28,18 @@ public class LevelEditorTest extends ApplicationTest {
     public void setUp() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Game.class);
-        openFirstLevel();
     }
 
     @Test
     public void openLevel() {
+        openFirstLevel();
         assertThat(systemOutRule.getLog(),
                 containsString("TRACE: Opened a copy of level 1 in editor"));
     }
 
     @Test
     public void addTile() {
+        openFirstLevel();
         systemOutRule.clearLog();
         spawnTile();
         push(KeyCode.ENTER);
@@ -48,6 +49,7 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void cancelAddingTile() {
+        openFirstLevel();
         systemOutRule.clearLog();
         clickOn(MouseButton.PRIMARY);
         push(KeyCode.ESCAPE);
@@ -56,6 +58,7 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void addWideTile() {
+        openFirstLevel();
         systemOutRule.clearLog();
         spawnTile();
         // Set width and height
@@ -73,6 +76,7 @@ public class LevelEditorTest extends ApplicationTest {
     
     @Test
     public void saveLevel() {
+        openFirstLevel();
         if (System.getProperty("testfx.headless", "false").equals("true")) {
             // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
             assumeTrue(false);
@@ -88,6 +92,7 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void cancelledSave () {
+        openFirstLevel();
         if (System.getProperty("testfx.headless", "false").equals("true")) {
             // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
             assumeTrue(false);
@@ -101,6 +106,7 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void levelUpload() {
+        openFirstLevel();
         push(KeyCode.TAB);
         push(KeyCode.TAB);
         push(KeyCode.SPACE);

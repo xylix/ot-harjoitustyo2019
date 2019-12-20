@@ -13,6 +13,7 @@ import kaantelypeli.engine.Properties;
 import kong.unirest.Unirest;
 import org.tinylog.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,18 +34,14 @@ public class FileOperations {
      * @return generated level
      */
     public static Level loadLevel(String level) {
+        // Check if level is a URL
         if (level.contains("http")) {
-            return downloadLevel(level);
+            return Unirest.get(level).asObject(Level.class).getBody();
         } else {
             JsonElement json = loadJson("levels/" + level + ".json");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(json, Level.class);
         }
-    }
-
-    private static Level downloadLevel(String url) {
-        Logger.trace("GETing: " + url);
-        return Unirest.get(url).asObject(Level.class).getBody();
     }
 
 
@@ -91,5 +88,17 @@ public class FileOperations {
             Logger.error("No sprite named: '" + filename + "' found");
             return Color.GREEN;
         }
+    }
+
+    public static String uploadLevel(String target, Level l) {
+        return Unirest.post(target)
+                .header("Content-Type", "application/json")
+                .body(l.getJson())
+                .connectTimeout(4000)
+                .asEmpty().toString();
+    }
+
+    public static File getClassResource(String resource, Class clazz) {
+        return new File(clazz.getClassLoader().getResource(resource).getFile());
     }
 }

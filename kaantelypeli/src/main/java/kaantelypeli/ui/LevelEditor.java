@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 import kaantelypeli.utils.FileOperations;
-import kong.unirest.Unirest;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -27,12 +26,14 @@ import static kaantelypeli.ui.Game.FILESERVER;
 import static kaantelypeli.ui.Game.SCALE;
 import static kaantelypeli.utils.FXUtils.button;
 import static kaantelypeli.utils.FXUtils.selector;
+import static kaantelypeli.utils.FileOperations.getClassResource;
+import static kaantelypeli.utils.FileOperations.uploadLevel;
 import static kaantelypeli.utils.Parsing.valueOfWithDefault;
 
 public class LevelEditor {
     private final Stage stage;
-    private Level editing;
     private final Scene mainMenu;
+    private Level editing;
     private String levelName;
 
 
@@ -49,7 +50,7 @@ public class LevelEditor {
      * Entry point, starts a selection dialog
      */
     public void editorMenu() {
-        ChoiceDialog<String> choice = selector(FILESERVER + "/levels", stage);
+        ChoiceDialog<String> choice = selector(FILESERVER, stage);
         Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
             levelName = input;
@@ -123,13 +124,13 @@ public class LevelEditor {
     }
 
     private Button saveButton() {
-        return button("save", (c -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName("edited");
-            fileChooser.setInitialDirectory(new File(LevelEditor.class.getClassLoader().getResource("levels").getFile()));
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
-            fileChooser.setInitialFileName(levelName);
-            File saveLocation = fileChooser.showSaveDialog(stage);
+        return button("save", c -> {
+            FileChooser chooser = new FileChooser();
+            chooser.setInitialFileName("edited");
+            chooser.setInitialDirectory(getClassResource("levels", LevelEditor.class));
+            chooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+            chooser.setInitialFileName(levelName);
+            File saveLocation = chooser.showSaveDialog(stage);
             // Null if user cancels dialog or OS dialog doesn't work.
             if (saveLocation != null) {
                 try (FileWriter fw = new FileWriter(saveLocation)) {
@@ -141,19 +142,14 @@ public class LevelEditor {
             } else {
                 Logger.trace("Save dialog cancelled");
             }
-        }));
+        });
     }
 
     private Button uploadButton() {
         return button("upload", (c -> {
             String url = FILESERVER + "/levels/" + levelName;
             Logger.trace("POSTing to " + url);
-            Logger.trace(
-            Unirest.post(url)
-                    .header("Content-Type", "application/json")
-                    .body(editing.getJson())
-                    .connectTimeout(4000)
-                    .asEmpty());
+            Logger.trace(uploadLevel(url, editing));
         }));
     }
 }

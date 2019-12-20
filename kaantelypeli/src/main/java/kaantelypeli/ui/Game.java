@@ -25,9 +25,9 @@ import static kaantelypeli.utils.FileOperations.loadLevel;
  */
 public class Game extends Application {
     public static final int SCALE = 2;
+    public static final String FILESERVER =  "http://xylix.fi/levels";
     private Stage mainStage;
     private Scene mainMenu;
-    public static final String FILESERVER =  "http://xylix.fi";
 
     /**
      * Launch the application.
@@ -58,11 +58,9 @@ public class Game extends Application {
     }
 
     private void cloudMenu() {
-        ChoiceDialog<String> choice = selector(FILESERVER + "/levels", mainStage);
+        ChoiceDialog<String> choice = selector(FILESERVER, mainStage);
         Optional<String> result = choice.showAndWait();
-        result.ifPresent(input ->  {
-            mainStage.setScene(toScene(loadLevel(FILESERVER + "/levels/" + input)));
-        });
+        result.ifPresent(input ->  mainStage.setScene(toScene(loadLevel(FILESERVER + '/' + input))));
     }
 
     private Button levelButton(String file, Stage stage) {

@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
  */
 public class Level {
     public static final String VICTORY = "victory";
-    
-    private List<Entity> entities;
     int gravity;
     boolean won;
     boolean lost;
+    private List<Entity> entities;
+
     
     private Level() { 
         entities = new ArrayList<>();
