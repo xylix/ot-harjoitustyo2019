@@ -32,13 +32,13 @@ public class GameTest extends ApplicationTest {
 
     @Test
     public void startButtonTest()  {      
-        verifyThat("#level0", hasText("level0"));
-        clickOn("#level0");
+        verifyThat("#test0", hasText("test0"));
+        clickOn("#test0");
     }
     
     @Test
     public void victoryTest() {
-        clickOn("#level-1");
+        clickOn("#test1");
         assertEquals("TRACE: victory\nYou're winner!\n", systemOutRule.getLogWithNormalizedLineSeparator());
     }
 }

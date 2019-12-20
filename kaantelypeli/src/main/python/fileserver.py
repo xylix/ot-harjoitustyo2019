@@ -22,5 +22,5 @@ def level(level_id):
             return file.read()
     if request.method == 'POST':
         with open('levels/' + level_id + '.json', "w+") as file:
-            file.write(json.dumps(request.form))
+            file.write(json.dumps(request.json))
             return "successful upload"

@@ -52,7 +52,7 @@ public class Game extends Application {
     
     private Button levelButton(String file, Stage stage) {
         final String levelName = file.replace(".json", "");
-        return button("level" + levelName, event -> {
+        return button(levelName, event -> {
             Level activeLevel = FileOperations.loadLevel(levelName);
             stage.setScene(toScene(activeLevel));
         });

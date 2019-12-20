@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 import kaantelypeli.utils.FileOperations;
+import kong.unirest.Unirest;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class LevelEditor {
     private final Stage stage;
     private Level editing;
     private final Scene mainMenu;
+    private String levelName;
 
     /**
      * Create a new LevelEditor object.
@@ -44,22 +46,22 @@ public class LevelEditor {
      * Entry point, starts a selection dialog
      */
     public void editorMenu() {
-        ChoiceDialog<Integer> choice = new ChoiceDialog<>();
+        ChoiceDialog<String> choice = new ChoiceDialog<>();
         choice.initOwner(stage);
         choice.setHeaderText("Level to load");
         choice.setGraphic(null);
         choice.setTitle(null);
         for (int i = 1; i <= 4; i++) {
-            choice.getItems().add(i);
+            choice.getItems().add(i + "");
         }
-        Optional<Integer> result = choice.showAndWait();
+        Optional<String> result = choice.showAndWait();
         result.ifPresent(input ->  {
             stage.setScene(editor(input));
-            Logger.trace("Opened a copy of level " + input + " in editor");
         });
     }
     
-    private Scene editor(int level) {
+    private Scene editor(String level) {
+        this.levelName = level;
         Pane pane = new Pane();
         pane.setPrefSize(240 * SCALE, 240 * SCALE);
 
@@ -68,8 +70,10 @@ public class LevelEditor {
         ArrayList<Entity> entities = new ArrayList<>(editing.getEntities());
         VBox vbox = new VBox(pane);
         vbox.setPrefHeight((240 + 16) * SCALE);
-        HBox buttons = new HBox(saveButton());
-        buttons.getChildren().add(button("menu", event -> stage.setScene(mainMenu)));
+        Button menu = button("menu", event -> stage.setScene(mainMenu));
+        HBox buttons = new HBox(menu);
+        buttons.getChildren().add(saveButton());
+        buttons.getChildren().add(uploadButton());
         vbox.getChildren().add(buttons);
 
         pane.setOnMouseClicked((MouseEvent click) -> {
@@ -85,6 +89,7 @@ public class LevelEditor {
             });
             editing = new Level(entities);
         });
+        Logger.trace("Opened a copy of level " + level + " in editor");
         return new Scene(vbox);
     }
 
@@ -126,8 +131,8 @@ public class LevelEditor {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialFileName("edited");
             fileChooser.setInitialDirectory(new File(LevelEditor.class.getClassLoader().getResource("levels").getFile()));
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
-                    "JSON files", "*.json"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+            fileChooser.setInitialFileName(levelName);
             File saveLocation = fileChooser.showSaveDialog(stage);
             // Null if user cancels dialog or OS dialog doesn't work.
             if (saveLocation != null) {
@@ -140,6 +145,18 @@ public class LevelEditor {
             } else {
                 Logger.trace("Save dialog cancelled");
             }
+        }));
+    }
+
+    private Button uploadButton() {
+        return button("upload", (c -> {
+            String url = "http://localhost:5000/levels/" + levelName;
+            Logger.trace("POSTing to " + url);
+            Logger.trace(
+            Unirest.post(url)
+                    .header("Content-Type", "application/json")
+                    .body(editing.getJson())
+                    .asString());
         }));
     }
 }
