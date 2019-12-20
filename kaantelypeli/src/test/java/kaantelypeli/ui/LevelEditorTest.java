@@ -9,14 +9,10 @@ import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-import org.tinylog.Logger;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 
+import static kaantelypeli.ui.Game.FILESERVER;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -37,8 +33,8 @@ public class LevelEditorTest extends ApplicationTest {
 
     @Test
     public void openLevel() {
-        assertEquals("TRACE: GETing: http://localhost:5000/levels/1" + System.lineSeparator() +
-                "TRACE: Opened a copy of level http://localhost:5000/levels/1 in editor" + System.lineSeparator(), systemOutRule.getLog());
+        assertEquals("TRACE: GETing: " + FILESERVER + "/levels/3" + System.lineSeparator() +
+                "TRACE: Opened a copy of level " +  FILESERVER + "/levels/3 in editor" + System.lineSeparator(), systemOutRule.getLog());
 
     }
 
@@ -88,12 +84,6 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.E);
         push(KeyCode.ENTER);
 
-        try {
-            URL level = LevelEditor.class.getClassLoader().getResource("levels/e.json");
-            Files.delete(Paths.get(level.getPath()));
-        } catch (NullPointerException | IOException e) {
-            Logger.error(e.getStackTrace());
-        }
         assertThat(systemOutRule.getLog(), containsString("TRACE: Saving file to"));
     }
 
@@ -116,7 +106,7 @@ public class LevelEditorTest extends ApplicationTest {
         push(KeyCode.TAB);
         push(KeyCode.SPACE);
         sleep(200);
-        assertThat(systemOutRule.getLog(), containsString("TRACE: POSTing to http://localhost:5000/levels/"));
+        assertThat(systemOutRule.getLog(), containsString("TRACE: POSTing to " + FILESERVER + "/levels/"));
         assertThat(systemOutRule.getLog(), containsString("TRACE: kong.unirest.EmptyResponse"));
     }
 

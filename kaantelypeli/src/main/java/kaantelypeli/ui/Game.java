@@ -28,7 +28,7 @@ public class Game extends Application {
     public static final int SCALE = 2;
     private Stage mainStage;
     private Scene mainMenu;
-    public static final String FILESERVER =  "http://localhost:5000";
+    public static final String FILESERVER =  "http://xylix.fi";
 
     /**
      * Launch the application.
