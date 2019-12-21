@@ -52,6 +52,24 @@ public class EntityTest {
         Entity e3 = new Entity("wall", 0, 0);
         assertNotEquals(e.hashCode(), e3.hashCode());
     }
+
+    @Test
+    public void equalsSelf() {
+        Entity e = new Entity("player", 0, 0);
+        assertTrue(e.equals(e));
+    }
+
+    @Test
+    public void equalsNull() {
+        Entity e = new Entity("player", 0, 0);
+        assertFalse(e.equals(null));
+    }
+
+    @Test
+    public void equalsObject() {
+        Entity e = new Entity("player", 0, 0);
+        assertFalse(e.equals(new Object()));
+    }
     
     @Test
     public void getHitbox() {

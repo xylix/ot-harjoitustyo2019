@@ -6,7 +6,7 @@ myöhään ja kiireisesti että sille ei valitettavasti ole muuta kuin integraat
 ## Testit käytännössä
 
 ### Yksikkötestit
-Ajetaan komennolla `mvn test`.
+Ajetaan komennolla `mvn test`. (Tai ajamalla scripti kaantelypeli/utils/test)
 
 Yksikkötestejä löytyy joka luokalle niiden pakettia vastaavasta testipaketista. (Poikkeuksina EntitySerializer ja Properties,
 joiden toiminnallisuus on yksikäsitteistä eikä erityisesti kaipaa testausta.) Pelilogiikkaa testataan importtailemalla, luomalla
@@ -18,7 +18,7 @@ Testikattavuus (jättäen huomiotta LevelEditor luokan joka on lähinnä käytt�
 [testikattavuus.png]
 
 ### Integraatiotestit (Lähinnä LevelEditorille)
-Ajetaan komennolla `mvn verify`.
+Ajetaan komennolla `mvn clean verify`. (Tai scriptillä kaantelypeli/utils/integration-test)
 
 Integraatiotestit testaavat LevelEditorin käyttöliittymää, tiedostojen avaamista palvelimelta ja tiedostojen tallentamista.
 

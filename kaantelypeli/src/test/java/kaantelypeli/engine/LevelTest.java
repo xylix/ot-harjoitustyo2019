@@ -38,5 +38,6 @@ public class LevelTest {
         l.changeGravity(4);
         assertEquals(old + 4, l.gravity);
     }
-    
+
+
 }

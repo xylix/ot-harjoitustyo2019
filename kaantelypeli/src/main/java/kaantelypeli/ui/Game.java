@@ -41,7 +41,7 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
         mainStage = stage;
-        Button cloud = createButton("levels", event -> cloudMenu());
+        Button cloud = createButton("cloud-levels", event -> cloudMenu());
         LevelEditor editor = new LevelEditor(stage, mainMenu);
         Button editorButton = createButton("editor", event -> editor.editorMenu());
         VBox buttons = new VBox(cloud, editorButton);

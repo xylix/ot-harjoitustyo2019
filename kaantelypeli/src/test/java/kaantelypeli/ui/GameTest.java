@@ -15,8 +15,7 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 public class GameTest extends ApplicationTest {
     @Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule()
-            .muteForSuccessfulTests().enableLog();
+    public final SystemOutRule systemOutRule = new SystemOutRule().muteForSuccessfulTests().enableLog();
 
     @Before
     public void setUp() throws TimeoutException {
@@ -29,11 +28,6 @@ public class GameTest extends ApplicationTest {
         verifyThat("#editor", hasText("editor"));
         clickOn("#editor");
     }
-
-    /*@Test
-    public void cloudLevel() {
-        assertTrue(false);
-    }*/
 
     @Test
     public void startButtonTest()  {      

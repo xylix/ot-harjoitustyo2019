@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.rules.TemporaryFolder;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -16,11 +17,12 @@ import static kaantelypeli.ui.Game.FILESERVER;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assume.assumeTrue;
 
 public class LevelEditorIT extends ApplicationTest {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().muteForSuccessfulTests().enableLog();
+    @Rule public TemporaryFolder folder= new TemporaryFolder();
+
 
     @Before
     public void setUp() throws TimeoutException {
@@ -90,10 +92,6 @@ public class LevelEditorIT extends ApplicationTest {
     @Test
     public void saveLevel() {
         openFirstLevel();
-        if (System.getProperty("testfx.headless", "false").equals("true")) {
-            // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
-            assumeTrue(false);
-        }
         push(KeyCode.TAB);
         push(KeyCode.SPACE);
         sleep(200);
@@ -106,10 +104,6 @@ public class LevelEditorIT extends ApplicationTest {
     @Test
     public void cancelledSave () {
         openFirstLevel();
-        if (System.getProperty("testfx.headless", "false").equals("true")) {
-            // Skip test if running headless, Monocle's FileChooser dialog is not implemented on headless environments
-            assumeTrue(false);
-        }
         push(KeyCode.TAB);
         push(KeyCode.SPACE);
         sleep(200);
