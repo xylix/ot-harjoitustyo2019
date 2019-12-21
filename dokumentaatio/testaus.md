@@ -15,7 +15,7 @@ tarkastavat että testikentissä peli tapahtuu oikein. (Tarkastetaan että kent�
 voitto tapahtuu välittömästi, ja tarkastetaan että pelaaja ei voi mennä läpipääsemättömien pelipalikoiden läpi.
 
 Testikattavuus (jättäen huomiotta LevelEditor luokan joka on lähinnä käyttöliittymäkoodia) on 
-[testikattavuus.png]
+![Testikattavuus](https://github.com/xylix/ot-harjoitustyo2019/raw/master/dokumentaatio/kuvat/kattavuus.png)
 
 ### Integraatiotestit (Lähinnä LevelEditorille)
 Ajetaan komennolla `mvn clean verify`. (Tai scriptillä kaantelypeli/utils/integration-test)

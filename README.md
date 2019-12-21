@@ -7,19 +7,20 @@ Pelin ideana on päästä maaliin kääntelemällä erilaisia tasoja nuolinäpp�
 
 [Vaatimusmaarittely](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuuri](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/arkkitehtuuriKuvaus.md)
+[Arkkitehtuuri](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-[Julkaisu viikko 5](https://github.com/xylix/ot-harjoitustyo2019/releases/tag/v0.0.1)
+[Testaus](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/testaus.md)
+
+[Lopullinen julkaisu](https://github.com/xylix/ot-harjoitustyo2019/releases/tag/v0.3.1)
 
 ## Komentorivitoiminnot
 
 Komennot tulee ajaa kansiossa ot-harjoitustyo2019/kaantelypeli/
 
-## Ohjelman testaaminen
-`mvn test`
+Kansiosta kaantelypeli/utils löytyy scriptejä ohjelman ajamiseen / testien suorittamiseen.
 
-## Ohjelman integraatiotestaaminen
-`mvn verify` (Sisältää testejä jotka eivät toimi useilla linux-työpöytäympäristöillä. Integraatiotestien toiminta on varmaa vain MacOS:llä.)
+## Ohjelman testaaminen
+[Testaus](https://github.com/xylix/ot-harjoitustyo2019/blob/master/dokumentaatio/testaus.md)
 
 ## Jacoco-testikattavuus raportin generointi
 `mvn test jacoco:report`
