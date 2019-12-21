@@ -90,6 +90,12 @@ public class FileOperations {
         }
     }
 
+    /**
+     * Upload level to target url.
+     * @param target URL of fileserver to upload to
+     * @param l Level to upload
+     * @return Parsed HTTP response converted into a string
+     */
     public static String uploadLevel(String target, Level l) {
         return Unirest.post(target)
                 .header("Content-Type", "application/json")
@@ -98,6 +104,13 @@ public class FileOperations {
                 .asEmpty().toString();
     }
 
+    /**
+     * Get a File pointing to `resource` using parameter classes loader. Produces a NullPointerException if
+     * resource can't be found.
+     * @param resource Name of resource to load
+     * @param clazz Class to get classloader from (usually the class where getClassResource gets called)
+     * @return File pointing to the resource
+     */
     public static File getClassResource(String resource, Class clazz) {
         return new File(clazz.getClassLoader().getResource(resource).getFile());
     }

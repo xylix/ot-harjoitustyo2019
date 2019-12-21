@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Optional;
 
-import static kaantelypeli.utils.FXUtils.button;
+import static kaantelypeli.utils.FXUtils.createButton;
 import static kaantelypeli.utils.FXUtils.selector;
 import static kaantelypeli.utils.FileOperations.loadLevel;
 
@@ -41,16 +41,14 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
         mainStage = stage;
-        VBox buttons = new VBox();
+        Button cloud = createButton("levels", event -> cloudMenu());
+        LevelEditor editor = new LevelEditor(stage, mainMenu);
+        Button editorButton = createButton("editor", event -> editor.editorMenu());
+        VBox buttons = new VBox(cloud, editorButton);
+
         InputStreamReader levelFolder = new InputStreamReader(Game.class.getResourceAsStream("/levels"));
         BufferedReader br = new BufferedReader(levelFolder);
         br.lines().forEach(line -> buttons.getChildren().add(levelButton(line, stage)));
-
-        Button cloud = button("levels", event -> cloudMenu());
-        buttons.getChildren().add(cloud);
-        LevelEditor editor = new LevelEditor(stage, mainMenu);
-        Button editorButton = button("editor", event -> editor.editorMenu());
-        buttons.getChildren().add(editorButton);
 
         mainMenu = new Scene(buttons);
         stage.setScene(mainMenu);
@@ -65,7 +63,7 @@ public class Game extends Application {
 
     private Button levelButton(String file, Stage stage) {
         final String levelName = file.replace(".json", "");
-        return button(levelName, event -> {
+        return createButton(levelName, event -> {
             Level activeLevel = loadLevel(levelName);
             stage.setScene(toScene(activeLevel));
         });
@@ -73,8 +71,6 @@ public class Game extends Application {
     
     private Scene toScene(Level level) {
         Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
-        pane.setPrefHeight((240) * SCALE);
-
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.LEFT) {
@@ -86,12 +82,9 @@ public class Game extends Application {
             }
         });
         new AnimationTimer() {
-            @Override
-            public void handle(long timestamp) {
-                level.gravitate();
-                if (level.over()) {
-                    mainStage.setScene(mainMenu);
-                }
+            @Override public void handle(long timestamp) {
+                level.tick();
+                level.ifOver(() -> mainStage.setScene(mainMenu));
             }
         }.start();
         return scene;

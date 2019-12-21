@@ -21,7 +21,7 @@ public class FXUtils {
      * @param action Action to call on button press
      * @return Button with the given options
      */
-    public static Button button(String name, EventHandler<ActionEvent> action) {
+    public static Button createButton(String name, EventHandler<ActionEvent> action) {
         Button button = new Button(name);
         button.setOnAction(action);
         button.setId(name);

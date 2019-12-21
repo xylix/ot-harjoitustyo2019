@@ -24,7 +24,7 @@ import java.util.Optional;
 
 import static kaantelypeli.ui.Game.FILESERVER;
 import static kaantelypeli.ui.Game.SCALE;
-import static kaantelypeli.utils.FXUtils.button;
+import static kaantelypeli.utils.FXUtils.createButton;
 import static kaantelypeli.utils.FXUtils.selector;
 import static kaantelypeli.utils.FileOperations.getClassResource;
 import static kaantelypeli.utils.FileOperations.uploadLevel;
@@ -67,7 +67,7 @@ public class LevelEditor {
         ArrayList<Entity> entities = new ArrayList<>(editing.getEntities());
         VBox vbox = new VBox(pane);
         vbox.setPrefHeight((240 + 16) * SCALE);
-        Button menu = button("menu", event -> stage.setScene(mainMenu));
+        Button menu = createButton("menu", event -> stage.setScene(mainMenu));
         HBox buttons = new HBox(menu);
         buttons.getChildren().add(saveButton());
         buttons.getChildren().add(uploadButton());
@@ -124,7 +124,7 @@ public class LevelEditor {
     }
 
     private Button saveButton() {
-        return button("save", c -> {
+        return createButton("save", c -> {
             FileChooser chooser = new FileChooser();
             chooser.setInitialFileName("edited");
             chooser.setInitialDirectory(getClassResource("levels", LevelEditor.class));
@@ -146,7 +146,7 @@ public class LevelEditor {
     }
 
     private Button uploadButton() {
-        return button("upload", (c -> {
+        return createButton("upload", (c -> {
             String url = FILESERVER + "/levels/" + levelName;
             Logger.trace("POSTing to " + url);
             Logger.trace(uploadLevel(url, editing));

@@ -30,5 +30,6 @@
 | 18.12. | 2      | Editortestauksen parannusta                                                   |
 | 19.12. | 6      | Editor featureja ja arkkitehtuuria, taso 5. File uploadausta.                 |
 | 20.12. | 8      | Lisää file uploadaus työstöä                                                  |
+| 21.12. | 2      | Refactoring & cleanup                                                         |
 |        |        |                                                                               |
-summa: 78
+summa: 80

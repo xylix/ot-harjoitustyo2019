@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  * gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
-    public static final String VICTORY = "victory";
     int gravity;
     boolean won;
     boolean lost;
@@ -42,11 +41,13 @@ public class Level {
     }
 
     /**
-     * Boolean to externally check if level has ended.
-     * @return is the level over
+     * When level has been won, perform action.
+     * @param action Action to call when level has been won
      */
-    public boolean over() {
-        return won;
+    public void ifOver(Runnable action) {
+        if (won) {
+            action.run();
+        }
     }
 
     /**
@@ -59,10 +60,9 @@ public class Level {
     }
 
     /**
-     * Applies gravity to all entities on the level.
-     * Movable get moved here.
+     * Method to externally bind this level to game ticks. Should get called every tick when level is active.
      */
-    public void gravitate() {
+    public void tick() {
         if (won) {
             return;
         } else if (lost) {
@@ -73,37 +73,37 @@ public class Level {
             lost = false;
             return;
         }
-        
+        gravitate();
+    }
+
+    /** Applies gravity to all entities on the level. Movables get moved here. */
+    private void gravitate() {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
             collider.move(gravity);
             entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
-                if (!action.isBlank()) {
-                    Logger.trace(action);
-                }
-                switch (action) {
-                    case VICTORY:
-                        System.out.println("You're winner!");
-                        won = true;
-                        return;
-                    case "loss":
-                        lost = true;
-                        break;
-                    case "open":
-                        collidee.passable = true;
-                        collidee.hitbox.setFill(Color.TRANSPARENT);
-                        collider.movable = false;
-                        collider.hitbox.setFill(Color.TRANSPARENT);
-                        break;
-                    default:
-                        if (collidee.passable) {
-                            break;
-                        } else {
-                            collider.move(gravity + 540);
-                        }
-                }
+                handleAction(collider, collidee, action);
             });
         });
+    }
+    /** Resolves Entity interaction. */
+    private void handleAction(Entity collider, Entity collidee, String action) {
+        if (!action.isBlank()) {
+            Logger.trace(action);
+        }
+        if ("victory".equals(action)) {
+            System.out.println("You're winner!");
+            won = true;
+        } else if ("loss".equals(action)) {
+            lost = true;
+        } else if ("open".equals(action)) {
+            collidee.passable = true;
+            collidee.hitbox.setFill(Color.TRANSPARENT);
+            collider.movable = false;
+            collider.hitbox.setFill(Color.TRANSPARENT);
+        } else if (!collidee.passable) {
+            collider.move(gravity + 540);
+        }
     }
 
     /**
