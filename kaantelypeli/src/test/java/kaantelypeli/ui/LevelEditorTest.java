@@ -28,7 +28,6 @@ public class LevelEditorTest extends ApplicationTest {
         clickOn("#editor");
         push(KeyCode.DOWN);
         push(KeyCode.ENTER);
-        assertThat(systemOutRule.getLog(),
-                containsString("TRACE: Opened a copy of level 1 in editor"));
+        assertThat(systemOutRule.getLog(), containsString("TRACE: Opened a copy of level 1 in editor"));
     }
 }

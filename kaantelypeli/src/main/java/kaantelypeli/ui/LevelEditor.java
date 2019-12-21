@@ -40,15 +40,14 @@ public class LevelEditor {
     /**
      * Create a new LevelEditor object.
      * @param stage Parent stage for the opened editor
+     * @param mainMenu main menu scene, needed here to enable returning.
      */
     public LevelEditor(Stage stage, Scene mainMenu) {
         this.stage = stage;
         this.mainMenu = mainMenu;
     }
 
-    /**
-     * Entry point, starts a selection dialog
-     */
+    /** Entry point, starts a selection dialog. */
     public void editorMenu() {
         ChoiceDialog<String> choice = selector(FILESERVER, stage);
         Optional<String> result = choice.showAndWait();
