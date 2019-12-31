@@ -1,2 +1,0 @@
-#!/bin/bash
-mvn -T 4 test jacoco:report
