@@ -117,6 +117,10 @@ public class Entity {
         }
     }
 
+    void gravitate(int gravity) {
+        this.velocity +=
+    }
+
     public double getActualX() {
         return hitbox.getX() + hitbox.getTranslateX();
     }

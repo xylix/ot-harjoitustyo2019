@@ -7,14 +7,6 @@ public class Parsing {
     private Parsing() {
         throw new IllegalStateException("Utility class");
     }
-    /**
-     * Removes prettiness from Json String.
-     * @param input JSON string
-     * @return input stripped from newlines and spaces
-     */
-    public static String uglify(String input) {
-        return input.replace(System.lineSeparator(), "").replace(" ", "");
-    }
 
     /**
      * Parse String to Integer with default value if String isn't a valid Integer.

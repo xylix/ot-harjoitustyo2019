@@ -79,7 +79,7 @@ public class Level {
     /** Applies gravity to all entities on the level. Movables get moved here. */
     private void gravitate() {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
-            collider.move(gravity);
+            collider.gravitate(gravity);
             entities.stream().filter(collider::collide).forEach(collidee -> {
                 String action = collider.collisionAction(collidee);
                 handleAction(collider, collidee, action);
