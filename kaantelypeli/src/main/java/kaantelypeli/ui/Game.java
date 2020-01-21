@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import kaantelypeli.engine.Entity;
 import kaantelypeli.engine.Level;
 
 import java.io.BufferedReader;

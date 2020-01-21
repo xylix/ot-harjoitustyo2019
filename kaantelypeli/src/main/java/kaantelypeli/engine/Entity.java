@@ -1,6 +1,7 @@
 package kaantelypeli.engine;
 import com.google.gson.Gson;
 import com.google.gson.annotations.JsonAdapter;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import kaantelypeli.utils.FileOperations;
@@ -27,7 +28,8 @@ public class Entity {
     transient Rectangle hitbox;
     boolean movable;
     boolean passable;
-    
+    private Direction velocity;
+
     /**
      Creates a new entity of `type` at location `x`,`y` with default width and height.
      * @param type Type of new entity. See resources/entities for info.
@@ -58,7 +60,7 @@ public class Entity {
         this.height = height;
         setProperties();
     }
-    
+
     /*
      * Sets entity properties based on entity types definition file.
      * Definition files located in entities/
@@ -72,53 +74,52 @@ public class Entity {
         movable = source.movable;
         passable = source.passable;
         actionMap = Objects.requireNonNullElseGet(source.actionMap, HashMap::new);
+
         this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
         hitbox.setId(type);
         this.hitbox.setFill(loadSprite(Objects.requireNonNullElseGet(source.graphics, () -> type + ".png")));
+
+        this.velocity = new Direction(0, 0);
     }
 
     /**
      * Collision check.
-     * @param collidee Entity to check collision with.
-     * @return returns True if `this` entity is currently colliding with `collidee`
+     * @param collided Entity to check collision with.
+     * @return True if this entity is currently colliding with collided.
      */
-    public boolean collide(Entity collidee) {
-        Shape collisionBox = Shape.intersect(hitbox, collidee.hitbox);
+    public boolean willCollide(Entity collided) {
+        // Virtual width / height of the box that defines _will_ the collision happen if this entity is moved
+        // by its velocity vector
+
+        Shape futureBox = new Polygon(
+                getActualX() + width + velocity.getX(),
+                getActualX() + velocity.getX(),
+                getActualY() + height + velocity.getY(),
+                getActualY() + velocity.getY()
+        );
+        Shape collisionBox = Shape.intersect(futureBox, collided.hitbox);
         return collisionBox.getBoundsInLocal().getWidth() != -1;
     }
     
     /**
      * Deducts what happens in a collision.
-     * @param collidee Entity to collide with.
-     * @return String defining what to do when `this` and `collidee` collide.
+     * @param collided Entity to collide with.
+     * @return String defining what to do when `this` and `collided` collide.
      */
-    public String collisionAction(Entity collidee) {
-        return this.actionMap.getOrDefault(collidee.type, "");
+    public String collisionAction(Entity collided) {
+        return this.actionMap.getOrDefault(collided.type, "");
     }
 
-    void move(int i) {
-        i = Math.abs(i % 360);
-        switch (i) {
-            case 0:
-                hitbox.setTranslateY(hitbox.getTranslateY() + 1 * SCALE); 
-                break;
-            case 90:
-                hitbox.setTranslateX(hitbox.getTranslateX() + 1 * SCALE);
-                break;
-            case 180:
-                hitbox.setTranslateY(hitbox.getTranslateY() - 1 * SCALE);
-                break;
-            case 270:
-                hitbox.setTranslateX(hitbox.getTranslateX() - 1 * SCALE);
-                break;
-            default:
-                Logger.error("Illegal movement call");
-                break;
-        }
+    void move() {
+        hitbox.setTranslateX(hitbox.getTranslateX() + velocity.getX() * SCALE);
+        hitbox.setTranslateY(hitbox.getTranslateY() + velocity.getY() * SCALE);
     }
 
-    void gravitate(int gravity) {
-        this.velocity +=
+    private String lastLogged = null;
+    void gravitate(Direction gravity) {
+        this.velocity.add(gravity);
+        if (!gravity.toString().equals(lastLogged)) Logger.trace(gravity);
+        lastLogged = gravity.toString();
     }
 
     public double getActualX() {

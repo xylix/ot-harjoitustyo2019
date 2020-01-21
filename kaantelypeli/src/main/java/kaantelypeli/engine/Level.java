@@ -9,6 +9,7 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -17,15 +18,14 @@ import java.util.stream.Collectors;
  * gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
-    int gravity;
+    Direction gravity;
     boolean won;
     boolean lost;
     private List<Entity> entities;
-
     
-    private Level() { 
+    private Level() {
         entities = new ArrayList<>();
-        gravity = 0;
+        gravity = new Direction(0, 0.1);
         won = false;
         lost = false;
     }
@@ -56,7 +56,7 @@ public class Level {
      * @param   degrees   Wanted change in degrees
      */
     public void changeGravity(int degrees) {
-        gravity += degrees;
+        gravity.rotate(degrees);
     }
 
     /**
@@ -80,10 +80,13 @@ public class Level {
     private void gravitate() {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
             collider.gravitate(gravity);
-            entities.stream().filter(collider::collide).forEach(collidee -> {
-                String action = collider.collisionAction(collidee);
-                handleAction(collider, collidee, action);
-            });
+            for (Entity collided : entities)
+            if (collider.willCollide(collided)) {
+                String action = collider.collisionAction(collided);
+                handleAction(collider, collided, action);
+            } else {
+                collider.move();
+            }
         });
     }
     /** Resolves Entity interaction. */
@@ -102,7 +105,7 @@ public class Level {
             collider.movable = false;
             collider.hitbox.setFill(Color.TRANSPARENT);
         } else if (!collidee.passable) {
-            collider.move(gravity + 540);
+            collider.undoMove();
         }
     }
 
