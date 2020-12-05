@@ -1,8 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    java
-    `maven-publish`
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("application")
     kotlin("jvm") version "1.4.20"
@@ -42,20 +40,13 @@ version = "0.3.1"
 description = "kaantelypeli"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}
-
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
 }
 
-/* application {
+application {
     mainClass.set("kaantelypeli.ui.Main")
 }
-*/
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "1.8"

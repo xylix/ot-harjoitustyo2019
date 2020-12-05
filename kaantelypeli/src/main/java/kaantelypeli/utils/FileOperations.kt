@@ -9,9 +9,9 @@ import javafx.scene.paint.ImagePattern
 import javafx.scene.paint.Paint
 import kaantelypeli.engine.Level
 import kaantelypeli.engine.Properties
-import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.ui.SCALE
 import kong.unirest.Unirest
-import org.tinylog.Logger
+import org.tinylog.kotlin.Logger
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader

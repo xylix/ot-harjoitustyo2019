@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.JsonAdapter
 import javafx.scene.shape.Rectangle
 import javafx.scene.shape.Shape
-import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.ui.SCALE
 import kaantelypeli.utils.IntRectangle
 import kaantelypeli.utils.loadProperties
 import kaantelypeli.utils.loadSprite

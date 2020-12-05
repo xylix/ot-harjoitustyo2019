@@ -17,8 +17,8 @@ import javafx.stage.FileChooser
 import javafx.stage.Stage
 import kaantelypeli.engine.Entity
 import kaantelypeli.engine.Level
-import kaantelypeli.ui.Game.Companion.FILESERVER
-import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.ui.FILESERVER
+import kaantelypeli.ui.SCALE
 import kaantelypeli.utils.Parsing.Companion.valueOfWithDefault
 import kaantelypeli.utils.createButton
 import kaantelypeli.utils.getClassResource

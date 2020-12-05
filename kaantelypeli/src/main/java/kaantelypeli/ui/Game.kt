@@ -19,12 +19,19 @@ import kaantelypeli.utils.selector
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+
+val SCALE = 2
+val FILESERVER = "http://xylix.fi/levels"
 /**
  * Main Graphical User Interface class.
  */
 class Game : Application() {
     private var mainStage: Stage? = null
     private var mainMenu: Scene? = null
+
+    fun main(args: Array<String>) {
+        launch()
+    }
     override fun start(stage: Stage) {
         mainStage = stage
         val cloud: Button = createButton("cloud-levels") { event -> cloudMenu() }
@@ -84,20 +91,5 @@ class Game : Application() {
             }
         }.start()
         return scene
-    }
-
-    companion object {
-        const val SCALE = 2
-        const val FILESERVER = "http://xylix.fi/levels"
-
-        /**
-         * Launch the application.
-         * @param args pass command line arguments to follow
-         * main() method convention
-         */
-        @JvmStatic
-        fun main(args: Array<String>) {
-            launch()
-        }
     }
 }
