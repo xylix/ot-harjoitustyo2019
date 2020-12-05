@@ -14,7 +14,6 @@ class EntityTest {
     @BeforeTest
     @Throws(TimeoutException::class)
     fun setUp() {
-        muteForSuccessfulTestsAndEnableLog()
         FxToolkit.registerPrimaryStage()
     }
 
@@ -26,13 +25,13 @@ class EntityTest {
         test.move(4)
         assertEquals(x, test.actualX)
         assertEquals(y, test.actualY)
-        assertTrue(systemErrRule.log.contains("Illegal movement call"))
+        // assertTrue(systemErrRule.log.contains("Illegal movement call"))
     }
 
     @Test(expected = NullPointerException::class)
     fun entityNotFound() {
         Entity("test", 0, 0)
-        assertTrue(systemErrRule.log.contains("Entity: test not found."))
+        // assertTrue(systemErrRule.log.contains("Entity: test not found."))
     }
 
     @get:Test
