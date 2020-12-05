@@ -4,24 +4,60 @@ import com.google.gson.Gson
 import com.google.gson.annotations.JsonAdapter
 import javafx.scene.shape.Rectangle
 import javafx.scene.shape.Shape
-import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.ui.SCALE
 import kaantelypeli.utils.IntRectangle
 import kaantelypeli.utils.loadProperties
 import kaantelypeli.utils.loadSprite
 import org.tinylog.kotlin.Logger
 import java.util.*
 
+
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import java.lang.reflect.Type
+
+class EntitySerializer : JsonDeserializer<Entity> {
+    override fun deserialize(
+        je: JsonElement,
+        type: Type,
+        jdc: JsonDeserializationContext
+    ): Entity {
+        val data: StartingPosition = jdc.deserialize(je, StartingPosition::class.java)
+        val entity = Entity(data)
+        return entity
+    }
+}
+class StartingPosition {
+    var type: String? = "wall"
+    var x = 0
+    var y = 0
+    var width: Int = 16
+    var height: Int = 16
+
+    constructor(type: String?, x: Int, y: Int) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+    }
+
+    constructor(type: String?, x: Int, y: Int, width: Int, height: Int) {
+        this.type = type
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+    }
+}
+
 /**
  * Exposes entity generation, movement and collision.
  */
 @JsonAdapter(EntitySerializer::class)
 class Entity {
-    val type: String?
-    val x: Int
-    val y: Int
-    private var actionMap: HashMap<String, String>? = null
-    private val width: Int
-    private val height: Int
+    private val actionMap: HashMap<String, String>
+
+    private val start: StartingPosition
 
     @JvmField
     @Transient
@@ -29,59 +65,26 @@ class Entity {
     var movable = false
     var passable = false
 
-    /**
-     * Creates a new entity of `type` at location `x`,`y` with default width and height.
-     * @param type Type of new entity. See resources/entities for info.
-     * @param x X-coordinate of new entity.
-     * @param y Y-coordinate of new entity.
-     */
-    constructor(type: String?, x: Int, y: Int) {
-        this.type = type
-        this.x = x
-        this.y = y
-
+    constructor(startingPosition: StartingPosition) {
         val source = setProperties()
-        width = source.width
-        height = source.height
-    }
-
-    /**
-     * Creates a new entity of `type` at location `x`,`y` with
-     * non-default width and height.
-     * @param type Type of new entity. See resources/entities for info.
-     * @param x X-coordinate of new entity.
-     * @param y Y-coordinate of new entity.
-     * @param width width of new entity.
-     * @param height height of new entity.
-     */
-    constructor(type: String?, x: Int, y: Int, width: Int, height: Int) {
-        this.type = type
-        this.x = x
-        this.y = y
-        this.width = width
-        this.height = height
-        setProperties()
+        this.start = startingPosition
+        actionMap = source.actionMap ?: HashMap()
     }
 
     /*
-     * Sets entity properties based on entity types definition file.
-     * Definition files located in entities/
+     * Sets entity properties based on entity types definition object.
      */
     fun setProperties(): Properties {
+        val type = start.type
         val source = loadProperties(type!!)
-
         movable = source.movable
         passable = source.passable
-        actionMap = source.actionMap ?: HashMap()
-        val _hitbox = IntRectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE)
+        val _hitbox = IntRectangle(start.x * SCALE, start.y * SCALE, start.width * SCALE, start.height * SCALE)
         _hitbox.id = type
-        _hitbox.fill = loadSprite(
-                source.graphics ?: "$type.png"
-            )
+        _hitbox.fill = loadSprite("$type.png")
         this.hitbox = _hitbox
         return source
     }
-
 
 
     /**
@@ -100,13 +103,12 @@ class Entity {
      * @return String defining what to do when `this` and `collidee` collide.
      */
     fun collisionAction(collidee: Entity): String {
-        return actionMap!!.getOrDefault(collidee.type, "")
+        return actionMap.get(collidee.start.type) ?: ""
     }
 
     fun move(i: Int) {
-        var i = i
-        i = Math.abs(i % 360)
-        when (i) {
+        val normalized = Math.abs(i % 360)
+        when (normalized) {
             0 -> hitbox!!.translateY = hitbox!!.translateY + 1 * SCALE
             90 -> hitbox!!.translateX = hitbox!!.translateX + 1 * SCALE
             180 -> hitbox!!.translateY = hitbox!!.translateY - 1 * SCALE
@@ -123,24 +125,22 @@ class Entity {
 
     override fun hashCode(): Int {
         var hash = 7
-        hash = 79 * hash + Objects.hashCode(type)
-        hash = 79 * hash + x
-        hash = 79 * hash + y
+        hash = 79 * hash + Objects.hashCode(start)
         hash = 79 * hash + if (movable) 1 else 0
         hash = 79 * hash + if (passable) 1 else 0
         hash = 79 * hash + actionMap.hashCode()
         return hash
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (obj == null) {
+    override fun equals(other: Any?): Boolean {
+        if (other == null) {
             return false
-        } else if (this === obj) {
+        } else if (this === other) {
             return true
-        } else if (javaClass != obj.javaClass) {
+        } else if (javaClass != other.javaClass) {
             return false
         }
-        val other = obj as Entity
+        val other = other as Entity
         return json == other.json
     }
 

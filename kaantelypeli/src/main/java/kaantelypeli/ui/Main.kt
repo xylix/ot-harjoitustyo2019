@@ -11,6 +11,7 @@ object Main {
      */
     @JvmStatic
     fun main(args: Array<String>) {
-        kaantelypeli.ui.Game.main(args)
+        val game = kaantelypeli.ui.Game()
+        game.main(args)
     }
 }

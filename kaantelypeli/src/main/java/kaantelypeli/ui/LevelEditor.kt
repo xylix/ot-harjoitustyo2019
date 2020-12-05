@@ -16,9 +16,10 @@ import javafx.scene.shape.Rectangle
 import javafx.stage.FileChooser
 import javafx.stage.Stage
 import kaantelypeli.engine.Entity
+import kaantelypeli.engine.StartingPosition
 import kaantelypeli.engine.Level
-import kaantelypeli.ui.Game.Companion.FILESERVER
-import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.ui.FILESERVER
+import kaantelypeli.ui.SCALE
 import kaantelypeli.utils.Parsing.Companion.valueOfWithDefault
 import kaantelypeli.utils.createButton
 import kaantelypeli.utils.getClassResource
@@ -74,10 +75,10 @@ class LevelEditor
             if (node != null) {
                 pane.children.add(node)
                 val e = Entity(
-                    node.id,
+                    StartingPosition(node.id,
                     node.x.toInt() / SCALE, node.y.toInt() / SCALE,
                     node.width.toInt() / SCALE, node.height.toInt() / SCALE
-                )
+                ))
                 entities.add(e)
                 Logger.trace(e.json)
             }
@@ -160,7 +161,7 @@ class LevelEditor
             return if (result.isPresent) {
                 val w = valueOfWithDefault(width.text, 16)
                 val h = valueOfWithDefault(height.text, 16)
-                val e = Entity(type.value, x, y, w, h)
+                val e = Entity(StartingPosition(type.value, x, y, w, h))
                 e.hitbox
             } else {
                 return null

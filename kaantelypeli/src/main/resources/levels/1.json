@@ -1,5 +1,5 @@
 {
-    "entities": [{
+    "startingPositions": [{
             "type": "player",
             "x": 16,
             "y": 32

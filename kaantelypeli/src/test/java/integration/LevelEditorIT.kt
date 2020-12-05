@@ -3,6 +3,7 @@ package integration
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import kaantelypeli.ui.Game
+import kaantelypeli.ui.FILESERVER
 import org.hamcrest.core.StringContains
 import org.junit.Assert
 import org.junit.Before
@@ -95,7 +96,7 @@ class LevelEditorIT : ApplicationTest() {
         sleep(200)
         Assert.assertThat(
             systemOutRule.log,
-            StringContains.containsString("TRACE: POSTing to " + Game.FILESERVER + "/levels/")
+            StringContains.containsString("TRACE: POSTing to " + FILESERVER + "/levels/")
         )
         Assert.assertThat(
             systemOutRule.log,

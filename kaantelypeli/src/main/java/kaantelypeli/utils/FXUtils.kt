@@ -9,7 +9,7 @@ import javafx.scene.paint.ImagePattern
 import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
 import kong.unirest.Unirest
-import org.tinylog.Logger
+import org.tinylog.kotlin.Logger
 
 /**
  * Create a JavaFX button.
