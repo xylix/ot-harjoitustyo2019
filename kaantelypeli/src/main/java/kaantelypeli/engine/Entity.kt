@@ -1,48 +1,52 @@
-package kaantelypeli.engine;
-import com.google.gson.Gson;
-import com.google.gson.annotations.JsonAdapter;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import kaantelypeli.utils.FileOperations;
-import org.tinylog.Logger;
+package kaantelypeli.engine
 
-import java.util.HashMap;
-import java.util.Objects;
-
-import static kaantelypeli.ui.Game.SCALE;
-import static kaantelypeli.utils.FileOperations.loadSprite;
+import com.google.gson.Gson
+import com.google.gson.annotations.JsonAdapter
+import javafx.scene.shape.Rectangle
+import javafx.scene.shape.Shape
+import kaantelypeli.ui.Game.Companion.SCALE
+import kaantelypeli.utils.IntRectangle
+import kaantelypeli.utils.loadProperties
+import kaantelypeli.utils.loadSprite
+import org.tinylog.kotlin.Logger
+import java.util.*
 
 /**
  * Exposes entity generation, movement and collision.
  */
-@JsonAdapter(EntitySerializer.class)
-public class Entity {
-    final String type;
-    final int x;
-    final int y;
-    
-    private HashMap<String, String> actionMap;
-    private Integer width;
-    private Integer height;
-    transient Rectangle hitbox;
-    boolean movable;
-    boolean passable;
-    
+@JsonAdapter(EntitySerializer::class)
+class Entity {
+    val type: String?
+    val x: Int
+    val y: Int
+    private var actionMap: HashMap<String, String>? = null
+    private val width: Int
+    private val height: Int
+
+    @JvmField
+    @Transient
+    var hitbox: Rectangle? = null
+    var movable = false
+    var passable = false
+
     /**
-     Creates a new entity of `type` at location `x`,`y` with default width and height.
+     * Creates a new entity of `type` at location `x`,`y` with default width and height.
      * @param type Type of new entity. See resources/entities for info.
      * @param x X-coordinate of new entity.
      * @param y Y-coordinate of new entity.
      */
-    public Entity(String type, int x, int y) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        setProperties();
+    constructor(type: String?, x: Int, y: Int) {
+        this.type = type
+        this.x = x
+        this.y = y
+
+        val source = setProperties()
+        width = source.width
+        height = source.height
     }
-    
+
     /**
-     * Creates a new entity of `type` at location `x`,`y` with 
+     * Creates a new entity of `type` at location `x`,`y` with
      * non-default width and height.
      * @param type Type of new entity. See resources/entities for info.
      * @param x X-coordinate of new entity.
@@ -50,117 +54,104 @@ public class Entity {
      * @param width width of new entity.
      * @param height height of new entity.
      */
-    public Entity(String type, int x, int y, int width, int height) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        setProperties();
+    constructor(type: String?, x: Int, y: Int, width: Int, height: Int) {
+        this.type = type
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+        setProperties()
     }
-    
+
     /*
      * Sets entity properties based on entity types definition file.
      * Definition files located in entities/
      */
-    final void setProperties() {
-        Properties source = FileOperations.loadProperties(type);
-        if (width == null || height == null) {
-            width = source.width;
-            height = source.height;
-        }
-        movable = source.movable;
-        passable = source.passable;
-        actionMap = Objects.requireNonNullElseGet(source.actionMap, HashMap::new);
-        this.hitbox = new Rectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE);
-        hitbox.setId(type);
-        this.hitbox.setFill(loadSprite(Objects.requireNonNullElseGet(source.graphics, () -> type + ".png")));
+    fun setProperties(): Properties {
+        val source = loadProperties(type!!)
+
+        movable = source.movable
+        passable = source.passable
+        actionMap = source.actionMap ?: HashMap()
+        val _hitbox = IntRectangle(x * SCALE, y * SCALE, width * SCALE, height * SCALE)
+        _hitbox.id = type
+        _hitbox.fill = loadSprite(
+                source.graphics ?: "$type.png"
+            )
+        this.hitbox = _hitbox
+        return source
     }
+
+
 
     /**
      * Collision check.
      * @param collidee Entity to check collision with.
      * @return returns True if `this` entity is currently colliding with `collidee`
      */
-    public boolean collide(Entity collidee) {
-        Shape collisionBox = Shape.intersect(hitbox, collidee.hitbox);
-        return collisionBox.getBoundsInLocal().getWidth() != -1;
+    fun collide(collidee: Entity): Boolean {
+        val collisionBox = Shape.intersect(hitbox, collidee.hitbox)
+        return collisionBox.boundsInLocal.width != -1.0
     }
-    
+
     /**
      * Deducts what happens in a collision.
      * @param collidee Entity to collide with.
      * @return String defining what to do when `this` and `collidee` collide.
      */
-    public String collisionAction(Entity collidee) {
-        return this.actionMap.getOrDefault(collidee.type, "");
+    fun collisionAction(collidee: Entity): String {
+        return actionMap!!.getOrDefault(collidee.type, "")
     }
 
-    void move(int i) {
-        i = Math.abs(i % 360);
-        switch (i) {
-            case 0:
-                hitbox.setTranslateY(hitbox.getTranslateY() + 1 * SCALE); 
-                break;
-            case 90:
-                hitbox.setTranslateX(hitbox.getTranslateX() + 1 * SCALE);
-                break;
-            case 180:
-                hitbox.setTranslateY(hitbox.getTranslateY() - 1 * SCALE);
-                break;
-            case 270:
-                hitbox.setTranslateX(hitbox.getTranslateX() - 1 * SCALE);
-                break;
-            default:
-                Logger.error("Illegal movement call");
-                break;
+    fun move(i: Int) {
+        var i = i
+        i = Math.abs(i % 360)
+        when (i) {
+            0 -> hitbox!!.translateY = hitbox!!.translateY + 1 * SCALE
+            90 -> hitbox!!.translateX = hitbox!!.translateX + 1 * SCALE
+            180 -> hitbox!!.translateY = hitbox!!.translateY - 1 * SCALE
+            270 -> hitbox!!.translateX = hitbox!!.translateX - 1 * SCALE
+            else -> Logger.error("Illegal movement call")
         }
     }
 
-    public double getActualX() {
-        return hitbox.getX() + hitbox.getTranslateX();
-    }
-    
-    public double getActualY() {
-        return hitbox.getY() + hitbox.getTranslateY();
+    val actualX: Double
+        get() = hitbox!!.x + hitbox!!.translateX
+
+    val actualY: Double
+        get() = hitbox!!.y + hitbox!!.translateY
+
+    override fun hashCode(): Int {
+        var hash = 7
+        hash = 79 * hash + Objects.hashCode(type)
+        hash = 79 * hash + x
+        hash = 79 * hash + y
+        hash = 79 * hash + if (movable) 1 else 0
+        hash = 79 * hash + if (passable) 1 else 0
+        hash = 79 * hash + actionMap.hashCode()
+        return hash
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.type);
-        hash = 79 * hash + this.x;
-        hash = 79 * hash + this.y;
-        hash = 79 * hash + (this.movable ? 1 : 0);
-        hash = 79 * hash + (this.passable ? 1 : 0);
-        hash = 79 * hash + this.actionMap.hashCode();
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
+    override fun equals(obj: Any?): Boolean {
         if (obj == null) {
-            return false;
-        } else if (this == obj) {
-            return true;
-        } else if (getClass() != obj.getClass()) {
-            return false;
+            return false
+        } else if (this === obj) {
+            return true
+        } else if (javaClass != obj.javaClass) {
+            return false
         }
-        
-        final Entity other = (Entity) obj;
-        return this.getJson().equals(other.getJson());
+        val other = obj as Entity
+        return json == other.json
     }
 
     /**
      * Converts this entity into a JSON representation.
      * @return JSON representation of the entity.
      */
-    public String getJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
+    val json: String
+        get() {
+            val gson = Gson()
+            return gson.toJson(this)
+        }
 
-    public Rectangle getHitbox() {
-        return this.hitbox;
-    }
 }

@@ -1,29 +1,32 @@
-package kaantelypeli.engine;
+package kaantelypeli.engine
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import java.lang.reflect.Type
 
-import java.lang.reflect.Type;
-
-public class EntitySerializer implements JsonDeserializer<Entity> {
-    @Override
-    public Entity deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) {
-        EntityData data = jdc.deserialize(je, EntityData.class);
-        Entity entity;
-        if (data.width == null || data.height == null) {
-            entity = new Entity(data.type, data.x, data.y);
+class EntitySerializer : JsonDeserializer<Entity> {
+    override fun deserialize(
+        je: JsonElement,
+        type: Type,
+        jdc: JsonDeserializationContext
+    ): Entity {
+        val data: EntityData = jdc.deserialize(je, EntityData::class.java)
+        val entity: Entity
+        entity = if (data.width == null || data.height == null) {
+            Entity(data.type, data.x, data.y)
         } else {
-            entity = new Entity(data.type, data.x, data.y, data.width, data.height);
+            Entity(data.type, data.x, data.y, data.width!!, data.height!!)
         }
-        
-        entity.setProperties();
-        return entity;
+        entity.setProperties()
+        return entity
     }
 
-    private class EntityData {
-        String type;
-        int x;
-        int y;
-        Integer width;
-        Integer height;
+    private inner class EntityData {
+        var type: String? = null
+        var x = 0
+        var y = 0
+        var width: Int? = null
+        var height: Int? = null
     }
 }

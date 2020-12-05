@@ -1,13 +1,12 @@
-package kaantelypeli.engine;
+package kaantelypeli.engine
 
-import java.util.HashMap;
+import java.util.*
 
-public class Properties {
-    boolean movable = false;
-    boolean passable = true;
-    String graphics;
-    int width;
-    int height;
-        
-    HashMap<String, String> actionMap;
+class Properties {
+    var movable = false
+    var passable = true
+    var graphics: String? = null
+    var width = 0
+    var height = 0
+    var actionMap: HashMap<String, String>? = null
 }
