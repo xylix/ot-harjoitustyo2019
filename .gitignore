@@ -14,3 +14,8 @@
 dependency-reduced-pom.xml
 venv
 __pycache__
+kaantelypeli/.gradle/
+kaantelypeli/build/
+kaantelypeli/gradle/
+kaantelypeli/gradlew
+kaantelypeli/gradlew.bat

@@ -15,16 +15,12 @@
     <module name="NestedIfDepth">
       <property name="max" value="2"/>
     </module>
-    <module name="NestedForDepth">
-      <property name="max" value="2"/>
-    </module>
     <module name="NestedTryDepth"/>
     <!-- Miscellaneous -->
     <module name="Indentation"/>
     <module name="OneStatementPerLine"/>
     <module name="MethodLength">
       <property name="tokens" value="METHOD_DEF"/>
-      <property name="max" value="20"/>
       <property name="countEmpty" value="false"/>
     </module>
     <!--- Naming Conventions -->
@@ -60,21 +56,10 @@
       <property name="allowEmptyConstructors" value="true"/>
       <property name="allowEmptyMethods" value="true"/>
     </module>
-    <module name="JavadocMethod">
-      <property name="scope" value="public"/>
-      <property name="allowMissingParamTags" value="false"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-      <property name="allowMissingThrowsTags" value="false"/>
-      <property name="allowMissingReturnTag" value="false"/>
-      <property name="allowThrowsTagsForSubclasses" value="true"/>
-    </module>
     <module name="JavadocStyle">
       <property name="scope" value="public"/>
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
-  </module>
-  <module name="FileLength">
-    <property name="max" value="500"/>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="skipped_files.xml" />
