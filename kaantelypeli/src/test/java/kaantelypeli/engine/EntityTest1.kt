@@ -1,7 +1,5 @@
 package kaantelypeli.engine
 
-import org.junit.Rule
-import org.junit.contrib.java.lang.system.SystemErrRule
 import org.testfx.api.FxToolkit
 import java.util.concurrent.TimeoutException
 import kotlin.jvm.Throws
@@ -12,14 +10,11 @@ import kotlin.test.assertTrue
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 
-
 class EntityTest {
-    @Rule
-    val systemErrRule = SystemErrRule().muteForSuccessfulTests().enableLog()
-
     @BeforeTest
     @Throws(TimeoutException::class)
     fun setUp() {
+        muteForSuccessfulTestsAndEnableLog()
         FxToolkit.registerPrimaryStage()
     }
 
