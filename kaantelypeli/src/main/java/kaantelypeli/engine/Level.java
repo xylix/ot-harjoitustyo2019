@@ -66,14 +66,18 @@ public class Level {
         if (won) {
             return;
         } else if (lost) {
-            entities.forEach(e -> {
-                e.hitbox.setTranslateX(0);
-                e.hitbox.setTranslateY(0);
-            });
-            lost = false;
+            this.restart();
             return;
         }
         gravitate();
+    }
+
+    public void restart() {
+        entities.forEach(e -> {
+            e.hitbox.setTranslateX(0);
+            e.hitbox.setTranslateY(0);
+        });
+        lost = false;
     }
 
     /** Applies gravity to all entities on the level. Movables get moved here. */

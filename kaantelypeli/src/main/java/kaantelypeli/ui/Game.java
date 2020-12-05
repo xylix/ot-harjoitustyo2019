@@ -73,12 +73,15 @@ public class Game extends Application {
         Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
         Scene scene = new Scene(pane);
         scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.LEFT) {
+            final KeyCode pressedKey = event.getCode();
+            if (pressedKey == KeyCode.LEFT || pressedKey == KeyCode.A) {
                 level.changeGravity(270);
                 pane.setRotate(pane.getRotate() + 270);
-            } else if (event.getCode() == KeyCode.RIGHT) {
+            } else if (pressedKey == KeyCode.RIGHT || pressedKey == KeyCode.D) {
                 level.changeGravity(90);
                 pane.setRotate(pane.getRotate() + 90);
+            } else if (pressedKey == KeyCode.R) {
+                level.restart();
             }
         });
         new AnimationTimer() {
