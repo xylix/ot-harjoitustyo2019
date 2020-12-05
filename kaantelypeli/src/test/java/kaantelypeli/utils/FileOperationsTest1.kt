@@ -4,15 +4,16 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import kaantelypeli.engine.Entity
 import kaantelypeli.engine.Properties
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
 import org.testfx.api.FxToolkit
 import java.util.concurrent.TimeoutException
 import kotlin.jvm.Throws
 
+import kotlin.test.Test
+import kotlin.test.BeforeTest
+import kotlin.test.assertEquals
+
 class FileOperationsTest {
-    @Before
+    @BeforeTest
     @Throws(TimeoutException::class)
     fun setUp() {
         FxToolkit.registerPrimaryStage()
@@ -25,7 +26,7 @@ class FileOperationsTest {
         val gson = Gson()
         val test = gson.fromJson(json, Entity::class.java)
         val e = Entity("player", 0, 0)
-        Assert.assertEquals(e, test)
+        assertEquals(e, test)
     }
 
     @Test
@@ -35,6 +36,6 @@ class FileOperationsTest {
             JsonParser.parseString("{\"type\": \"player\",\"actionMap\":{\"lava\":\"loss\",\"victory\":\"victory\"},\"width\":14,\"height\":14,\"movable\":\"true\",\"passable\":\"true\", \"graphics\":\"player.gif\"}")
         val gson = Gson()
         val p2 = gson.fromJson(json, Properties::class.java)
-        Assert.assertEquals(gson.toJson(p), gson.toJson(p2))
+        assertEquals(gson.toJson(p), gson.toJson(p2))
     }
 }

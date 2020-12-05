@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val kotlin_version = "1.4.20"
 plugins {
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("application")
@@ -22,12 +23,16 @@ dependencies {
     implementation("org.tinylog:tinylog-api-kotlin:2.0.1")
     implementation("org.tinylog:tinylog-impl:2.0.1")
     implementation("com.konghq:unirest-java:3.3.00")
+    implementation(kotlin("stdlib-jdk8"))
     testImplementation("junit:junit:4.13.1")
     testImplementation("org.testfx:openjfx-monocle:jdk-11+26")
     testImplementation("org.testfx:testfx-junit:4.0.15-alpha")
     testImplementation("org.hamcrest:hamcrest-core:2.1")
     testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
-    implementation(kotlin("stdlib-jdk8"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version")
+
 }
 
 javafx {
