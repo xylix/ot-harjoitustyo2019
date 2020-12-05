@@ -90,17 +90,24 @@ public class Level {
             });
         });
     }
+
+    enum Action {
+        loss,
+        open,
+        victory,
+        blank;
+    }
     /** Resolves Entity interaction. */
-    private void handleAction(Entity collider, Entity collidee, String action) {
-        if (!action.isBlank()) {
-            Logger.trace(action);
-        }
-        if ("victory".equals(action)) {
+    private void handleAction(Entity collider, Entity collidee, String rawAction) {
+        if (rawAction.equals("")) return;
+        Action action = Action.valueOf(rawAction);
+        Logger.trace(action);
+        if (action == Action.victory) {
             System.out.println("You're winner!");
             won = true;
-        } else if ("loss".equals(action)) {
+        } else if (action == Action.loss) {
             lost = true;
-        } else if ("open".equals(action)) {
+        } else if (action == Action.open) {
             collidee.passable = true;
             collidee.hitbox.setFill(Color.TRANSPARENT);
             collider.movable = false;
