@@ -17,10 +17,10 @@ repositories {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("org.openjfx:javafx-controls:15")
-    implementation("org.openjfx:javafx-graphics:15")
-    implementation("org.openjfx:javafx-graphics:15")
-    implementation("org.openjfx:javafx-graphics:15")
+    // implementation("org.openjfx:javafx-controls:15")
+    //implementation("org.openjfx:javafx-graphics:15")
+    //implementation("org.openjfx:javafx-graphics:15")
+    //implementation("org.openjfx:javafx-graphics:15")
     implementation("org.tinylog:tinylog-api:2.0.1")
     implementation("org.tinylog:tinylog-impl:2.0.1")
     implementation("com.konghq:unirest-java:3.3.00")

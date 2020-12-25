@@ -39,7 +39,7 @@ public class Game extends Application {
     }
     
     @Override
-    public void start(Stage stage) throws IOException{
+    public void start(Stage stage) {
         mainStage = stage;
         // Button cloud = createButton("cloud-levels", event -> cloudMenu());
         LevelEditor editor = new LevelEditor(stage, mainMenu);
