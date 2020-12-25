@@ -39,12 +39,13 @@ public class Game extends Application {
     }
     
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException{
         mainStage = stage;
-        Button cloud = createButton("cloud-levels", event -> cloudMenu());
+        // Button cloud = createButton("cloud-levels", event -> cloudMenu());
         LevelEditor editor = new LevelEditor(stage, mainMenu);
         Button editorButton = createButton("editor", event -> editor.editorMenu());
-        VBox buttons = new VBox(cloud, editorButton);
+        // VBox buttons = new VBox(cloud, editorButton);
+        VBox buttons = new VBox(editorButton);
 
         InputStreamReader levelFolder = new InputStreamReader(Game.class.getResourceAsStream("/levels"));
         BufferedReader br = new BufferedReader(levelFolder);
