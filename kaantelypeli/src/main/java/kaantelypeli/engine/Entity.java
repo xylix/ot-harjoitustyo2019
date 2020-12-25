@@ -93,7 +93,7 @@ public class Entity {
      * @return String defining what to do when `this` and `collidee` collide.
      */
     public String collisionAction(Entity collidee) {
-        return this.actionMap.getOrDefault(collidee.type, "");
+        return this.actionMap.getOrDefault(collidee.type, "blank");
     }
 
     void move(int i) {

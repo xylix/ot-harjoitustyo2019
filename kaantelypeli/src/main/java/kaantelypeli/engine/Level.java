@@ -99,9 +99,8 @@ public class Level {
     }
     /** Resolves Entity interaction. */
     private void handleAction(Entity collider, Entity collidee, String rawAction) {
-        if (rawAction.equals("")) return;
+        Logger.trace("RawAction: " + rawAction);
         Action action = Action.valueOf(rawAction);
-        Logger.trace(action);
         if (action == Action.victory) {
             System.out.println("You're winner!");
             won = true;
