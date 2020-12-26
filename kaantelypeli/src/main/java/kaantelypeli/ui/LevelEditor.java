@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static kaantelypeli.ui.Game.FILESERVER;
+import static kaantelypeli.ui.CloudIntegration.FILESERVER;
 import static kaantelypeli.ui.Game.SCALE;
 import static kaantelypeli.utils.FXUtils.createButton;
 import static kaantelypeli.utils.FXUtils.selector;

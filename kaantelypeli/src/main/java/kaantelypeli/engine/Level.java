@@ -2,6 +2,10 @@ package kaantelypeli.engine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.animation.AnimationTimer;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.tinylog.Logger;
@@ -20,6 +24,7 @@ public class Level {
     int gravity;
     boolean won;
     boolean lost;
+    public Runnable winAction = () -> {};
     private List<Entity> entities;
 
     
@@ -41,16 +46,6 @@ public class Level {
     }
 
     /**
-     * When level has been won, perform action.
-     * @param action Action to call when level has been won
-     */
-    public void ifOver(Runnable action) {
-        if (won) {
-            action.run();
-        }
-    }
-
-    /**
      * Changes the gravity by `degrees`.
      *
      * @param   degrees   Wanted change in degrees
@@ -64,6 +59,8 @@ public class Level {
      */
     public void tick() {
         if (won) {
+
+            winAction.run();
             return;
         } else if (lost) {
             this.restart();
@@ -99,9 +96,13 @@ public class Level {
     }
     /** Resolves Entity interaction. */
     private void handleAction(Entity collider, Entity collidee, String rawAction) {
-        Logger.trace("RawAction: " + rawAction);
         Action action = Action.valueOf(rawAction);
-        if (action == Action.victory) {
+        if (!collidee.passable) {
+            collider.move(gravity + 540);
+        }
+        if (action == Action.blank) {
+            return;
+        } else if (action == Action.victory) {
             System.out.println("You're winner!");
             won = true;
         } else if (action == Action.loss) {
@@ -111,9 +112,8 @@ public class Level {
             collidee.hitbox.setFill(Color.TRANSPARENT);
             collider.movable = false;
             collider.hitbox.setFill(Color.TRANSPARENT);
-        } else if (!collidee.passable) {
-            collider.move(gravity + 540);
-        }
+        } 
+        Logger.trace(rawAction);
     }
 
     /**
@@ -131,5 +131,30 @@ public class Level {
 
     public List<Entity> getEntities() {
         return Collections.unmodifiableList(entities);
+    }
+
+    public Scene toScene(Runnable winAction) {
+        Pane pane = new Pane(this.getHitboxes().toArray(Rectangle[]::new));
+        Scene scene = new Scene(pane);
+        this.winAction = winAction;
+
+        scene.setOnKeyPressed(event -> {
+            final KeyCode pressedKey = event.getCode();
+            if (pressedKey == KeyCode.LEFT || pressedKey == KeyCode.A) {
+                this.changeGravity(270);
+                pane.setRotate(pane.getRotate() + 270);
+            } else if (pressedKey == KeyCode.RIGHT || pressedKey == KeyCode.D) {
+                this.changeGravity(90);
+                pane.setRotate(pane.getRotate() + 90);
+            } else if (pressedKey == KeyCode.R) {
+                this.restart();
+            }
+        });
+        new AnimationTimer() {
+            @Override public void handle(long timestamp) {
+                tick();
+            }
+        }.start();
+        return scene;
     }
 }
