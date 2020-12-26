@@ -2,10 +2,6 @@ package kaantelypeli.engine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.tinylog.Logger;
@@ -17,14 +13,13 @@ import java.util.stream.Collectors;
 
 /**
  * Handles level generation and level management. 
- * Exposes loadLevel static method for level generation and
- * gravitate() method for binding gravitation to game ticks.
+ * Exposes gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
     int gravity;
     boolean won;
     boolean lost;
-    public Runnable winAction = () -> {};
+    public int levelIndex = -1;
     private List<Entity> entities;
 
     
@@ -54,19 +49,24 @@ public class Level {
         gravity += degrees;
     }
 
+    public enum State {
+        WON,
+        LOST,
+        ONGOING;
+    }
     /**
      * Method to externally bind this level to game ticks. Should get called every tick when level is active.
      */
-    public void tick() {
+    public State tick() {
         if (won) {
-
-            winAction.run();
-            return;
+            return State.WON;
         } else if (lost) {
             this.restart();
-            return;
+            return State.LOST;
+        } else {
+            gravitate();
+            return State.ONGOING;
         }
-        gravitate();
     }
 
     public void restart() {
@@ -131,30 +131,5 @@ public class Level {
 
     public List<Entity> getEntities() {
         return Collections.unmodifiableList(entities);
-    }
-
-    public Scene toScene(Runnable winAction) {
-        Pane pane = new Pane(this.getHitboxes().toArray(Rectangle[]::new));
-        Scene scene = new Scene(pane);
-        this.winAction = winAction;
-
-        scene.setOnKeyPressed(event -> {
-            final KeyCode pressedKey = event.getCode();
-            if (pressedKey == KeyCode.LEFT || pressedKey == KeyCode.A) {
-                this.changeGravity(270);
-                pane.setRotate(pane.getRotate() + 270);
-            } else if (pressedKey == KeyCode.RIGHT || pressedKey == KeyCode.D) {
-                this.changeGravity(90);
-                pane.setRotate(pane.getRotate() + 90);
-            } else if (pressedKey == KeyCode.R) {
-                this.restart();
-            }
-        });
-        new AnimationTimer() {
-            @Override public void handle(long timestamp) {
-                tick();
-            }
-        }.start();
-        return scene;
     }
 }

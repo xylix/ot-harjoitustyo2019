@@ -40,10 +40,11 @@ public class FileOperations {
         } else {
             JsonElement json = loadJson("levels/" + level + ".json");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            return gson.fromJson(json, Level.class);
+            final Level parsedLevel = gson.fromJson(json, Level.class);
+            parsedLevel.levelIndex = Integer.parseInt(level);
+            return parsedLevel;
         }
     }
-
 
     /**
      * Loads Properties from file and parse it into a Properties instance.

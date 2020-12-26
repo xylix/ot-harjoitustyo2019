@@ -13,7 +13,7 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import java.util.concurrent.TimeoutException;
 
-import static kaantelypeli.ui.Game.FILESERVER;
+import static kaantelypeli.ui.CloudIntegration.FILESERVER;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
