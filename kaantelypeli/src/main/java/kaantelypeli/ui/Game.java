@@ -94,21 +94,21 @@ public class Game extends Application {
 
         scene.setOnKeyPressed(event -> {
             final KeyCode pressedKey = event.getCode();
-            if (pressedKey == KeyCode.LEFT || pressedKey == KeyCode.A) {
-                level.changeGravity(270);
-                pane.setRotate(pane.getRotate() + 270);
-            } else if (pressedKey == KeyCode.RIGHT || pressedKey == KeyCode.D) {
-                level.changeGravity(90);
-                pane.setRotate(pane.getRotate() + 90);
-            } else if (pressedKey == KeyCode.R) {
-                level.restart();
+
+            switch (pressedKey) {
+                case LEFT, A -> level.changeGravity(270);
+                case RIGHT, D -> level.changeGravity(90);
+                case R -> level.restart();
+                case ESCAPE -> mainStage.setScene(mainMenu);
             }
+            pane.setRotate(level.gravity);
         });
         new AnimationTimer() {
             @Override public void handle(long timestamp) {
-                final Level.State gameState = level.tick();
-                if (gameState == Level.State.WON) {
+                Level.State gameState = level.tick();
 
+                if (gameState == Level.State.WON) {
+                    this.stop();
                     mainStage.setScene(getNextScene(level));
                 }
             }

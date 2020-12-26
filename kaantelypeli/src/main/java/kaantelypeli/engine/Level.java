@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Exposes gravitate() method for binding gravitation to game ticks.
  */
 public class Level {
-    int gravity;
+    public int gravity;
     boolean won;
     boolean lost;
     public int levelIndex = -1;
