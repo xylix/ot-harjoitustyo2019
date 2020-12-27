@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import kong.unirest.Unirest;
 import org.tinylog.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FXUtils {
@@ -41,7 +42,11 @@ public class FXUtils {
         choice.setGraphic(null);
         choice.setTitle(null);
         Logger.trace("GETing: " + url);
-        List<?> options = Unirest.get(url).asJson().getBody().getArray().toList();
+        var response = Unirest.get(url).asJson();
+        List<?> options = response.isSuccess()
+            ? response.getBody().getArray().toList()
+            : new ArrayList<>();
+        
         for (Object i : options) {
             choice.getItems().add(i.toString());
         }
