@@ -108,10 +108,12 @@ public class Game extends Application {
         scene.setOnKeyPressed(bindHotkey(level, pane));
         new AnimationTimer() {
             @Override public void handle(long timestamp) {
-                Level.State gameState = level.tick();
-                if (gameState == Level.State.WON) {
-                    this.stop();
-                    mainStage.setScene(getNextScene(level));
+                var gameState = level.tick();
+                switch(gameState) {
+                    case WON -> {
+                        this.stop();
+                        mainStage.setScene(getNextScene(level));
+                    }
                 }
             }
         }.start();

@@ -8,6 +8,6 @@ public class Properties {
     String graphics;
     int width;
     int height;
-        
+
     HashMap<String, Action> actionMap;
 }

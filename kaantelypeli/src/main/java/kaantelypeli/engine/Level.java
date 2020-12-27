@@ -17,19 +17,16 @@ import java.util.stream.Collectors;
  */
 public class Level {
     public int gravity;
-    boolean won;
-    boolean lost;
-    public int levelIndex = -1;
+    public int levelIndex;
+    public State gameState;
     private List<Entity> entities;
 
-    
-    private Level() { 
-        entities = new ArrayList<>();
+    private Level() {
         gravity = 0;
-        won = false;
-        lost = false;
+        levelIndex = -1;
+        gameState = State.ONGOING;
+        entities = new ArrayList<>();
     }
-
     /**
      * Creates level from entity list.
      * LevelEditor uses this.
@@ -58,15 +55,12 @@ public class Level {
      * Method to externally bind this level to game ticks. Should get called every tick when level is active.
      */
     public State tick() {
-        if (won) {
-            return State.WON;
-        } else if (lost) {
+        if (this.gameState == State.LOST) {
             this.restart();
             return State.LOST;
-        } else {
-            gravitate();
-            return State.ONGOING;
         }
+        gravitate();
+        return this.gameState;
     }
 
     public void restart() {
@@ -74,7 +68,7 @@ public class Level {
             e.hitbox.setTranslateX(0);
             e.hitbox.setTranslateY(0);
         });
-        lost = false;
+        this.gameState = State.ONGOING;
     }
 
     /** Applies gravity to all entities on the level. Movables get moved here. */
@@ -88,7 +82,6 @@ public class Level {
         });
     }
 
-
     /** Resolves Entity interaction. */
     private void handleAction(Entity collider, Entity collidee, Action action) {
         if (!collidee.passable) {
@@ -98,9 +91,9 @@ public class Level {
             return;
         } else if (action == Action.victory) {
             System.out.println("You're winner!");
-            won = true;
+            this.gameState = State.WON;
         } else if (action == Action.loss) {
-            lost = true;
+            this.gameState = State.LOST;
         } else if (action == Action.open) {
             collidee.passable = true;
             collidee.hitbox.setFill(Color.TRANSPARENT);
