@@ -77,12 +77,8 @@ public class Game extends Application {
     public Scene getNextScene(Level l) {
         final int nextLevel = l.levelIndex + 1;
         return switch(nextLevel) {
-            case 666 -> this.mainMenu;
-            case 1 -> levelToScene(loadLevel("2"));
-            case 2 -> levelToScene(loadLevel("3"));
-            case 3 -> levelToScene(loadLevel("4"));
-            case 4 -> levelToScene(loadLevel("5"));
-            case 5 -> this.mainMenu;
+            case 1, 2, 3, 4, 5 -> levelToScene(loadLevel(String.valueOf(nextLevel)));
+            case 6, 667 -> this.mainMenu;
             default -> throw new IllegalStateException("Next level cannot be negative or more than amount of levels. Was %s".formatted(nextLevel));
         };
     }
@@ -113,7 +109,6 @@ public class Game extends Application {
         new AnimationTimer() {
             @Override public void handle(long timestamp) {
                 Level.State gameState = level.tick();
-
                 if (gameState == Level.State.WON) {
                     this.stop();
                     mainStage.setScene(getNextScene(level));
