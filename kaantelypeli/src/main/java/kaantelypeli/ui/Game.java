@@ -2,10 +2,11 @@ package kaantelypeli.ui;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -14,11 +15,9 @@ import kaantelypeli.engine.Level;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.Optional;
+import java.util.function.BiFunction;
 
 import static kaantelypeli.utils.FXUtils.createButton;
-import static kaantelypeli.utils.FXUtils.selector;
 import static kaantelypeli.utils.FileOperations.loadLevel;
 
 /**
@@ -88,13 +87,14 @@ public class Game extends Application {
         };
     }
 
-    public Scene levelToScene(Level level) {
-        Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
-        Scene scene = new Scene(pane);
-
-        scene.setOnKeyPressed(event -> {
+    /**
+     * Abstraction for hotkey binding to enable refactoring it to other callsite later.
+     * Result of bindHotkey needs to be passed as an argument to scene.setOnKeyPressed
+     * To bind hotkeys to the related level correctly
+     */
+    private EventHandler<? super KeyEvent> bindHotkey(Level level, Pane pane) {
+        return (event) -> {
             final KeyCode pressedKey = event.getCode();
-
             switch (pressedKey) {
                 case LEFT, A -> level.changeGravity(270);
                 case RIGHT, D -> level.changeGravity(90);
@@ -102,7 +102,14 @@ public class Game extends Application {
                 case ESCAPE -> mainStage.setScene(mainMenu);
             }
             pane.setRotate(level.gravity);
-        });
+        };
+    }
+
+    public Scene levelToScene(Level level) {
+        Pane pane = new Pane(level.getHitboxes().toArray(Rectangle[]::new));
+        Scene scene = new Scene(pane);
+
+        scene.setOnKeyPressed(bindHotkey(level, pane));
         new AnimationTimer() {
             @Override public void handle(long timestamp) {
                 Level.State gameState = level.tick();
