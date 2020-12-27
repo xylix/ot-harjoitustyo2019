@@ -82,21 +82,15 @@ public class Level {
         entities.stream().filter(e -> (e.movable)).forEach(collider -> {
             collider.move(gravity);
             entities.stream().filter(collider::collide).forEach(collidee -> {
-                String action = collider.collisionAction(collidee);
+                Action action = collider.collisionAction(collidee);
                 handleAction(collider, collidee, action);
             });
         });
     }
 
-    enum Action {
-        loss,
-        open,
-        victory,
-        blank;
-    }
+
     /** Resolves Entity interaction. */
-    private void handleAction(Entity collider, Entity collidee, String rawAction) {
-        Action action = Action.valueOf(rawAction);
+    private void handleAction(Entity collider, Entity collidee, Action action) {
         if (!collidee.passable) {
             collider.move(gravity + 540);
         }
@@ -113,7 +107,7 @@ public class Level {
             collider.movable = false;
             collider.hitbox.setFill(Color.TRANSPARENT);
         } 
-        Logger.trace(rawAction);
+        Logger.trace(action.toString());
     }
 
     /**

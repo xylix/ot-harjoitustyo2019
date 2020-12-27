@@ -9,5 +9,5 @@ public class Properties {
     int width;
     int height;
         
-    HashMap<String, String> actionMap;
+    HashMap<String, Action> actionMap;
 }

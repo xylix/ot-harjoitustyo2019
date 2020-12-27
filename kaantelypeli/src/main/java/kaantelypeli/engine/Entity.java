@@ -21,7 +21,7 @@ public class Entity {
     final int x;
     final int y;
     
-    private HashMap<String, String> actionMap;
+    private HashMap<String, Action> actionMap;
     private Integer width;
     private Integer height;
     transient Rectangle hitbox;
@@ -59,9 +59,11 @@ public class Entity {
         setProperties();
     }
     
-    /*
+    /**
      * Sets entity properties based on entity types definition file.
      * Definition files located in entities/
+     * Splitting setProperties from the constructor is neceessary so GSON can
+     * call setProperties manually after instantiating the class with raw data
      */
     final void setProperties() {
         Properties source = FileOperations.loadProperties(type);
@@ -92,28 +94,18 @@ public class Entity {
      * @param collidee Entity to collide with.
      * @return String defining what to do when `this` and `collidee` collide.
      */
-    public String collisionAction(Entity collidee) {
-        return this.actionMap.getOrDefault(collidee.type, "blank");
+    public Action collisionAction(Entity collidee) {
+        return this.actionMap.getOrDefault(collidee.type, Action.blank);
     }
 
     void move(int i) {
         i = Math.abs(i % 360);
         switch (i) {
-            case 0:
-                hitbox.setTranslateY(hitbox.getTranslateY() + 1 * SCALE); 
-                break;
-            case 90:
-                hitbox.setTranslateX(hitbox.getTranslateX() + 1 * SCALE);
-                break;
-            case 180:
-                hitbox.setTranslateY(hitbox.getTranslateY() - 1 * SCALE);
-                break;
-            case 270:
-                hitbox.setTranslateX(hitbox.getTranslateX() - 1 * SCALE);
-                break;
-            default:
-                Logger.error("Illegal movement call");
-                break;
+            case 0 -> hitbox.setTranslateY(hitbox.getTranslateY() + SCALE);
+            case 90 -> hitbox.setTranslateX(hitbox.getTranslateX() + SCALE);
+            case 180 -> hitbox.setTranslateY(hitbox.getTranslateY() - SCALE);
+            case 270 -> hitbox.setTranslateX(hitbox.getTranslateX() - SCALE);
+            default -> Logger.error("Illegal movement call");
         }
     }
 
